@@ -37,6 +37,12 @@ export default async function GalleriaPage({ params }: PageProps) {
           <Reveal as="p" delay={0.1} className="max-w-xl leading-relaxed text-mist">
             {t.gallery.heroText}
           </Reveal>
+          <Reveal delay={0.15} className="flex items-center gap-3">
+            <span className="h-px w-10 bg-cobalt" />
+            <span className="tech-label text-mist-dim">
+              {t.gallery.items.length} {t.gallery.countLabel}
+            </span>
+          </Reveal>
         </div>
         <GalleryGrid t={t} />
       </div>

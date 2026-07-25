@@ -26,14 +26,17 @@ export type ServiceContent = {
   process: { title: string; text: string }[];
 };
 
-export type GalleryCategory = { key: string; label: string };
-
 export type GalleryItem = {
   id: number;
+  /** Titolo mostrato su hover e nel lightbox */
   title: string;
-  categoryKey: string;
-  /** [PLACEHOLDER] — sostituire con foto reali dei lavori */
-  placeholder: { from: string; to: string };
+  /** Breve nota sulla lavorazione (materiale / finitura) */
+  caption: string;
+  /** Path in /public/gallery */
+  src: string;
+  /** Dimensioni native: servono a next/image per evitare layout shift */
+  width: number;
+  height: number;
 };
 
 export type PageMeta = { title: string; description: string };
@@ -125,12 +128,15 @@ export type Content = {
     heroLabel: string;
     heroTitle: Highlight;
     heroText: string;
-    filterLabel: string;
-    filterAll: string;
-    categories: GalleryCategory[];
+    /** Contatore sotto l'intro ("9 lavori realizzati") */
+    countLabel: string;
     items: GalleryItem[];
     open: string;
     close: string;
+    prev: string;
+    next: string;
+    /** Hint di trascinamento sullo scroller orizzontale */
+    dragHint: string;
   };
 
   contact: {

@@ -358,6 +358,28 @@ html.js [data-reveal-line] > * {
   opacity: 0.5;
 }
 
+/* Scroller orizzontali della galleria: nessuna scrollbar visibile */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Rail trascinabile: cursore "grab" e niente selezione testo durante il drag */
+.drag-rail {
+  cursor: grab;
+}
+.drag-rail.is-dragging {
+  cursor: grabbing;
+  user-select: none;
+}
+.drag-rail.is-dragging a,
+.drag-rail.is-dragging img {
+  pointer-events: none;
+}
+
 /* Scrollbar coerente col tema */
 ::-webkit-scrollbar {
   width: 10px;
