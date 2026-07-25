@@ -1,0 +1,52 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { locales, localeNames, type Locale } from "@/content";
+
+type Props = {
+  current: Locale;
+  /** true su superficie chiara (plaster) */
+  onLight?: boolean;
+  className?: string;
+};
+
+/** Switcher IT / DE: sostituisce il prefisso locale del path corrente. */
+export function LangSwitcher({ current, onLight = false, className = "" }: Props) {
+  const pathname = usePathname();
+  // path senza prefisso locale ("/it/galleria" → "/galleria")
+  const rest = pathname.replace(/^\/(it|de)(?=\/|$)/, "") || "";
+
+  return (
+    <div
+      role="group"
+      aria-label="Lingua / Sprache"
+      className={`tech-label flex items-center gap-0.5 ${className}`}
+    >
+      {locales.map((locale, i) => (
+        <span key={locale} className="flex items-center">
+          {i > 0 && (
+            <span aria-hidden className={onLight ? "text-ink/25" : "text-mist/40"}>
+              /
+            </span>
+          )}
+          <Link
+            href={`/${locale}${rest}`}
+            hrefLang={locale}
+            aria-label={localeNames[locale]}
+            aria-current={locale === current ? "true" : undefined}
+            className={`px-1.5 py-1 uppercase transition-colors duration-300 ${
+              locale === current
+                ? "text-cobalt"
+                : onLight
+                  ? "text-ink/50 hover:text-ink"
+                  : "text-mist hover:text-paper"
+            }`}
+          >
+            {locale}
+          </Link>
+        </span>
+      ))}
+    </div>
+  );
+}
