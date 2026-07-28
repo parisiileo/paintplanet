@@ -26,4 +26,4 @@ export function localeHref(locale: Locale, href: string): string {
 }
 
 export type { Content, Locale } from "./types";
-export type { ServiceContent, GalleryItem, Highlight, PageMeta } from "./types";
+export type { ServiceContent, GalleryItem, GalleryCategory, Highlight, PageMeta } from "./types";

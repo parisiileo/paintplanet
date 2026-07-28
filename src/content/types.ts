@@ -26,6 +26,15 @@ export type ServiceContent = {
   process: { title: string; text: string }[];
 };
 
+/** Famiglia di lavorazione: guida i filtri della galleria */
+export type GalleryCategory =
+  | "tinteggiature"
+  | "decorazioni"
+  | "cartongesso"
+  | "resine"
+  | "facciate"
+  | "azienda";
+
 export type GalleryItem = {
   id: number;
   /** Titolo mostrato su hover e nel lightbox */
@@ -37,6 +46,7 @@ export type GalleryItem = {
   /** Dimensioni native: servono a next/image per evitare layout shift */
   width: number;
   height: number;
+  category: GalleryCategory;
 };
 
 export type PageMeta = { title: string; description: string };
@@ -130,6 +140,10 @@ export type Content = {
     heroText: string;
     /** Contatore sotto l'intro ("9 lavori realizzati") */
     countLabel: string;
+    /** Etichetta del filtro che mostra tutti i lavori */
+    filterAll: string;
+    /** Nome leggibile di ogni famiglia di lavorazione */
+    categories: Record<GalleryCategory, string>;
     items: GalleryItem[];
     open: string;
     close: string;

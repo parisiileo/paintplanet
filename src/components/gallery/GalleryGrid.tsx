@@ -1,16 +1,18 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { gsap, ScrollTrigger, prefersReducedMotion } from "@/lib/animations/gsap-config";
 import { useIsoLayoutEffect } from "@/lib/animations/hooks";
-import type { Content } from "@/content";
+import type { Content, GalleryCategory, GalleryItem } from "@/content";
 
 /**
  * Galleria lavori: masonry a colonne (le foto mantengono il loro formato
  * naturale) + lightbox con scroller di miniature, frecce, tastiera e swipe.
- * Nessuna categoria: tutti i lavori in un unico flusso.
+ * I filtri in testa restringono il flusso a una famiglia di lavorazione.
  */
+
+type Filter = GalleryCategory | "all";
 /** Numero di colonne in base al breakpoint corrente. */
 function useColumnCount() {
   const [cols, setCols] = useState(3);
@@ -51,10 +53,22 @@ function distribute<T extends { width: number; height: number }>(items: T[], col
 }
 
 export function GalleryGrid({ t }: { t: Content }) {
-  const items = t.gallery.items;
+  const all = t.gallery.items;
+  const [filter, setFilter] = useState<Filter>("all");
   const [index, setIndex] = useState<number | null>(null);
   const gridRef = useRef<HTMLDivElement>(null);
   const cols = useColumnCount();
+
+  /* Solo le famiglie davvero presenti fra i lavori, nell'ordine dei contenuti. */
+  const filters = useMemo<Filter[]>(() => {
+    const order = Object.keys(t.gallery.categories) as GalleryCategory[];
+    return ["all", ...order.filter((c) => all.some((it) => it.category === c))];
+  }, [all, t.gallery.categories]);
+
+  const items = useMemo(
+    () => (filter === "all" ? all : all.filter((it) => it.category === filter)),
+    [all, filter]
+  );
   const columns = distribute(items, cols);
 
   const open = useCallback((i: number) => setIndex(i), []);
@@ -64,7 +78,7 @@ export function GalleryGrid({ t }: { t: Content }) {
     [items.length]
   );
 
-  /* Reveal a cascata delle tile; si ricrea quando cambia il n. di colonne. */
+  /* Reveal a cascata delle tile; si ricrea quando cambiano colonne o filtro. */
   useIsoLayoutEffect(() => {
     const grid = gridRef.current;
     if (!grid || prefersReducedMotion()) return;
@@ -82,10 +96,39 @@ export function GalleryGrid({ t }: { t: Content }) {
       });
     }, grid);
     return () => ctx.revert();
-  }, [cols]);
+  }, [cols, filter]);
 
   return (
     <>
+      <div className="mb-8 flex flex-wrap gap-2.5" role="tablist" aria-label={t.gallery.heroLabel}>
+        {filters.map((f) => {
+          const active = f === filter;
+          const label = f === "all" ? t.gallery.filterAll : t.gallery.categories[f];
+          const count = f === "all" ? all.length : all.filter((it) => it.category === f).length;
+
+          return (
+            <button
+              key={f}
+              type="button"
+              role="tab"
+              aria-selected={active}
+              onClick={() => {
+                setFilter(f);
+                setIndex(null);
+              }}
+              className={`flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium transition-colors duration-300 ${
+                active
+                  ? "border-cobalt bg-cobalt/10 text-paper"
+                  : "border-paper/15 text-mist hover:border-paper/35 hover:text-paper"
+              }`}
+            >
+              {label}
+              <span className={active ? "text-cobalt" : "text-mist-dim"}>{count}</span>
+            </button>
+          );
+        })}
+      </div>
+
       <div ref={gridRef} className="flex items-start gap-4 sm:gap-5">
         {columns.map((column, c) => (
           <div key={c} className="flex min-w-0 flex-1 flex-col gap-4 sm:gap-5">
@@ -146,6 +189,7 @@ export function GalleryGrid({ t }: { t: Content }) {
       {index !== null && (
         <Lightbox
           t={t}
+          items={items}
           index={index}
           onClose={close}
           onPrev={() => go(-1)}
@@ -161,6 +205,8 @@ export function GalleryGrid({ t }: { t: Content }) {
 
 type LightboxProps = {
   t: Content;
+  /** Sottoinsieme attualmente a schermo: la navigazione resta dentro il filtro. */
+  items: GalleryItem[];
   index: number;
   onClose: () => void;
   onPrev: () => void;
@@ -169,8 +215,7 @@ type LightboxProps = {
 };
 
 /** Viewer a tutto schermo con frecce, tastiera, swipe e rail di miniature. */
-function Lightbox({ t, index, onClose, onPrev, onNext, onSelect }: LightboxProps) {
-  const items = t.gallery.items;
+function Lightbox({ t, items, index, onClose, onPrev, onNext, onSelect }: LightboxProps) {
   const active = items[index];
   const rootRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
@@ -303,7 +348,10 @@ function Lightbox({ t, index, onClose, onPrev, onNext, onSelect }: LightboxProps
 
       {/* Didascalia + scroller miniature */}
       <div className="shrink-0 px-5 pb-6 pt-4 md:px-8" onClick={(e) => e.stopPropagation()}>
-        <p className="font-display text-lg font-semibold text-paper">{active.title}</p>
+        <div className="flex flex-wrap items-center gap-3">
+          <p className="font-display text-lg font-semibold text-paper">{active.title}</p>
+          <span className="tech-label text-cobalt">{t.gallery.categories[active.category]}</span>
+        </div>
         <p className="mt-1 text-sm text-mist">{active.caption}</p>
 
         <div
