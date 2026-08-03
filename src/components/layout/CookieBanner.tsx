@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { useConsent } from "@/lib/consent";
-import { localeHref, type Content, type Locale } from "@/content";
+import { legalPath, type Content, type Locale } from "@/content";
 
 type Props = { locale: Locale; t: Content };
 
@@ -41,7 +41,7 @@ export function CookieBanner({ locale, t }: Props) {
           <p className="mt-2 text-sm leading-relaxed text-mist">
             {t.consent.text}{" "}
             <Link
-              href={localeHref(locale, "/legale/cookie")}
+              href={legalPath(locale, "cookie")}
               className="text-cobalt-lite underline underline-offset-2 hover:text-paper"
             >
               {t.consent.policyLink}

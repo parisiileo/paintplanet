@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { AnimatedLink } from "@/components/ui/AnimatedLink";
 import { LangSwitcher } from "./LangSwitcher";
 import { gsap, prefersReducedMotion } from "@/lib/animations/gsap-config";
-import { localeHref, type Content, type Locale } from "@/content";
+import { navPath, pagePath, type Content, type Locale } from "@/content";
 
 type Props = { locale: Locale; t: Content };
 
@@ -94,10 +94,10 @@ export function Header({ locale, t }: Props) {
         {/* Nav desktop */}
         <nav aria-label={t.a11y.mainNav} className="hidden items-center gap-6 lg:flex">
           {t.nav.map((item) => {
-            const href = localeHref(locale, item.href);
+            const href = navPath(locale, item.key);
             return (
               <AnimatedLink
-                key={item.href}
+                key={item.key}
                 href={href}
                 active={pathname === href}
                 className="text-[0.9rem] font-medium text-paper/80 transition-colors duration-300 hover:text-paper"
@@ -108,7 +108,7 @@ export function Header({ locale, t }: Props) {
           })}
           <LangSwitcher current={locale} />
           <Link
-            href={localeHref(locale, "/contatti")}
+            href={pagePath(locale, "contact")}
             className="rounded-full bg-coral px-5 py-2.5 text-[0.85rem] font-medium text-ink transition-colors duration-300 hover:bg-coral-deep"
           >
             {t.cta.quote}
@@ -152,9 +152,9 @@ export function Header({ locale, t }: Props) {
       >
         <nav aria-label={t.a11y.mobileNav} className="flex flex-col gap-2">
           {t.nav.map((item) => {
-            const href = localeHref(locale, item.href);
+            const href = navPath(locale, item.key);
             return (
-              <div key={item.href} data-menu-item>
+              <div key={item.key} data-menu-item>
                 <Link
                   href={href}
                   className={`font-display block py-1.5 text-[clamp(1.7rem,6.5vw,2.5rem)] font-medium ${
@@ -170,7 +170,7 @@ export function Header({ locale, t }: Props) {
         <div data-menu-item className="mt-8 flex flex-col gap-5">
           <LangSwitcher current={locale} />
           <Link
-            href={localeHref(locale, "/contatti")}
+            href={pagePath(locale, "contact")}
             className="rounded-full bg-coral px-6 py-4 text-center font-medium text-ink"
           >
             {t.cta.quote}

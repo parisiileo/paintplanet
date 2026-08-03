@@ -2,7 +2,7 @@ import { SectionLabel } from "@/components/ui/SectionLabel";
 import { HighlightTitle } from "@/components/ui/HighlightTitle";
 import { Reveal } from "@/components/ui/Reveal";
 import { MagneticButton } from "@/components/ui/MagneticButton";
-import { localeHref, type Content, type Locale } from "@/content";
+import { pagePath, type Content, type Locale } from "@/content";
 
 type Props = { locale: Locale; t: Content };
 
@@ -40,7 +40,7 @@ export function ContactStrip({ locale, t }: Props) {
           </div>
 
           <div className="mt-10">
-            <MagneticButton href={localeHref(locale, "/contatti")}>{t.cta.quote}</MagneticButton>
+            <MagneticButton href={pagePath(locale, "contact")}>{t.cta.quote}</MagneticButton>
           </div>
         </div>
       </div>

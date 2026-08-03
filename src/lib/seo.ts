@@ -1,5 +1,13 @@
 import type { Metadata } from "next";
-import { locales, defaultLocale, type Content, type Locale, type ServiceContent } from "@/content";
+import {
+  locales,
+  defaultLocale,
+  servicePath,
+  pagePath,
+  type Content,
+  type Locale,
+  type ServiceContent,
+} from "@/content";
 
 /**
  * PAINT PLANET — SEO centralizzata.
@@ -28,8 +36,13 @@ export function localePath(locale: Locale | string, path = ""): string {
 
 type PageMetaInput = {
   locale: Locale;
-  /** Path SENZA prefisso locale: "" per la home, "/galleria", ... */
-  path?: string;
+  /**
+   * Path GIÀ localizzato per ogni lingua. Gli slug sono tradotti, quindi
+   * l'alternativa italiana di /de/leistungen/harze è /it/servizi/resine:
+   * non si può derivare da una sola stringa.
+   * Omesso = home.
+   */
+  paths?: Record<Locale, string>;
   title: string;
   description: string;
   /** true per la home: il titolo non passa dal template "%s | ..." */
@@ -44,13 +57,16 @@ type PageMetaInput = {
  */
 export function buildPageMetadata({
   locale,
-  path = "",
+  paths,
   title,
   description,
   absoluteTitle = false,
   image,
 }: PageMetaInput): Metadata {
-  const url = localePath(locale, path);
+  const resolved = paths ?? (Object.fromEntries(
+    locales.map((l) => [l, localePath(l)])
+  ) as Record<Locale, string>);
+  const url = resolved[locale];
 
   return {
     title: absoluteTitle ? { absolute: title } : title,
@@ -58,8 +74,8 @@ export function buildPageMetadata({
     alternates: {
       canonical: url,
       languages: {
-        ...Object.fromEntries(locales.map((l) => [l, localePath(l, path)])),
-        "x-default": localePath(defaultLocale, path),
+        ...resolved,
+        "x-default": resolved[defaultLocale],
       },
     },
     openGraph: {
@@ -94,6 +110,21 @@ export function buildPageMetadata({
 /* ------------------------------------------------------------------ */
 /* Dati strutturati                                                     */
 /* ------------------------------------------------------------------ */
+
+/**
+ * Orari in formato macchina: lunedì-sabato, con pausa pranzo espressa come
+ * due fasce separate (è il modo corretto: un'unica 08:00-19:00 direbbe a
+ * Google che siamo aperti anche a mezzogiorno).
+ */
+const WORKING_DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+const OPENING_HOURS = [
+  { "@type": "OpeningHoursSpecification", dayOfWeek: WORKING_DAYS, opens: "08:00", closes: "12:00" },
+  { "@type": "OpeningHoursSpecification", dayOfWeek: WORKING_DAYS, opens: "13:00", closes: "19:00" },
+  // Domenica dichiarata esplicitamente chiusa: senza, Google la considera
+  // "orario non specificato" e non mostra mai "Chiuso" nel pannello locale.
+  { "@type": "OpeningHoursSpecification", dayOfWeek: "Sunday", opens: "00:00", closes: "00:00" },
+];
 
 /** Foto reali di cantiere: Google le preferisce alle sole immagini OG. */
 const SHOWCASE_IMAGES = [
@@ -133,6 +164,7 @@ export function businessJsonLd(locale: Locale, t: Content) {
       addressCountry: "IT",
     },
     geo: { "@type": "GeoCoordinates", latitude: 46.4966, longitude: 11.3536 },
+    openingHoursSpecification: OPENING_HOURS,
     areaServed: [
       { "@type": "City", name: "Bolzano" },
       { "@type": "AdministrativeArea", name: "Alto Adige — Südtirol" },
@@ -156,7 +188,7 @@ export function businessJsonLd(locale: Locale, t: Content) {
         "@type": "Offer",
         itemOffered: {
           "@type": "Service",
-          "@id": abs(`${localePath(locale)}/servizi/${s.slug}#service`),
+          "@id": `${abs(servicePath(locale, s.key))}#service`,
           name: s.title,
           description: s.short,
         },
@@ -195,8 +227,8 @@ export function breadcrumbJsonLd(crumbs: Crumb[]) {
   };
 }
 
-export function serviceJsonLd(locale: Locale, t: Content, service: ServiceContent) {
-  const url = abs(`${localePath(locale)}/servizi/${service.slug}`);
+export function serviceJsonLd(locale: Locale, service: ServiceContent) {
+  const url = abs(servicePath(locale, service.key));
 
   return {
     "@type": "Service",
@@ -228,10 +260,10 @@ export function serviceJsonLd(locale: Locale, t: Content, service: ServiceConten
 export function galleryJsonLd(locale: Locale, t: Content) {
   return {
     "@type": "ImageGallery",
-    "@id": abs(`${localePath(locale)}/galleria#gallery`),
+    "@id": `${abs(pagePath(locale, "gallery"))}#gallery`,
     name: t.meta.galleria.title,
     description: t.meta.galleria.description,
-    url: abs(`${localePath(locale)}/galleria`),
+    url: abs(pagePath(locale, "gallery")),
     inLanguage: locale,
     isPartOf: { "@id": WEBSITE_ID },
     author: { "@id": BUSINESS_ID },

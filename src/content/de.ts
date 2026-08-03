@@ -35,10 +35,10 @@ export const de: Content = {
   },
 
   nav: [
-    { label: "Leistungen", href: "/#servizi" },
-    { label: "Über uns", href: "/chi-siamo" },
-    { label: "Galerie", href: "/galleria" },
-    { label: "Kontakt", href: "/contatti" },
+    { label: "Leistungen", key: "services" },
+    { label: "Über uns", key: "about" },
+    { label: "Galerie", key: "gallery" },
+    { label: "Kontakt", key: "contact" },
   ],
 
   cta: {
@@ -96,7 +96,7 @@ export const de: Content = {
 
   services: [
     {
-      slug: "tinteggiature",
+      key: "tinteggiature",
       num: "01",
       title: "Anstriche & Wände",
       short:
@@ -143,7 +143,7 @@ export const de: Content = {
       ],
     },
     {
-      slug: "decorazioni",
+      key: "decorazioni",
       num: "02",
       title: "Dekoration & Spachteltechnik",
       short:
@@ -190,7 +190,7 @@ export const de: Content = {
       ],
     },
     {
-      slug: "facciate",
+      key: "facciate",
       num: "03",
       title: "Fassaden & Wärmedämmung",
       short:
@@ -237,7 +237,7 @@ export const de: Content = {
       ],
     },
     {
-      slug: "resine",
+      key: "resine",
       num: "04",
       title: "Harze & Spezialoberflächen",
       short:
@@ -769,6 +769,13 @@ export const de: Content = {
     dataController: "Shahi Miklovan",
   },
 
+  openingHours: {
+    label: "Öffnungszeiten",
+    days: "Montag — Samstag",
+    hours: "8:00 – 12:00 · 13:00 – 19:00",
+    closed: "Sonntag geschlossen",
+  },
+
   consent: {
     title: "Cookies und externe Dienste",
     text: "Wir verwenden ausschließlich technisch notwendige Cookies (etwa zum Speichern der gewählten Sprache). Auf der Kontaktseite ist eine Google-Karte eingebunden: Wenn Sie sie laden, kann Google eigene Cookies setzen und Ihre IP-Adresse erhalten. Sie entscheiden.",
@@ -786,7 +793,7 @@ export const de: Content = {
     updatedLabel: "Letzte Aktualisierung",
 
     privacy: {
-      slug: "privacy",
+      key: "privacy",
       title: "Datenschutzerklärung",
       intro:
         "Diese Erklärung beschreibt, wie Paint Planet personenbezogene Daten von Besucherinnen und Besuchern dieser Website verarbeitet, gemäß Art. 13 und 14 der Verordnung (EU) 2016/679 (DSGVO).",
@@ -858,7 +865,7 @@ export const de: Content = {
     },
 
     cookie: {
-      slug: "cookie",
+      key: "cookie",
       title: "Cookie-Richtlinie",
       intro:
         "Diese Seite erklärt, welche Cookies die Website von Paint Planet verwendet und wie Sie Ihre Präferenzen verwalten. Cookies sind kleine Textdateien, die Websites auf Ihrem Gerät speichern.",
@@ -900,7 +907,7 @@ export const de: Content = {
     },
 
     terms: {
-      slug: "note-legali",
+      key: "terms",
       title: "Impressum",
       intro:
         "Angaben zum Betreiber dieser Website und Nutzungsbedingungen für ihre Inhalte.",

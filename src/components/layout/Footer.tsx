@@ -1,14 +1,7 @@
 import Link from "next/link";
-import { localeHref, type Content, type Locale } from "@/content";
+import { navPath, pagePath, legalPath, LEGAL_KEYS, type Content, type Locale } from "@/content";
 
 type Props = { locale: Locale; t: Content };
-
-/** Slug → chiave nel dizionario legale. L'ordine è quello mostrato in footer. */
-const LEGAL_LINKS = [
-  { slug: "privacy", key: "privacy" },
-  { slug: "cookie", key: "cookie" },
-  { slug: "note-legali", key: "terms" },
-] as const;
 
 export function Footer({ locale, t }: Props) {
   return (
@@ -26,7 +19,7 @@ export function Footer({ locale, t }: Props) {
               </p>
             </div>
             <Link
-              href={localeHref(locale, "/contatti")}
+              href={pagePath(locale, "contact")}
               className="group inline-flex items-center gap-3 rounded-full bg-coral px-7 py-4 font-medium text-ink transition-colors duration-300 hover:bg-coral-deep"
             >
               {t.cta.quote}
@@ -53,8 +46,8 @@ export function Footer({ locale, t }: Props) {
             <p className="tech-label mb-2 text-mist-dim">{t.footer.exploreLabel}</p>
             {t.nav.map((item) => (
               <Link
-                key={item.href}
-                href={localeHref(locale, item.href)}
+                key={item.key}
+                href={navPath(locale, item.key)}
                 className="w-fit text-sm text-mist transition-colors hover:text-paper"
               >
                 {item.label}
@@ -71,6 +64,10 @@ export function Footer({ locale, t }: Props) {
               {t.site.email}
             </a>
             <p className="text-sm text-mist">{t.site.address}</p>
+            <p className="text-sm text-mist">
+              {t.openingHours.days}
+              <span className="block text-mist-dim">{t.openingHours.hours}</span>
+            </p>
             <a
               href={t.site.instagramHref}
               target="_blank"
@@ -83,10 +80,10 @@ export function Footer({ locale, t }: Props) {
 
           <nav aria-label={t.footer.legalLabel} className="flex flex-col gap-2.5">
             <p className="tech-label mb-2 text-mist-dim">{t.footer.legalLabel}</p>
-            {LEGAL_LINKS.map(({ slug, key }) => (
+            {LEGAL_KEYS.map((key) => (
               <Link
-                key={slug}
-                href={localeHref(locale, `/legale/${slug}`)}
+                key={key}
+                href={legalPath(locale, key)}
                 className="w-fit text-sm text-mist transition-colors hover:text-paper"
               >
                 {t.legal[key].title}

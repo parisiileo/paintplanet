@@ -35,10 +35,10 @@ export const it: Content = {
   },
 
   nav: [
-    { label: "Servizi", href: "/#servizi" },
-    { label: "Chi siamo", href: "/chi-siamo" },
-    { label: "Galleria", href: "/galleria" },
-    { label: "Contatti", href: "/contatti" },
+    { label: "Servizi", key: "services" },
+    { label: "Chi siamo", key: "about" },
+    { label: "Galleria", key: "gallery" },
+    { label: "Contatti", key: "contact" },
   ],
 
   cta: {
@@ -96,7 +96,7 @@ export const it: Content = {
 
   services: [
     {
-      slug: "tinteggiature",
+      key: "tinteggiature",
       num: "01",
       title: "Tinteggiature & Pareti",
       short:
@@ -143,7 +143,7 @@ export const it: Content = {
       ],
     },
     {
-      slug: "decorazioni",
+      key: "decorazioni",
       num: "02",
       title: "Decorazioni & Spatolati",
       short:
@@ -190,7 +190,7 @@ export const it: Content = {
       ],
     },
     {
-      slug: "facciate",
+      key: "facciate",
       num: "03",
       title: "Facciate & Cappotto",
       short:
@@ -237,7 +237,7 @@ export const it: Content = {
       ],
     },
     {
-      slug: "resine",
+      key: "resine",
       num: "04",
       title: "Resine & Finiture speciali",
       short:
@@ -766,6 +766,13 @@ export const it: Content = {
     dataController: "Shahi Miklovan",
   },
 
+  openingHours: {
+    label: "Orari",
+    days: "Lunedì — Sabato",
+    hours: "8:00 – 12:00 · 13:00 – 19:00",
+    closed: "Domenica chiuso",
+  },
+
   consent: {
     title: "Cookie e servizi esterni",
     text: "Usiamo solo cookie tecnici, necessari al funzionamento del sito (ad esempio per ricordare la lingua scelta). Nella pagina Contatti è presente una mappa di Google: se la carichi, Google può impostare cookie propri e ricevere il tuo indirizzo IP. Puoi decidere tu.",
@@ -783,7 +790,7 @@ export const it: Content = {
     updatedLabel: "Ultimo aggiornamento",
 
     privacy: {
-      slug: "privacy",
+      key: "privacy",
       title: "Informativa sulla privacy",
       intro:
         "Questa informativa descrive come Paint Planet tratta i dati personali di chi visita questo sito, ai sensi degli articoli 13 e 14 del Regolamento (UE) 2016/679 (GDPR).",
@@ -855,7 +862,7 @@ export const it: Content = {
     },
 
     cookie: {
-      slug: "cookie",
+      key: "cookie",
       title: "Cookie policy",
       intro:
         "Questa pagina spiega quali cookie usa il sito di Paint Planet e come gestire le tue preferenze. I cookie sono piccoli file di testo che i siti salvano sul tuo dispositivo.",
@@ -897,7 +904,7 @@ export const it: Content = {
     },
 
     terms: {
-      slug: "note-legali",
+      key: "terms",
       title: "Note legali",
       intro:
         "Informazioni sulla titolarità di questo sito e sulle condizioni d'uso dei suoi contenuti.",

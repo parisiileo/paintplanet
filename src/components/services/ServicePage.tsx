@@ -4,7 +4,7 @@ import { Reveal, StaggerReveal } from "@/components/ui/Reveal";
 import { HighlightTitle } from "@/components/ui/HighlightTitle";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { ServiceHero } from "./ServiceHero";
-import { localeHref, type Content, type Locale, type ServiceContent } from "@/content";
+import { pagePath, servicePath, type Content, type Locale, type ServiceContent } from "@/content";
 
 type Props = { locale: Locale; t: Content; service: ServiceContent };
 
@@ -17,7 +17,7 @@ const TONE_CLASS: Record<string, string> = {
 
 /** Template completo di pagina servizio, riusato dalla route dinamica. */
 export function ServicePage({ locale, t, service }: Props) {
-  const others = t.services.filter((s) => s.slug !== service.slug);
+  const others = t.services.filter((s) => s.key !== service.key);
   const tone = TONE_CLASS[service.tone];
 
   return (
@@ -82,15 +82,15 @@ export function ServicePage({ locale, t, service }: Props) {
               {t.servicePage.ctaText}
             </Reveal>
             <Reveal delay={0.15} className="mt-2">
-              <MagneticButton href={localeHref(locale, "/contatti")}>{t.cta.quote}</MagneticButton>
+              <MagneticButton href={pagePath(locale, "contact")}>{t.cta.quote}</MagneticButton>
             </Reveal>
           </div>
 
           <StaggerReveal className="flex flex-col gap-4" stagger={0.1}>
             {others.map((o) => (
               <Link
-                key={o.slug}
-                href={localeHref(locale, `/servizi/${o.slug}`)}
+                key={o.key}
+                href={servicePath(locale, o.key)}
                 className={`group flex items-center justify-between rounded-[var(--radius-card)] border border-paper/10 p-6 transition-colors duration-300 hover:border-[var(--tone)] ${TONE_CLASS[o.tone]}`}
               >
                 <div>

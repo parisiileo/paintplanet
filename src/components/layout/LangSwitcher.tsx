@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { locales, localeNames, type Locale } from "@/content";
+import { locales, localeNames, translatePath, type Locale } from "@/content";
 
 type Props = {
   current: Locale;
@@ -14,8 +14,6 @@ type Props = {
 /** Switcher IT / DE: sostituisce il prefisso locale del path corrente. */
 export function LangSwitcher({ current, onLight = false, className = "" }: Props) {
   const pathname = usePathname();
-  // path senza prefisso locale ("/it/galleria" → "/galleria")
-  const rest = pathname.replace(/^\/(it|de)(?=\/|$)/, "") || "";
 
   return (
     <div
@@ -31,7 +29,9 @@ export function LangSwitcher({ current, onLight = false, className = "" }: Props
             </span>
           )}
           <Link
-            href={`/${locale}${rest}`}
+            /* Gli slug sono tradotti: da /de/leistungen/harze si deve
+               arrivare a /it/servizi/resine, non alla home italiana. */
+            href={translatePath(pathname, locale)}
             hrefLang={locale}
             aria-label={localeNames[locale]}
             aria-current={locale === current ? "true" : undefined}

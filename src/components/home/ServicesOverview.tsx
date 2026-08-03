@@ -2,7 +2,7 @@ import Link from "next/link";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { HighlightTitle } from "@/components/ui/HighlightTitle";
 import { Reveal, StaggerReveal } from "@/components/ui/Reveal";
-import { localeHref, type Content, type Locale } from "@/content";
+import { servicePath, type Content, type Locale } from "@/content";
 
 type Props = { locale: Locale; t: Content };
 
@@ -30,8 +30,8 @@ export function ServicesOverview({ locale, t }: Props) {
         <StaggerReveal className="mt-14 grid gap-5 md:grid-cols-2" stagger={0.08}>
           {t.services.map((s) => (
             <Link
-              key={s.slug}
-              href={localeHref(locale, `/servizi/${s.slug}`)}
+              key={s.key}
+              href={servicePath(locale, s.key)}
               className={`group relative overflow-hidden rounded-[var(--radius-card)] border border-paper/10 bg-nebula/40 p-8 transition-colors duration-300 hover:border-[var(--tone)] ${TONE_CLASS[s.tone]}`}
             >
               {/* glow tone */}

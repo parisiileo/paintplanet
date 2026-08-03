@@ -5,7 +5,7 @@ import { MagneticButton } from "@/components/ui/MagneticButton";
 import { PaintSweep } from "@/components/canvas/PaintSweep";
 import { useIsoLayoutEffect } from "@/lib/animations/hooks";
 import { gsap, ScrollTrigger, prefersReducedMotion } from "@/lib/animations/gsap-config";
-import { localeHref, type Content, type Locale } from "@/content";
+import { pagePath, servicesAnchorPath, type Content, type Locale } from "@/content";
 
 type Props = { locale: Locale; t: Content };
 
@@ -125,8 +125,8 @@ export function StoryHero({ locale, t }: Props) {
           {Title}
           <p className="mt-8 max-w-xl text-[var(--text-lead)] text-mist">{t.hero.lead}</p>
           <div className="mt-10 flex flex-wrap gap-4">
-            <MagneticButton href={localeHref(locale, "/contatti")}>{t.cta.quote}</MagneticButton>
-            <MagneticButton href={localeHref(locale, "/#servizi")} variant="ghost">
+            <MagneticButton href={pagePath(locale, "contact")}>{t.cta.quote}</MagneticButton>
+            <MagneticButton href={servicesAnchorPath(locale)} variant="ghost">
               {t.hero.ctaServices}
             </MagneticButton>
           </div>
@@ -177,8 +177,8 @@ export function StoryHero({ locale, t }: Props) {
             {t.hero.lead}
           </p>
           <div className="hero-fade-anim mt-10 flex flex-wrap items-center gap-4" style={{ animationDelay: "0.64s" }}>
-            <MagneticButton href={localeHref(locale, "/contatti")}>{t.cta.quote}</MagneticButton>
-            <MagneticButton href={localeHref(locale, "/#servizi")} variant="ghost">
+            <MagneticButton href={pagePath(locale, "contact")}>{t.cta.quote}</MagneticButton>
+            <MagneticButton href={servicesAnchorPath(locale)} variant="ghost">
               {t.hero.ctaServices}
             </MagneticButton>
           </div>
@@ -191,7 +191,7 @@ export function StoryHero({ locale, t }: Props) {
             <span className="tech-label mb-1 text-mist-dim">{t.servicesSection.label}</span>
             {t.services.map((s) => (
               <div
-                key={s.slug}
+                key={s.key}
                 className={`flex items-center gap-3 ${
                   { cobalt: "tone-cobalt", coral: "tone-coral", sun: "tone-sun", mint: "tone-mint" }[s.tone]
                 }`}

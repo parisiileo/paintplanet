@@ -81,7 +81,7 @@ export function LegalPageView({ t, page }: Props) {
 
                 {/* Il pulsante di revoca vive nella sezione "gestire le
                     preferenze" della cookie policy: è lì che l'utente lo cerca. */}
-                {page.slug === "cookie" && section === page.sections[page.sections.length - 1] && (
+                {page.key === "cookie" && section === page.sections[page.sections.length - 1] && (
                   <ConsentReset t={t} />
                 )}
               </div>

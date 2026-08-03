@@ -3,7 +3,7 @@ import { HighlightTitle } from "@/components/ui/HighlightTitle";
 import { Reveal } from "@/components/ui/Reveal";
 import { AnimatedLink } from "@/components/ui/AnimatedLink";
 import { GalleryScroller } from "@/components/gallery/GalleryScroller";
-import { localeHref, type Content, type Locale } from "@/content";
+import { pagePath, type Content, type Locale } from "@/content";
 
 type Props = { locale: Locale; t: Content };
 
@@ -19,7 +19,7 @@ export function GalleryTeaser({ locale, t }: Props) {
             </h2>
           </div>
           <AnimatedLink
-            href={localeHref(locale, "/galleria")}
+            href={pagePath(locale, "gallery")}
             className="text-sm font-medium text-cobalt-lite"
           >
             {t.gallery.heroLabel} →
@@ -28,7 +28,7 @@ export function GalleryTeaser({ locale, t }: Props) {
       </div>
 
       {/* Scroller a tutta larghezza: esce dal container per il bleed laterale */}
-      <GalleryScroller t={t} href={localeHref(locale, "/galleria")} className="mt-12" />
+      <GalleryScroller t={t} href={pagePath(locale, "gallery")} className="mt-12" />
 
       <div className="container-pp">
         <Reveal className="mt-12">

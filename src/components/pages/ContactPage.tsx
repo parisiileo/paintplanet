@@ -1,41 +1,12 @@
-import type { Metadata } from "next";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { Reveal } from "@/components/ui/Reveal";
 import { WhatsappCta } from "@/components/contact/WhatsappCta";
 import { MapEmbed } from "@/components/contact/MapEmbed";
-import { getContent, isLocale, defaultLocale } from "@/content";
-import { JsonLd } from "@/components/seo/JsonLd";
-import { buildPageMetadata, breadcrumbJsonLd, jsonLdGraph, localePath } from "@/lib/seo";
+import type { Content } from "@/content";
 
-type PageProps = { params: Promise<{ locale: string }> };
-
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { locale } = await params;
-  const resolved = isLocale(locale) ? locale : defaultLocale;
-  const t = getContent(resolved);
-  return buildPageMetadata({
-    locale: resolved,
-    path: "/contatti",
-    title: t.meta.contatti.title,
-    description: t.meta.contatti.description,
-  });
-}
-
-export default async function ContattiPage({ params }: PageProps) {
-  const { locale } = await params;
-  if (!isLocale(locale)) return null;
-  const t = getContent(locale);
-
+export function ContactPage({ t }: { t: Content }) {
   return (
     <section className="relative section-y pt-40 md:pt-48">
-      <JsonLd
-        data={jsonLdGraph(
-          breadcrumbJsonLd([
-            { name: t.site.name, path: localePath(locale) },
-            { name: t.contact.heroLabel, path: `${localePath(locale)}/contatti` },
-          ])
-        )}
-      />
       <div aria-hidden className="cosmic-bg opacity-50" />
       <div className="container-pp relative">
         <div className="flex flex-col gap-5">
@@ -80,6 +51,13 @@ export default async function ContattiPage({ params }: PageProps) {
                     </a>
                   </li>
                 </ul>
+              </div>
+
+              <div className="rounded-[var(--radius-card)] border border-paper/10 bg-nebula/30 p-7">
+                <p className="tech-label mb-4 text-mist">{t.openingHours.label}</p>
+                <p className="font-display text-xl font-medium text-paper">{t.openingHours.days}</p>
+                <p className="mt-1 text-mist">{t.openingHours.hours}</p>
+                <p className="mt-2 text-sm text-mist-dim">{t.openingHours.closed}</p>
               </div>
 
               <MapEmbed t={t} />

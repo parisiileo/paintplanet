@@ -3,6 +3,8 @@
  * Ogni lingua (it/de) implementa `Content` con la stessa shape.
  */
 
+import type { LegalKey, PageKey, ServiceKey } from "./routes";
+
 export type Locale = "it" | "de";
 
 /** Titolo con parola evidenziata a colore: pre <span>highlight</span> post */
@@ -13,8 +15,8 @@ export type Highlight = {
 };
 
 export type ServiceContent = {
-  /** Slug URL (uguale in tutte le lingue, senza prefisso locale) */
-  slug: string;
+  /** Chiave stabile: l'URL tradotto si ricava da `routes.ts`, non da qui. */
+  key: ServiceKey;
   num: string;
   title: string;
   short: string;
@@ -55,7 +57,8 @@ export type PageMeta = { title: string; description: string };
 export type LegalSection = { title: string; body: string[] };
 
 export type LegalPage = {
-  slug: string;
+  /** Chiave stabile; lo slug tradotto vive in `routes.ts`. */
+  key: LegalKey;
   title: string;
   intro: string;
   sections: LegalSection[];
@@ -112,8 +115,8 @@ export type Content = {
     closeMenu: string;
   };
 
-  /** href senza prefisso locale — prefissato nei componenti */
-  nav: { label: string; href: string }[];
+  /** Voci di menu per chiave: l'URL tradotto lo risolvono i componenti. */
+  nav: { label: string; key: PageKey | "services" }[];
   cta: { quote: string; call: string; discover: string; whatsapp: string };
 
   hero: {
@@ -236,6 +239,13 @@ export type Content = {
   };
 
   company: CompanyData;
+
+  /**
+   * Orari di apertura. Le stringhe sono solo per la visualizzazione: gli
+   * orari macchina per `openingHoursSpecification` stanno in `lib/seo.ts`,
+   * uno accanto all'altro per non poter divergere.
+   */
+  openingHours: { label: string; days: string; hours: string; closed: string };
 
   /** Banner cookie + gate di consenso della mappa. */
   consent: {

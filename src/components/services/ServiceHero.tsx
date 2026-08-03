@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { SectionLabel } from "@/components/ui/SectionLabel";
-import { localeHref, type Locale, type ServiceContent } from "@/content";
+import { servicesAnchorPath, type Locale, type ServiceContent } from "@/content";
 
 const TONE_CLASS: Record<string, string> = {
   cobalt: "tone-cobalt",
@@ -35,7 +35,7 @@ export function ServiceHero({
       <div className="container-pp relative">
         <div className="sh-fade sh-fade-1">
           <Link
-            href={localeHref(locale, "/#servizi")}
+            href={servicesAnchorPath(locale)}
             className="tech-label mb-8 inline-flex items-center gap-2 text-mist transition-colors hover:text-paper"
           >
             <span aria-hidden>←</span> {backLabel}
