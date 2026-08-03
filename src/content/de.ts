@@ -2,7 +2,9 @@ import type { Content } from "./types";
 
 /**
  * PAINT PLANET — Wörterbuch Deutsch.
- * [PLACEHOLDER] markiert Daten, die mit dem Kunden zu bestätigen sind.
+ * Identifikationsdaten und Kennzahlen entsprechen dem Handelsregisterauszug
+ * vom 21.03.2024 (Protokoll 23797/2024). Keine erfundenen Angaben: Was nicht
+ * überprüfbar ist, steht hier nicht.
  */
 export const de: Content = {
   site: {
@@ -11,16 +13,25 @@ export const de: Content = {
     payoffSecondary: "Maler, Anstreicher und Dekorateur in Bozen",
     phone: "+39 327 578 7264",
     phoneHref: "tel:+393275787264",
-    email: "info@paintplanet.bz.it", // [PLACEHOLDER]
-    emailHref: "mailto:info@paintplanet.bz.it", // [PLACEHOLDER]
+    // Im Handelsregister hinterlegtes Postfach: zugleich die in der
+    // Datenschutzerklärung genannte Adresse für Betroffenenrechte.
+    email: "shahimiklovan@gmail.com",
+    emailHref: "mailto:shahimiklovan@gmail.com",
     whatsapp: "+39 327 578 7264",
-    whatsappHref: "https://wa.me/393275787264", // [PLACEHOLDER]
-    address: "Bozen — Bolzano, Südtirol", // [PLACEHOLDER genaue Adresse]
+    whatsappHref: "https://wa.me/393275787264",
+    address: "Mazziniplatz 18/B, 39100 Bozen (BZ)",
     instagram: "@paint_planett",
     instagramHref: "https://www.instagram.com/paint_planett/",
-    vat: "MwSt.-Nr. 00000000000", // [PLACEHOLDER]
     city: "Bozen",
     region: "Südtirol — Alto Adige",
+  },
+
+  a11y: {
+    skipToContent: "Zum Hauptinhalt springen",
+    mainNav: "Hauptnavigation",
+    mobileNav: "Mobile Navigation",
+    openMenu: "Menü öffnen",
+    closeMenu: "Menü schließen",
   },
 
   nav: [
@@ -34,6 +45,7 @@ export const de: Content = {
     quote: "Angebot anfragen",
     call: "Jetzt anrufen",
     discover: "Mehr erfahren",
+    whatsapp: "Auf WhatsApp schreiben",
   },
 
   hero: {
@@ -324,11 +336,13 @@ export const de: Content = {
     ],
   },
 
+  /* Jede Zahl ist überprüfbar: Galerie, Handelsregisterauszug, Arbeitsweise.
+     Keine erfundenen "Jahre Erfahrung" oder "verwandelten Räume". */
   stats: [
-    { value: 12, suffix: "+", label: "Jahre Erfahrung" }, // [PLACEHOLDER]
-    { value: 800, suffix: "+", label: "Verwandelte Räume" }, // [PLACEHOLDER]
-    { value: 40, suffix: "+", label: "Farbtöne als Muster" }, // [PLACEHOLDER]
-    { value: 100, suffix: "%", label: "Am Tagesende saubere Baustellen" },
+    { value: 0, suffix: "", label: "Arbeiten in unserer Galerie", from: "galleryCount" },
+    { value: 3, suffix: "", label: "Im Register eingetragene Handwerkstätigkeiten" },
+    { value: 2, suffix: "", label: "Sprachen auf der Baustelle: Italienisch und Deutsch" },
+    { value: 0, suffix: "€", label: "Besichtigung und Kostenvoranschlag" },
   ],
 
   contactStrip: {
@@ -383,6 +397,8 @@ export const de: Content = {
       "Wohnungen, Schlafzimmer, Bäder, Flure und Terrassen: echte Räume, fertiggestellt von uns — mit Dekorputzen, Harzen, Trockenbau und Anstrichen.",
     countLabel: "realisierte Arbeiten",
     filterAll: "Alle",
+    filtersLabel: "Arbeiten nach Gewerk filtern",
+    thumbsLabel: "Vorschaubilder der Arbeiten",
     categories: {
       tinteggiature: "Anstriche",
       decorazioni: "Dekorationen",
@@ -720,8 +736,10 @@ export const de: Content = {
       prefill:
         "Hallo Paint Planet! Ich hätte gern ein Angebot für mein Projekt. Hier ein paar Details:",
     },
-    mapsEmbed: "https://www.google.com/maps?q=Bozen%20Bolzano&output=embed",
-    mapsLink: "https://www.google.com/maps/place/Bozen",
+    mapsEmbed:
+      "https://www.google.com/maps?q=Piazza%20Giuseppe%20Mazzini%2018%2FB%2C%2039100%20Bolzano%20BZ&output=embed",
+    mapsLink:
+      "https://www.google.com/maps/search/?api=1&query=Piazza%20Giuseppe%20Mazzini%2018%2FB%2C%2039100%20Bolzano%20BZ",
   },
 
   footer: {
@@ -732,6 +750,212 @@ export const de: Content = {
       "Paint Planet — Maler und Dekorateur in Bozen. Anstriche, Dekorationen, Fassaden und Harze mit handwerklicher Sorgfalt.",
     exploreLabel: "Navigation",
     contactsLabel: "Kontakt",
+    legalLabel: "Rechtliches",
+  },
+
+  /* Gesetzliche Pflichtangaben. Einzelunternehmen: Der Inhaber ist zugleich
+     Verantwortlicher im Sinne der DSGVO. Es fehlt nur noch die MwSt.-Nr. */
+  company: {
+    legalName: "Shahi Miklovan",
+    tradeName: "Paint Planet di Shahi Miklovan",
+    registeredOffice: "Giuseppe-Mazzini-Platz 18/B, 39100 Bozen (BZ)",
+    vat: "03249430210",
+    vatLabel: "MwSt.-Nr.",
+    taxCode: "SHHMLV97L09Z100W",
+    rea: "BZ - 244388 (Handelskammer Bozen)",
+    artisanRegistry:
+      "Seit 21.03.2024 im Handelsregister Bozen eingetragen, Sondersektion, mit der Qualifikation als Handwerksunternehmen",
+    pec: "shahi.miklovan@pec.it",
+    dataController: "Shahi Miklovan",
+  },
+
+  consent: {
+    title: "Cookies und externe Dienste",
+    text: "Wir verwenden ausschließlich technisch notwendige Cookies (etwa zum Speichern der gewählten Sprache). Auf der Kontaktseite ist eine Google-Karte eingebunden: Wenn Sie sie laden, kann Google eigene Cookies setzen und Ihre IP-Adresse erhalten. Sie entscheiden.",
+    acceptAll: "Alle akzeptieren",
+    necessaryOnly: "Nur notwendige",
+    policyLink: "Cookie-Richtlinie",
+    mapTitle: "Google-Karte",
+    mapText: "Mit dem Laden der Karte akzeptieren Sie, dass Google Ihre IP-Adresse erhält und Cookies auf Ihrem Gerät setzen kann.",
+    mapLoad: "Karte laden",
+    mapOpenExternal: "In Google Maps öffnen",
+  },
+
+  legal: {
+    updated: "2. August 2026",
+    updatedLabel: "Letzte Aktualisierung",
+
+    privacy: {
+      slug: "privacy",
+      title: "Datenschutzerklärung",
+      intro:
+        "Diese Erklärung beschreibt, wie Paint Planet personenbezogene Daten von Besucherinnen und Besuchern dieser Website verarbeitet, gemäß Art. 13 und 14 der Verordnung (EU) 2016/679 (DSGVO).",
+      sections: [
+        {
+          title: "Verantwortlicher",
+          body: [
+            "Verantwortlich für die Verarbeitung ist {{legalName}}, Einzelunternehmen mit der Geschäftsbezeichnung «{{tradeName}}», mit Sitz in {{registeredOffice}}, {{vatLabel}} {{vat}}, Steuernummer {{taxCode}}.",
+            "Ein Datenschutzbeauftragter (DSB) wurde nicht benannt: Die Voraussetzungen nach Art. 37 DSGVO liegen nicht vor.",
+            "Für Anfragen zu Ihren Daten schreiben Sie an {{email}} oder an die PEC-Adresse {{pec}}.",
+          ],
+        },
+        {
+          title: "Welche Daten wir erheben",
+          body: [
+            "Diese Website hat kein Kontaktformular, keinen geschützten Bereich und keine Zahlungssysteme: Wir fordern Sie nicht zur Eingabe von Daten auf. Folgende Verarbeitungen finden statt.",
+            "- Navigationsdaten: Der Server protokolliert automatisch IP-Adresse, Datum und Uhrzeit der Anfrage, aufgerufene Seite, Browsertyp und Betriebssystem. Es handelt sich um technische Daten, die für Betrieb und Sicherheit der Website erforderlich sind.",
+            "- Sprachpräferenz: Ein technisches Cookie speichert, ob Sie Italienisch oder Deutsch gewählt haben.",
+            "- Cookie-Entscheidung: Ein technisches Cookie speichert Ihre Antwort auf das Banner, damit es nicht bei jedem Besuch erneut erscheint.",
+            "- Direkte Kontaktaufnahme: Wenn Sie uns per E-Mail oder WhatsApp schreiben, verarbeiten wir die Daten, die Sie in dieser Nachricht freiwillig angeben (Name, Kontaktdaten, Inhalt der Anfrage).",
+          ],
+        },
+        {
+          title: "Zwecke und Rechtsgrundlagen",
+          body: [
+            "- Betrieb und Sicherheit der Website — berechtigtes Interesse des Verantwortlichen (Art. 6 Abs. 1 lit. f DSGVO).",
+            "- Speicherung von Sprache und Cookie-Entscheidung — berechtigtes Interesse; es handelt sich um technische Cookies, die keiner Einwilligung bedürfen.",
+            "- Beantwortung Ihrer Angebots- oder Informationsanfragen — vorvertragliche Maßnahmen auf Ihre Anfrage (Art. 6 Abs. 1 lit. b DSGVO).",
+            "- Laden der Google-Karte — Ihre Einwilligung, die Sie frei erteilen oder verweigern und jederzeit widerrufen können (Art. 6 Abs. 1 lit. a DSGVO).",
+          ],
+        },
+        {
+          title: "Empfänger der Daten",
+          body: [
+            "Wir verkaufen und übermitteln Ihre Daten nicht. Zugriff haben, als Auftragsverarbeiter oder eigenständig Verantwortliche, ausschließlich die für den Betrieb notwendigen technischen Dienstleister:",
+            "- Vercel Inc. — Hosting und Auslieferung der Website.",
+            "- Google Ireland Ltd. — nur wenn Sie die Karte auf der Kontaktseite laden.",
+            "- Ihr E-Mail-Anbieter bzw. WhatsApp (Meta Platforms Ireland Ltd.), wenn Sie uns über diese Kanäle kontaktieren.",
+            "Einige dieser Anbieter können Daten außerhalb des Europäischen Wirtschaftsraums verarbeiten. In diesem Fall erfolgt die Übermittlung auf Grundlage der von der Europäischen Kommission genehmigten Standardvertragsklauseln oder eines Angemessenheitsbeschlusses.",
+          ],
+        },
+        {
+          title: "Speicherdauer",
+          body: [
+            "- Serverprotokolle: für die technisch zur Sicherheit erforderliche Dauer, in der Regel nicht länger als 12 Monate.",
+            "- Technische Cookies: bis zu 12 Monate oder bis Sie sie im Browser löschen.",
+            "- Per E-Mail oder WhatsApp erhaltene Mitteilungen: für die zur Bearbeitung der Anfrage erforderliche Dauer und, sofern ein Geschäftsverhältnis entsteht, für die gesetzlichen steuer- und zivilrechtlichen Fristen.",
+          ],
+        },
+        {
+          title: "Ihre Rechte",
+          body: [
+            "Sie können jederzeit Auskunft über Ihre Daten, deren Berichtigung oder Löschung, die Einschränkung der Verarbeitung und die Datenübertragbarkeit verlangen sowie der auf berechtigtem Interesse beruhenden Verarbeitung widersprechen (Art. 15-22 DSGVO). Eine erteilte Einwilligung können Sie jederzeit widerrufen, ohne dass die Rechtmäßigkeit der bis dahin erfolgten Verarbeitung berührt wird.",
+            "Zur Ausübung dieser Rechte schreiben Sie an {{email}}. Wenn Sie der Ansicht sind, dass die Verarbeitung gegen die DSGVO verstößt, können Sie Beschwerde bei der italienischen Datenschutzbehörde einlegen (www.garanteprivacy.it).",
+          ],
+        },
+        {
+          title: "Minderjährige",
+          body: [
+            "Diese Website richtet sich an ein erwachsenes Publikum und erhebt nicht wissentlich Daten von Kindern unter 14 Jahren.",
+          ],
+        },
+      ],
+      meta: {
+        title: "Datenschutzerklärung",
+        description:
+          "Wie Paint Planet personenbezogene Daten von Website-Besuchern verarbeitet: Zwecke, Rechtsgrundlagen, Speicherdauer und Betroffenenrechte.",
+      },
+    },
+
+    cookie: {
+      slug: "cookie",
+      title: "Cookie-Richtlinie",
+      intro:
+        "Diese Seite erklärt, welche Cookies die Website von Paint Planet verwendet und wie Sie Ihre Präferenzen verwalten. Cookies sind kleine Textdateien, die Websites auf Ihrem Gerät speichern.",
+      sections: [
+        {
+          title: "Technische Cookies (immer aktiv)",
+          body: [
+            "Sie sind für den Betrieb der Website erforderlich. Gemäß Art. 122 des italienischen Datenschutzkodex bedürfen sie keiner Einwilligung, wir legen sie dennoch offen.",
+            "- pp-locale — speichert die gewählte Sprache (Italienisch oder Deutsch), damit die automatische Erkennung nicht bei jedem Besuch erneut greift. Dauer: 12 Monate.",
+            "- pp-consent — speichert Ihre Antwort auf das Cookie-Banner. Dauer: 12 Monate.",
+          ],
+        },
+        {
+          title: "Cookies Dritter (nur mit Ihrer Einwilligung)",
+          body: [
+            "Auf der Kontaktseite ist eine Karte von Google eingebunden. Die Karte wird erst geladen, wenn Sie es erlauben: Bis dahin erhält Google keinerlei Daten von dieser Website.",
+            "- Google Maps (Google Ireland Ltd.) — wenn Sie die Karte laden, erhält Google Ihre IP-Adresse und kann eigene Cookies setzen, auch zu Profilingzwecken. Datenschutzerklärung: policies.google.com/privacy",
+            "Sie können die Karte auch ansehen, ohne sie hier zu laden, indem Sie Google Maps über den Link neben dem Kartenfeld direkt öffnen.",
+          ],
+        },
+        {
+          title: "Was wir NICHT verwenden",
+          body: [
+            "Diese Website verwendet keine Analyse-Cookies, keine Werbe-Profiling-Cookies, keine Social-Media-Tracking-Pixel und keine Statistikwerkzeuge Dritter. Die Schriftarten werden direkt von unserem Server ausgeliefert: Es erfolgen keine Aufrufe an Google Fonts oder andere externe CDNs.",
+          ],
+        },
+        {
+          title: "Präferenzen verwalten",
+          body: [
+            "Sie können Ihre im Banner getroffene Wahl jederzeit über die Schaltfläche unten ändern. Zudem können Sie Cookies in den Einstellungen Ihres Browsers blockieren oder löschen; die Vorgehensweise ist in den Hilfeseiten von Chrome, Firefox, Safari und Edge beschrieben. Das Deaktivieren technischer Cookies kann Funktionen der Website beeinträchtigen, etwa das Speichern der Sprache.",
+          ],
+        },
+      ],
+      meta: {
+        title: "Cookie-Richtlinie",
+        description:
+          "Welche Cookies die Website von Paint Planet verwendet, wozu sie dienen und wie Sie die Einwilligung für Dienste Dritter verwalten.",
+      },
+    },
+
+    terms: {
+      slug: "note-legali",
+      title: "Impressum",
+      intro:
+        "Angaben zum Betreiber dieser Website und Nutzungsbedingungen für ihre Inhalte.",
+      sections: [
+        {
+          title: "Anbieterkennzeichnung",
+          body: [
+            "Gemäß Art. 7 des GvD 70/2003:",
+            "- Bezeichnung: {{legalName}}",
+            "- Geschäftsbezeichnung: {{tradeName}}",
+            "- Rechtsform: Einzelunternehmen",
+            "- Inhaber: {{dataController}}",
+            "- Sitz: {{registeredOffice}}",
+            "- MwSt.-Nr.: {{vat}}",
+            "- Steuernummer und Handelsregisternummer: {{taxCode}}",
+            "- VWV-Nummer: {{rea}}",
+            "- {{artisanRegistry}}",
+            "- Tätigkeit: Maler und Lackierer; Verputzer; Stukkateur",
+            "- E-Mail: {{email}}",
+            "- PEC: {{pec}}",
+            "- Telefon: {{phone}}",
+          ],
+        },
+        {
+          title: "Inhalte der Website",
+          body: [
+            "Die veröffentlichten Informationen dienen der Beschreibung und Bewerbung der angebotenen Leistungen. Sie stellen kein öffentliches Angebot im Sinne von Art. 1336 des italienischen Zivilgesetzbuchs dar: Jede Arbeit wird erst nach einer Besichtigung mit schriftlichem Kostenvoranschlag beziffert.",
+            "Wir achten auf die Richtigkeit der Inhalte, gewährleisten jedoch nicht, dass sie stets vollständig und aktuell sind. Änderungen bleiben jederzeit und ohne Vorankündigung vorbehalten.",
+          ],
+        },
+        {
+          title: "Geistiges Eigentum",
+          body: [
+            "Texte, Fotografien, Marken, Grafiken und Code dieser Website sind Eigentum von {{legalName}} oder werden mit Lizenz genutzt. Die Fotografien zeigen tatsächlich ausgeführte Arbeiten. Die auch auszugsweise Vervielfältigung ohne schriftliche Genehmigung ist untersagt.",
+          ],
+        },
+        {
+          title: "Links zu externen Seiten",
+          body: [
+            "Die Website enthält Links zu Diensten Dritter (Instagram, WhatsApp, Google Maps). Wir haben keinen Einfluss auf deren Inhalte und Datenschutzpraktiken und übernehmen dafür keine Verantwortung.",
+          ],
+        },
+        {
+          title: "Anwendbares Recht",
+          body: [
+            "Es gilt italienisches Recht. Bei Streitigkeiten mit Verbrauchern bleibt der Gerichtsstand am Wohnsitz oder Aufenthaltsort des Verbrauchers unberührt, sofern dieser in Italien liegt.",
+          ],
+        },
+      ],
+      meta: {
+        title: "Impressum",
+        description:
+          "Anbieterkennzeichnung von Paint Planet, Nutzungsbedingungen der Website-Inhalte und geistiges Eigentum.",
+      },
+    },
   },
 
   preloaderTagline: "Wir bringen Farbe in Ihre Räume",
@@ -745,37 +969,38 @@ export const de: Content = {
     tinteggiature: {
       title: "Innenanstriche in Bozen",
       description:
-        "Anstrich von Wänden und Decken mit massgeschneiderten Farben und sauberen Oberflächen. Innenräume in Bozen.",
+        "Anstrich von Wänden und Decken in Bozen mit massgeschneiderten Farben und sauberen Oberflächen: Wohnungen, Büros, Geschäfte. Kostenlose Besichtigung.",
     },
     decorazioni: {
       title: "Dekoration und Spachteltechnik in Bozen",
       description:
-        "Stucco Veneziano, Spachteltechniken und Materialeffekte von Hand. Oberflächen für einzigartige Räume.",
+        "Stucco Veneziano, Spachteltechniken und Materialeffekte von Hand in Bozen. Oberflächen für einzigartige Räume, mit echten Mustern an Ihrer Wand.",
     },
     facciate: {
       title: "Fassaden und Wärmedämmung in Bozen",
       description:
-        "Aussenanstriche, Verputz und Wärmedämmverbund für Kondominien und Einfamilienhäuser in Südtirol.",
+        "Aussenanstriche, Verputz und Wärmedämmverbund für Kondominien und Einfamilienhäuser in Bozen und Südtirol. Gerüst und Sicherheit inklusive.",
     },
     resine: {
       title: "Harze und Mikrozement in Bozen",
       description:
-        "Böden und Beläge aus Harz und Mikrozement: durchgehende, moderne, fugenlose Oberflächen.",
+        "Böden und Beläge aus Harz und Mikrozement in Bozen: durchgehende, fugenlose Oberflächen, auch direkt auf dem bestehenden Boden anwendbar.",
     },
     galleria: {
-      title: "Arbeitsgalerie",
+      // Der Ort gehört auch hier in den Titel: Danach wird gesucht.
+      title: "Arbeitsgalerie in Bozen",
       description:
-        "Eine Auswahl von Innenräumen, Dekorationen, Fassaden und Harzen von Paint Planet in Bozen.",
+        "Fotos echter Arbeiten: Anstriche, Dekorationen, Harze, Trockenbau und Fassaden von Paint Planet in Bozen und Südtirol.",
     },
     chiSiamo: {
-      title: "Über uns",
+      title: "Über uns — Maler in Bozen",
       description:
-        "Paint Planet: Maler und Dekorateure aus Bozen. Liebe zum Detail, zertifizierte Materialien und saubere Baustellen.",
+        "Paint Planet ist das Handwerksunternehmen von Shahi Miklovan in Bozen: Maler, Lackierer und Stukkateur. Liebe zum Detail, saubere Baustellen.",
     },
     contatti: {
-      title: "Kontakt",
+      title: "Kontakt — Kostenloses Angebot in Bozen",
       description:
-        "Kontaktieren Sie Paint Planet in Bozen für eine kostenlose Besichtigung und ein Angebot für Anstriche, Dekorationen, Fassaden und Harze.",
+        "Schreiben Sie uns auf WhatsApp für eine kostenlose Besichtigung und ein Angebot in Bozen: Anstriche, Dekorationen, Fassaden und Harze. Italienisch und Deutsch.",
     },
   },
 };

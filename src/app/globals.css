@@ -21,11 +21,20 @@
 
   /* Text */
   --mist: #9aa4d0;
-  --mist-dim: #6b76a8;
+  /* Schiarito da #6b76a8: su bg-nebula/30 scendeva a 3.3:1 (WCAG AA
+     richiede 4.5:1 per testo normale). Ora ≥ 5:1 su tutti i fondi scuri. */
+  --mist-dim: #8b95c4;
+  /* Controparte di --mist-dim sulla superficie chiara: lì il grigio-azzurro
+     schiarito scenderebbe a 2.6:1 sul paper. */
+  --slate: #5a6280;
 
   /* Paint pop */
   --cobalt: #3b5bff;
   --cobalt-deep: #2440d6;
+  /* Variante schiarita del cobalto per il TESTO su fondo scuro: il cobalto
+     pieno regge 3.65:1 sul navy, sotto la soglia AA. Da usare solo come
+     colore testo su cosmic base; su superficie chiara resta --cobalt. */
+  --cobalt-lite: #6b83ff;
   --coral: #ff5a4d;
   --coral-deep: #e63c2f;
   --sun: #ffc23d;
@@ -57,8 +66,10 @@
   --color-ink: var(--ink);
   --color-mist: var(--mist);
   --color-mist-dim: var(--mist-dim);
+  --color-slate: var(--slate);
   --color-cobalt: var(--cobalt);
   --color-cobalt-deep: var(--cobalt-deep);
+  --color-cobalt-lite: var(--cobalt-lite);
   --color-coral: var(--coral);
   --color-coral-deep: var(--coral-deep);
   --color-sun: var(--sun);
@@ -102,6 +113,25 @@ body {
   outline: 2px solid var(--cobalt);
   outline-offset: 3px;
   border-radius: 2px;
+}
+
+/* Skip link: fuori schermo finché non riceve il focus da tastiera. */
+.skip-link {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  z-index: 100;
+  translate: -50% -150%;
+  border-radius: 0 0 0.75rem 0.75rem;
+  background: var(--cobalt);
+  color: var(--paper);
+  padding: 0.75rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: translate 0.2s var(--ease-out-expo);
+}
+.skip-link:focus-visible {
+  translate: -50% 0;
 }
 
 /* ---- Layout utilities ---- */
@@ -314,6 +344,22 @@ html.js [data-reveal-line] > * {
     animation: none;
     will-change: auto;
     filter: blur(64px);
+  }
+}
+
+/* Hero scroll-driven: il server rende sempre la variante desktop (alta 420vh)
+   perché la scelta dipende da matchMedia, disponibile solo dopo il mount. Su
+   mobile, prima dell'idratazione, si vedeva quindi una pagina lunghissima che
+   poi collassava. Finché il JS non ha deciso (html senza .js) la teniamo
+   compatta: il salto di layout sparisce. */
+@media (max-width: 860px), (pointer: coarse) {
+  html:not(.js) .story-scroll {
+    height: auto;
+  }
+  html:not(.js) .story-stage {
+    position: static;
+    height: auto;
+    padding-block: 9rem 4rem;
   }
 }
 

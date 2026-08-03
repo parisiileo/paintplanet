@@ -2,26 +2,36 @@ import type { Content } from "./types";
 
 /**
  * PAINT PLANET — Dizionario Italiano.
- * [PLACEHOLDER] segnala dati da confermare col cliente (P.IVA, indirizzo,
- * telefono, numeri statistiche, foto reali).
+ * Dati identificativi e statistiche allineati alla visura camerale del
+ * 21/03/2024 (protocollo 23797/2024). Nessun dato inventato: se un numero
+ * non è verificabile, non sta qui.
  */
 export const it: Content = {
   site: {
     name: "Paint Planet",
     payoffPrimary: "Diamo colore ai tuoi spazi",
     payoffSecondary: "Imbianchino, pittore e decoratore a Bolzano",
-    phone: "+39 3275787264", // [PLACEHOLDER]
+    phone: "+39 327 578 7264",
     phoneHref: "tel:+393275787264",
-    email: "info@paintplanet.bz.it", // [PLACEHOLDER]
-    emailHref: "mailto:info@paintplanet.bz.it", // [PLACEHOLDER]
+    // Casella dichiarata al Registro Imprese: è il recapito indicato anche
+    // nell'informativa privacy per l'esercizio dei diritti GDPR.
+    email: "shahimiklovan@gmail.com",
+    emailHref: "mailto:shahimiklovan@gmail.com",
     whatsapp: "+39 327 578 7264",
-    whatsappHref: "https://wa.me/393275787264", // [PLACEHOLDER]
-    address: "Bolzano — Bozen, Alto Adige", // [PLACEHOLDER indirizzo esatto]
+    whatsappHref: "https://wa.me/393275787264",
+    address: "Piazza Giuseppe Mazzini 18/B, 39100 Bolzano (BZ)",
     instagram: "@paint_planett",
     instagramHref: "https://www.instagram.com/paint_planett/",
-    vat: "P.IVA 00000000000", // [PLACEHOLDER]
     city: "Bolzano",
     region: "Alto Adige — Südtirol",
+  },
+
+  a11y: {
+    skipToContent: "Salta al contenuto principale",
+    mainNav: "Navigazione principale",
+    mobileNav: "Navigazione mobile",
+    openMenu: "Apri il menu",
+    closeMenu: "Chiudi il menu",
   },
 
   nav: [
@@ -35,6 +45,7 @@ export const it: Content = {
     quote: "Chiedi un preventivo",
     call: "Chiama ora",
     discover: "Scopri di più",
+    whatsapp: "Scrivici su WhatsApp",
   },
 
   hero: {
@@ -321,11 +332,13 @@ export const it: Content = {
     ],
   },
 
+  /* Ogni numero è verificabile: galleria, visura camerale, modo di lavorare.
+     Niente "anni di esperienza" o "ambienti trasformati" inventati. */
   stats: [
-    { value: 12, suffix: "+", label: "Anni di esperienza" }, // [PLACEHOLDER]
-    { value: 800, suffix: "+", label: "Ambienti trasformati" }, // [PLACEHOLDER]
-    { value: 40, suffix: "+", label: "Tonalità a campione" }, // [PLACEHOLDER]
-    { value: 100, suffix: "%", label: "Cantieri puliti a fine giornata" },
+    { value: 0, suffix: "", label: "Lavori nella nostra galleria", from: "galleryCount" },
+    { value: 3, suffix: "", label: "Lavorazioni artigiane iscritte a registro" },
+    { value: 2, suffix: "", label: "Lingue in cantiere: italiano e tedesco" },
+    { value: 0, suffix: "€", label: "Sopralluogo e preventivo" },
   ],
 
   contactStrip: {
@@ -380,6 +393,8 @@ export const it: Content = {
       "Appartamenti, camere, bagni, corridoi e terrazze: ambienti reali finiti da noi, tra decorativi, resine, cartongesso e tinteggiature.",
     countLabel: "lavori realizzati",
     filterAll: "Tutti",
+    filtersLabel: "Filtra i lavori per lavorazione",
+    thumbsLabel: "Miniature dei lavori",
     categories: {
       tinteggiature: "Tinteggiature",
       decorazioni: "Decorazioni",
@@ -717,9 +732,10 @@ export const it: Content = {
       prefill:
         "Ciao Paint Planet! Vorrei un preventivo per il mio progetto. Ecco qualche dettaglio:",
     },
-    // [PLACEHOLDER] embed generico su Bolzano finché non si conferma l'indirizzo esatto
-    mapsEmbed: "https://www.google.com/maps?q=Bolzano%20Bozen&output=embed",
-    mapsLink: "https://www.google.com/maps/place/Bolzano",
+    mapsEmbed:
+      "https://www.google.com/maps?q=Piazza%20Giuseppe%20Mazzini%2018%2FB%2C%2039100%20Bolzano%20BZ&output=embed",
+    mapsLink:
+      "https://www.google.com/maps/search/?api=1&query=Piazza%20Giuseppe%20Mazzini%2018%2FB%2C%2039100%20Bolzano%20BZ",
   },
 
   footer: {
@@ -730,6 +746,213 @@ export const it: Content = {
       "Paint Planet — imbianchino, pittore e decoratore a Bolzano. Tinteggiature, decorazioni, facciate e resine con cura artigianale.",
     exploreLabel: "Naviga",
     contactsLabel: "Contatti",
+    legalLabel: "Informazioni legali",
+  },
+
+  /* Dati identificativi obbligatori. Impresa individuale: il titolare
+     persona fisica è anche titolare del trattamento ai sensi del GDPR.
+     Resta da inserire la sola P.IVA. */
+  company: {
+    legalName: "Shahi Miklovan",
+    tradeName: "Paint Planet di Shahi Miklovan",
+    registeredOffice: "Piazza Giuseppe Mazzini 18/B, 39100 Bolzano (BZ)",
+    vat: "03249430210",
+    vatLabel: "P.IVA",
+    taxCode: "SHHMLV97L09Z100W",
+    rea: "BZ - 244388 (CCIAA di Bolzano)",
+    artisanRegistry:
+      "Iscritta al Registro Imprese di Bolzano dal 21/03/2024, sezione speciale, con la qualifica di impresa artigiana",
+    pec: "shahi.miklovan@pec.it",
+    dataController: "Shahi Miklovan",
+  },
+
+  consent: {
+    title: "Cookie e servizi esterni",
+    text: "Usiamo solo cookie tecnici, necessari al funzionamento del sito (ad esempio per ricordare la lingua scelta). Nella pagina Contatti è presente una mappa di Google: se la carichi, Google può impostare cookie propri e ricevere il tuo indirizzo IP. Puoi decidere tu.",
+    acceptAll: "Accetta tutto",
+    necessaryOnly: "Solo necessari",
+    policyLink: "Cookie policy",
+    mapTitle: "Mappa di Google",
+    mapText: "Caricando la mappa accetti che Google riceva il tuo indirizzo IP e possa impostare cookie sul tuo dispositivo.",
+    mapLoad: "Carica la mappa",
+    mapOpenExternal: "Apri su Google Maps",
+  },
+
+  legal: {
+    updated: "2 agosto 2026",
+    updatedLabel: "Ultimo aggiornamento",
+
+    privacy: {
+      slug: "privacy",
+      title: "Informativa sulla privacy",
+      intro:
+        "Questa informativa descrive come Paint Planet tratta i dati personali di chi visita questo sito, ai sensi degli articoli 13 e 14 del Regolamento (UE) 2016/679 (GDPR).",
+      sections: [
+        {
+          title: "Titolare del trattamento",
+          body: [
+            "Il titolare del trattamento è {{legalName}}, impresa individuale che opera con l'insegna «{{tradeName}}», con sede in {{registeredOffice}}, {{vatLabel}} {{vat}}, codice fiscale {{taxCode}}.",
+            "Non è stato nominato un Responsabile della protezione dei dati (DPO): non ricorrono i casi previsti dall'art. 37 del GDPR.",
+            "Per qualsiasi richiesta relativa ai tuoi dati puoi scrivere a {{email}} oppure alla PEC {{pec}}.",
+          ],
+        },
+        {
+          title: "Quali dati raccogliamo",
+          body: [
+            "Questo sito non ha moduli di contatto, aree riservate né sistemi di pagamento: non ti chiediamo di inserire dati. I trattamenti che avvengono sono i seguenti.",
+            "- Dati di navigazione: il server che ospita il sito registra automaticamente indirizzo IP, data e ora della richiesta, pagina richiesta, tipo di browser e sistema operativo. Sono dati tecnici necessari a erogare il sito e a garantirne la sicurezza.",
+            "- Preferenza di lingua: un cookie tecnico ricorda se hai scelto italiano o tedesco.",
+            "- Scelta sui cookie: un cookie tecnico ricorda la tua risposta al banner, così non te lo riproponiamo a ogni visita.",
+            "- Contatti diretti: se ci scrivi via e-mail o WhatsApp, trattiamo i dati che ci fornisci spontaneamente in quel messaggio (nome, recapito, contenuto della richiesta).",
+          ],
+        },
+        {
+          title: "Perché li trattiamo e su quale base",
+          body: [
+            "- Erogare il sito e garantirne la sicurezza — legittimo interesse del titolare (art. 6.1.f GDPR).",
+            "- Ricordare lingua e scelta sui cookie — legittimo interesse; sono cookie tecnici, per i quali non è richiesto il consenso.",
+            "- Rispondere alle tue richieste di preventivo o informazioni — esecuzione di misure precontrattuali su tua richiesta (art. 6.1.b GDPR).",
+            "- Caricare la mappa di Google — tuo consenso, che puoi dare o negare liberamente e revocare in ogni momento (art. 6.1.a GDPR).",
+          ],
+        },
+        {
+          title: "A chi comunichiamo i dati",
+          body: [
+            "Non vendiamo né cediamo i tuoi dati. Possono accedervi, come responsabili del trattamento o titolari autonomi, solo i fornitori tecnici necessari al funzionamento del sito:",
+            "- Vercel Inc. — hosting e distribuzione del sito.",
+            "- Google Ireland Ltd. — solo se scegli di caricare la mappa nella pagina Contatti.",
+            "- Il tuo provider di posta o WhatsApp (Meta Platforms Ireland Ltd.), se ci contatti tramite questi canali.",
+            "Alcuni di questi fornitori possono trattare dati fuori dallo Spazio Economico Europeo. In tal caso il trasferimento avviene sulla base delle Clausole Contrattuali Standard approvate dalla Commissione Europea o di una decisione di adeguatezza.",
+          ],
+        },
+        {
+          title: "Per quanto tempo li conserviamo",
+          body: [
+            "- Log del server: per il tempo tecnico necessario alla sicurezza, di norma non oltre 12 mesi.",
+            "- Cookie tecnici: fino a 12 mesi, o finché non li cancelli dal browser.",
+            "- Comunicazioni ricevute via e-mail o WhatsApp: per il tempo necessario a gestire la richiesta e, se ne nasce un rapporto commerciale, per i termini di legge in materia fiscale e civilistica.",
+          ],
+        },
+        {
+          title: "I tuoi diritti",
+          body: [
+            "Puoi in ogni momento chiedere l'accesso ai tuoi dati, la loro rettifica o cancellazione, la limitazione del trattamento, la portabilità, e opporti al trattamento fondato sul legittimo interesse (artt. 15-22 GDPR). Se hai dato un consenso, puoi revocarlo in qualsiasi momento senza che ciò pregiudichi la liceità del trattamento avvenuto prima della revoca.",
+            "Per esercitare questi diritti scrivi a {{email}}. Se ritieni che il trattamento violi il GDPR puoi proporre reclamo al Garante per la protezione dei dati personali (www.garanteprivacy.it).",
+          ],
+        },
+        {
+          title: "Minori",
+          body: [
+            "Questo sito si rivolge a un pubblico adulto e non raccoglie consapevolmente dati di minori di 14 anni.",
+          ],
+        },
+      ],
+      meta: {
+        title: "Informativa sulla privacy",
+        description:
+          "Come Paint Planet tratta i dati personali di chi visita il sito: finalità, basi giuridiche, conservazione e diritti dell'interessato.",
+      },
+    },
+
+    cookie: {
+      slug: "cookie",
+      title: "Cookie policy",
+      intro:
+        "Questa pagina spiega quali cookie usa il sito di Paint Planet e come gestire le tue preferenze. I cookie sono piccoli file di testo che i siti salvano sul tuo dispositivo.",
+      sections: [
+        {
+          title: "Cookie tecnici (sempre attivi)",
+          body: [
+            "Servono al funzionamento del sito. Ai sensi dell'art. 122 del Codice Privacy non richiedono il tuo consenso, ma te ne diamo comunque conto.",
+            "- pp-locale — ricorda la lingua scelta (italiano o tedesco) per non riproporti il rilevamento automatico a ogni visita. Durata: 12 mesi.",
+            "- pp-consent — ricorda la tua risposta al banner cookie. Durata: 12 mesi.",
+          ],
+        },
+        {
+          title: "Cookie di terze parti (solo con il tuo consenso)",
+          body: [
+            "Nella pagina Contatti è presente una mappa fornita da Google. La mappa non viene caricata finché non lo autorizzi: fino a quel momento Google non riceve alcun dato da questo sito.",
+            "- Google Maps (Google Ireland Ltd.) — se carichi la mappa, Google riceve il tuo indirizzo IP e può impostare cookie propri, anche di profilazione. Informativa: policies.google.com/privacy",
+            "Puoi consultare la mappa anche senza caricarla nel sito, aprendo Google Maps direttamente dal link che trovi accanto al riquadro.",
+          ],
+        },
+        {
+          title: "Cosa NON usiamo",
+          body: [
+            "Questo sito non utilizza cookie analitici, cookie di profilazione pubblicitaria, pixel di tracciamento dei social network né strumenti di statistica di terze parti. I caratteri tipografici sono ospitati direttamente sul nostro server: non vengono effettuate chiamate a Google Fonts o ad altri CDN esterni.",
+          ],
+        },
+        {
+          title: "Come gestire le preferenze",
+          body: [
+            "Puoi modificare in ogni momento la scelta fatta nel banner usando il pulsante qui sotto. Puoi inoltre bloccare o cancellare i cookie dalle impostazioni del tuo browser: la procedura è documentata nelle guide di Chrome, Firefox, Safari ed Edge. La disattivazione dei cookie tecnici può compromettere alcune funzioni del sito, come la memoria della lingua.",
+          ],
+        },
+      ],
+      meta: {
+        title: "Cookie policy",
+        description:
+          "Quali cookie usa il sito di Paint Planet, a cosa servono e come gestire il consenso per i servizi di terze parti.",
+      },
+    },
+
+    terms: {
+      slug: "note-legali",
+      title: "Note legali",
+      intro:
+        "Informazioni sulla titolarità di questo sito e sulle condizioni d'uso dei suoi contenuti.",
+      sections: [
+        {
+          title: "Dati identificativi",
+          body: [
+            "Ai sensi dell'art. 7 del D.lgs. 70/2003:",
+            "- Denominazione: {{legalName}}",
+            "- Insegna: {{tradeName}}",
+            "- Forma giuridica: impresa individuale",
+            "- Titolare: {{dataController}}",
+            "- Sede: {{registeredOffice}}",
+            "- Partita IVA: {{vat}}",
+            "- Codice fiscale e n. iscr. Registro Imprese: {{taxCode}}",
+            "- Numero REA: {{rea}}",
+            "- {{artisanRegistry}}",
+            "- Attività: pittore e verniciatore; intonacatore; stuccatore",
+            "- E-mail: {{email}}",
+            "- PEC: {{pec}}",
+            "- Telefono: {{phone}}",
+          ],
+        },
+        {
+          title: "Contenuti del sito",
+          body: [
+            "Le informazioni pubblicate hanno finalità descrittiva e promozionale dei servizi offerti. Non costituiscono un'offerta al pubblico ai sensi dell'art. 1336 del Codice Civile: ogni lavorazione viene quotata solo dopo sopralluogo, con preventivo scritto.",
+            "Curiamo l'accuratezza dei contenuti, ma non garantiamo che siano sempre completi e aggiornati. Ci riserviamo di modificarli in qualsiasi momento senza preavviso.",
+          ],
+        },
+        {
+          title: "Proprietà intellettuale",
+          body: [
+            "Testi, fotografie, marchi, grafica e codice di questo sito sono di proprietà di {{legalName}} o utilizzati con licenza. Le fotografie ritraggono lavori effettivamente realizzati. È vietata la riproduzione, anche parziale, senza autorizzazione scritta.",
+          ],
+        },
+        {
+          title: "Collegamenti a siti esterni",
+          body: [
+            "Il sito contiene collegamenti a servizi di terzi (Instagram, WhatsApp, Google Maps). Non abbiamo controllo sui loro contenuti e sulle loro politiche di trattamento dei dati e non rispondiamo di essi.",
+          ],
+        },
+        {
+          title: "Legge applicabile",
+          body: [
+            "Il rapporto è regolato dalla legge italiana. Per le controversie con consumatori resta ferma la competenza del foro di residenza o domicilio del consumatore, se ubicato in Italia.",
+          ],
+        },
+      ],
+      meta: {
+        title: "Note legali",
+        description:
+          "Dati identificativi di Paint Planet, condizioni d'uso dei contenuti del sito e proprietà intellettuale.",
+      },
+    },
   },
 
   preloaderTagline: "Diamo colore ai tuoi spazi",
@@ -743,37 +966,38 @@ export const it: Content = {
     tinteggiature: {
       title: "Tinteggiature d'interni a Bolzano",
       description:
-        "Pitturazione di pareti e soffitti con colori su misura e finiture pulite. Interni per case, uffici e negozi a Bolzano.",
+        "Pitturazione di pareti e soffitti a Bolzano con colori su misura e finiture pulite: case, uffici e negozi. Sopralluogo e preventivo gratuiti.",
     },
     decorazioni: {
       title: "Decorazioni e spatolati a Bolzano",
       description:
-        "Stucco veneziano, spatolati ed effetti materici realizzati a mano. Superfici d'autore per ambienti unici.",
+        "Stucco veneziano, spatolati ed effetti materici stesi a mano a Bolzano. Superfici d'autore per ambienti unici, con campionature reali sulle tue pareti.",
     },
     facciate: {
       title: "Facciate e cappotto termico a Bolzano",
       description:
-        "Tinteggiatura esterni, rasature e isolamento a cappotto per condomìni e case singole in Alto Adige.",
+        "Tinteggiatura esterni, rasature e cappotto termico per condomìni e case singole a Bolzano e in Alto Adige. Ponteggi e sicurezza inclusi nel preventivo.",
     },
     resine: {
       title: "Resine e microcemento a Bolzano",
       description:
-        "Pavimenti e rivestimenti in resina e microcemento: superfici continue e moderne senza fughe.",
+        "Pavimenti e rivestimenti in resina e microcemento a Bolzano: superfici continue senza fughe, applicabili anche sopra il pavimento esistente.",
     },
     galleria: {
-      title: "Galleria lavori",
+      // La località va nel titolo anche qui: è la query che porta clienti.
+      title: "Galleria lavori a Bolzano",
       description:
-        "Una selezione di interni, decorazioni, facciate e resine realizzati da Paint Planet a Bolzano.",
+        "Foto di lavori reali: tinteggiature, decorazioni, resine, cartongesso e facciate realizzati da Paint Planet a Bolzano e in Alto Adige.",
     },
     chiSiamo: {
-      title: "Chi siamo",
+      title: "Chi siamo — Imbianchini a Bolzano",
       description:
-        "Paint Planet: imbianchini e decoratori di Bolzano. Cura del dettaglio, materiali certificati e cantieri puliti.",
+        "Paint Planet è l'impresa artigiana di Shahi Miklovan a Bolzano: pittore, verniciatore e stuccatore. Cura del dettaglio e cantieri puliti.",
     },
     contatti: {
-      title: "Contatti",
+      title: "Contatti — Preventivo gratuito a Bolzano",
       description:
-        "Contatta Paint Planet a Bolzano per un sopralluogo e un preventivo gratuiti per tinteggiature, decorazioni, facciate e resine.",
+        "Scrivici su WhatsApp per un sopralluogo e un preventivo gratuiti a Bolzano: tinteggiature, decorazioni, facciate e resine. Si parla italiano e tedesco.",
     },
   },
 };

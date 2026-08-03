@@ -23,7 +23,7 @@ function Logo({ locale }: { locale: Locale }) {
         className="h-2.5 w-2.5 rounded-full"
         style={{ background: "conic-gradient(from 210deg, var(--cobalt), var(--coral), var(--sun), var(--cobalt))" }}
       />
-      Paint<span className="text-cobalt">&nbsp;Planet</span>
+      Paint<span className="text-cobalt-lite">&nbsp;Planet</span>
     </Link>
   );
 }
@@ -33,6 +33,7 @@ export function Header({ locale, t }: Props) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const menuRef = useRef<HTMLDivElement>(null);
+  const burgerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -44,6 +45,18 @@ export function Header({ locale, t }: Props) {
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
+
+  /* Esc chiude il menu e riporta il focus sul burger (WCAG 2.1.2). */
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      setOpen(false);
+      burgerRef.current?.focus();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
 
   useEffect(() => {
     const menu = menuRef.current;
@@ -79,7 +92,7 @@ export function Header({ locale, t }: Props) {
         </div>
 
         {/* Nav desktop */}
-        <nav aria-label="Navigazione principale" className="hidden items-center gap-6 lg:flex">
+        <nav aria-label={t.a11y.mainNav} className="hidden items-center gap-6 lg:flex">
           {t.nav.map((item) => {
             const href = localeHref(locale, item.href);
             return (
@@ -96,7 +109,7 @@ export function Header({ locale, t }: Props) {
           <LangSwitcher current={locale} />
           <Link
             href={localeHref(locale, "/contatti")}
-            className="rounded-full bg-coral px-5 py-2.5 text-[0.85rem] font-medium text-paper transition-colors duration-300 hover:bg-coral-deep"
+            className="rounded-full bg-coral px-5 py-2.5 text-[0.85rem] font-medium text-ink transition-colors duration-300 hover:bg-coral-deep"
           >
             {t.cta.quote}
           </Link>
@@ -104,11 +117,12 @@ export function Header({ locale, t }: Props) {
 
         {/* Burger mobile */}
         <button
+          ref={burgerRef}
           type="button"
           onClick={() => setOpen((v) => !v)}
           aria-expanded={open}
           aria-controls="mobile-menu"
-          aria-label={open ? "Chiudi menu" : "Apri menu"}
+          aria-label={open ? t.a11y.closeMenu : t.a11y.openMenu}
           className="relative z-[75] flex h-11 w-11 flex-col items-center justify-center gap-1.5 text-paper lg:hidden"
         >
           <span
@@ -128,11 +142,15 @@ export function Header({ locale, t }: Props) {
       <div
         ref={menuRef}
         id="mobile-menu"
+        /* `inert` toglie il pannello chiuso dal flusso di tabulazione e
+           dall'albero di accessibilità: senza, i link invisibili restavano
+           raggiungibili da tastiera e annunciati dagli screen reader. */
+        inert={!open}
         className={`fixed inset-0 z-[72] flex flex-col justify-between overflow-y-auto bg-void px-6 pb-10 pt-28 transition-opacity duration-300 lg:hidden ${
           open ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
       >
-        <nav aria-label="Navigazione mobile" className="flex flex-col gap-2">
+        <nav aria-label={t.a11y.mobileNav} className="flex flex-col gap-2">
           {t.nav.map((item) => {
             const href = localeHref(locale, item.href);
             return (
@@ -140,7 +158,7 @@ export function Header({ locale, t }: Props) {
                 <Link
                   href={href}
                   className={`font-display block py-1.5 text-[clamp(1.7rem,6.5vw,2.5rem)] font-medium ${
-                    pathname === href ? "text-cobalt" : "text-paper"
+                    pathname === href ? "text-cobalt-lite" : "text-paper"
                   }`}
                 >
                   {item.label}
@@ -153,7 +171,7 @@ export function Header({ locale, t }: Props) {
           <LangSwitcher current={locale} />
           <Link
             href={localeHref(locale, "/contatti")}
-            className="rounded-full bg-coral px-6 py-4 text-center font-medium text-paper"
+            className="rounded-full bg-coral px-6 py-4 text-center font-medium text-ink"
           >
             {t.cta.quote}
           </Link>

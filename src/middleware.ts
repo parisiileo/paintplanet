@@ -36,6 +36,8 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  // Escludi asset, API e file statici (con estensione)
-  matcher: ["/((?!_next|api|.*\\..*).*)"],
+  /* Escludi asset, API, file statici (con estensione) e le rotte di metadata
+     generate da Next che NON hanno estensione: senza escluderle il middleware
+     le redirezionerebbe su /it/icon, rompendo favicon e icona iOS. */
+  matcher: ["/((?!_next|api|icon|apple-icon|opengraph-image|.*\\..*).*)"],
 };

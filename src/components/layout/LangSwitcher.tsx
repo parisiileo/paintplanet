@@ -37,7 +37,9 @@ export function LangSwitcher({ current, onLight = false, className = "" }: Props
             aria-current={locale === current ? "true" : undefined}
             className={`px-1.5 py-1 uppercase transition-colors duration-300 ${
               locale === current
-                ? "text-cobalt"
+                ? onLight
+                  ? "text-cobalt"
+                  : "text-cobalt-lite"
                 : onLight
                   ? "text-ink/50 hover:text-ink"
                   : "text-mist hover:text-paper"

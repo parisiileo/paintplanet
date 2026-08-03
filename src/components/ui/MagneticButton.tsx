@@ -36,7 +36,9 @@ export function MagneticButton({ href, children, variant = "primary", className 
   const base =
     "group relative inline-flex items-center gap-3 rounded-full px-7 py-3.5 text-[0.95rem] font-medium transition-colors duration-300 will-change-transform";
   const variants = {
-    primary: "bg-coral text-paper hover:bg-coral-deep",
+    // Testo scuro sul corallo: con il bianco il rapporto era 2.8:1 (AA
+    // richiede 4.5:1). Con --ink sale a 6.1:1 e il corallo resta intatto.
+    primary: "bg-coral text-ink hover:bg-coral-deep",
     cobalt: "bg-cobalt text-paper hover:bg-cobalt-deep",
     outline: "border border-ink/20 text-ink hover:border-cobalt hover:text-cobalt",
     ghost: "border border-paper/25 text-paper hover:bg-paper/10",

@@ -11,10 +11,10 @@ export function SectionLabel({ num, children, onLight = false, className = "" }:
   return (
     <p
       className={`tech-label flex items-center gap-3 ${
-        onLight ? "text-mist-dim" : "text-mist"
+        onLight ? "text-slate" : "text-mist"
       } ${className}`}
     >
-      <span aria-hidden className={`h-px w-8 ${onLight ? "bg-cobalt" : "bg-cobalt"}`} />
+      <span aria-hidden className="h-px w-8 bg-cobalt" />
       {num && <span className="text-coral">{num}</span>}
       <span>{children}</span>
     </p>

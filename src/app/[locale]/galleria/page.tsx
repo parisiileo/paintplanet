@@ -3,21 +3,28 @@ import { SectionLabel } from "@/components/ui/SectionLabel";
 import { Reveal } from "@/components/ui/Reveal";
 import { HighlightTitle } from "@/components/ui/HighlightTitle";
 import { GalleryGrid } from "@/components/gallery/GalleryGrid";
-import { getContent, isLocale, locales, defaultLocale } from "@/content";
+import { getContent, isLocale, defaultLocale } from "@/content";
+import { JsonLd } from "@/components/seo/JsonLd";
+import {
+  buildPageMetadata,
+  breadcrumbJsonLd,
+  galleryJsonLd,
+  jsonLdGraph,
+  localePath,
+} from "@/lib/seo";
 
 type PageProps = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale } = await params;
-  const t = getContent(isLocale(locale) ? locale : defaultLocale);
-  return {
+  const resolved = isLocale(locale) ? locale : defaultLocale;
+  const t = getContent(resolved);
+  return buildPageMetadata({
+    locale: resolved,
+    path: "/galleria",
     title: t.meta.galleria.title,
     description: t.meta.galleria.description,
-    alternates: {
-      canonical: `/${locale}/galleria`,
-      languages: Object.fromEntries(locales.map((l) => [l, `/${l}/galleria`])),
-    },
-  };
+  });
 }
 
 export default async function GalleriaPage({ params }: PageProps) {
@@ -27,6 +34,15 @@ export default async function GalleriaPage({ params }: PageProps) {
 
   return (
     <section className="relative section-y pt-40 md:pt-48">
+      <JsonLd
+        data={jsonLdGraph(
+          galleryJsonLd(locale, t),
+          breadcrumbJsonLd([
+            { name: t.site.name, path: localePath(locale) },
+            { name: t.gallery.heroLabel, path: `${localePath(locale)}/galleria` },
+          ])
+        )}
+      />
       <div aria-hidden className="cosmic-bg opacity-40" />
       <div className="container-pp relative">
         <div className="mb-12 flex flex-col gap-5">

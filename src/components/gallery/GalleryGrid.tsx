@@ -100,7 +100,10 @@ export function GalleryGrid({ t }: { t: Content }) {
 
   return (
     <>
-      <div className="mb-8 flex flex-wrap gap-2.5" role="tablist" aria-label={t.gallery.heroLabel}>
+      {/* Gruppo di filtri: `aria-pressed` su bottoni normali. Il pattern
+          tab/tablist richiederebbe un tabpanel associato e la navigazione a
+          frecce, che qui non esistono: annunciarlo come tab confonde. */}
+      <div className="mb-8 flex flex-wrap gap-2.5" role="group" aria-label={t.gallery.filtersLabel}>
         {filters.map((f) => {
           const active = f === filter;
           const label = f === "all" ? t.gallery.filterAll : t.gallery.categories[f];
@@ -110,8 +113,7 @@ export function GalleryGrid({ t }: { t: Content }) {
             <button
               key={f}
               type="button"
-              role="tab"
-              aria-selected={active}
+              aria-pressed={active}
               onClick={() => {
                 setFilter(f);
                 setIndex(null);
@@ -123,7 +125,7 @@ export function GalleryGrid({ t }: { t: Content }) {
               }`}
             >
               {label}
-              <span className={active ? "text-cobalt" : "text-mist-dim"}>{count}</span>
+              <span className={active ? "text-cobalt-lite" : "text-mist-dim"}>{count}</span>
             </button>
           );
         })}
@@ -149,6 +151,9 @@ export function GalleryGrid({ t }: { t: Content }) {
                     width={item.width}
                     height={item.height}
                     sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, 31vw"
+                    /* Le prime tile sono l'LCP della pagina galleria: senza
+                       priority partono in lazy e il punteggio ne risente. */
+                    priority={i < 3}
                     className="h-auto w-full transition-transform duration-700 ease-out group-hover:scale-[1.04]"
                   />
 
@@ -223,9 +228,11 @@ function Lightbox({ t, items, index, onClose, onPrev, onNext, onSelect }: Lightb
   const closeRef = useRef<HTMLButtonElement>(null);
   const touchX = useRef<number | null>(null);
 
-  /* Apertura: blocca lo scroll di pagina, focus sul close, fade-in. */
+  /* Apertura: blocca lo scroll, focus sul close, fade-in. Alla chiusura il
+     focus torna alla tile che ha aperto il viewer (WCAG 2.4.3). */
   useEffect(() => {
     const previous = document.body.style.overflow;
+    const opener = document.activeElement as HTMLElement | null;
     document.body.style.overflow = "hidden";
     closeRef.current?.focus();
 
@@ -234,15 +241,45 @@ function Lightbox({ t, items, index, onClose, onPrev, onNext, onSelect }: Lightb
     }
     return () => {
       document.body.style.overflow = previous;
+      opener?.focus?.();
     };
   }, []);
 
-  /* Esc chiude, frecce navigano. */
+  /* Esc chiude, frecce navigano, Tab resta confinato nel dialog. */
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-      else if (e.key === "ArrowRight") onNext();
-      else if (e.key === "ArrowLeft") onPrev();
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
+      if (e.key === "ArrowRight") {
+        onNext();
+        return;
+      }
+      if (e.key === "ArrowLeft") {
+        onPrev();
+        return;
+      }
+      if (e.key !== "Tab") return;
+
+      // Focus trap: senza, il Tab uscirebbe dietro l'overlay, sulla pagina
+      // che per l'utente vedente non è più raggiungibile.
+      const root = rootRef.current;
+      if (!root) return;
+      const focusables = root.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      );
+      if (focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -292,7 +329,7 @@ function Lightbox({ t, items, index, onClose, onPrev, onNext, onSelect }: Lightb
           ref={closeRef}
           type="button"
           onClick={onClose}
-          className="flex items-center gap-2 rounded-full border border-paper/20 px-4 py-2 text-sm font-medium text-paper transition-colors hover:border-cobalt hover:text-cobalt"
+          className="flex items-center gap-2 rounded-full border border-paper/20 px-4 py-2 text-sm font-medium text-paper transition-colors hover:border-cobalt hover:text-cobalt-lite"
         >
           {t.gallery.close} ✕
         </button>
@@ -307,7 +344,7 @@ function Lightbox({ t, items, index, onClose, onPrev, onNext, onSelect }: Lightb
             e.stopPropagation();
             onPrev();
           }}
-          className="absolute left-2 z-10 flex h-12 w-12 items-center justify-center rounded-full border border-paper/20 bg-void/60 text-paper transition-colors hover:border-cobalt hover:text-cobalt md:left-6"
+          className="absolute left-2 z-10 flex h-12 w-12 items-center justify-center rounded-full border border-paper/20 bg-void/60 text-paper transition-colors hover:border-cobalt hover:text-cobalt-lite md:left-6"
         >
           <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M15 5l-7 7 7 7" strokeLinecap="round" strokeLinejoin="round" />
@@ -338,7 +375,7 @@ function Lightbox({ t, items, index, onClose, onPrev, onNext, onSelect }: Lightb
             e.stopPropagation();
             onNext();
           }}
-          className="absolute right-2 z-10 flex h-12 w-12 items-center justify-center rounded-full border border-paper/20 bg-void/60 text-paper transition-colors hover:border-cobalt hover:text-cobalt md:right-6"
+          className="absolute right-2 z-10 flex h-12 w-12 items-center justify-center rounded-full border border-paper/20 bg-void/60 text-paper transition-colors hover:border-cobalt hover:text-cobalt-lite md:right-6"
         >
           <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M9 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
@@ -350,23 +387,22 @@ function Lightbox({ t, items, index, onClose, onPrev, onNext, onSelect }: Lightb
       <div className="shrink-0 px-5 pb-6 pt-4 md:px-8" onClick={(e) => e.stopPropagation()}>
         <div className="flex flex-wrap items-center gap-3">
           <p className="font-display text-lg font-semibold text-paper">{active.title}</p>
-          <span className="tech-label text-cobalt">{t.gallery.categories[active.category]}</span>
+          <span className="tech-label text-cobalt-lite">{t.gallery.categories[active.category]}</span>
         </div>
         <p className="mt-1 text-sm text-mist">{active.caption}</p>
 
         <div
           ref={railRef}
           className="no-scrollbar mt-4 flex gap-2.5 overflow-x-auto pb-1"
-          role="tablist"
-          aria-label={t.gallery.heroLabel}
+          role="group"
+          aria-label={t.gallery.thumbsLabel}
         >
           {items.map((it, i) => (
             <button
               key={it.id}
               type="button"
               data-thumb={i}
-              role="tab"
-              aria-selected={i === index}
+              aria-current={i === index ? "true" : undefined}
               aria-label={it.title}
               onClick={() => onSelect(i)}
               className={`relative h-14 w-20 shrink-0 overflow-hidden rounded-lg border transition-all duration-300 ${

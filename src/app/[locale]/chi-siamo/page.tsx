@@ -3,21 +3,22 @@ import { SectionLabel } from "@/components/ui/SectionLabel";
 import { Reveal, StaggerReveal } from "@/components/ui/Reveal";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { Stats } from "@/components/home/Stats";
-import { getContent, isLocale, locales, defaultLocale, localeHref } from "@/content";
+import { getContent, isLocale, defaultLocale, localeHref } from "@/content";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { buildPageMetadata, breadcrumbJsonLd, jsonLdGraph, localePath } from "@/lib/seo";
 
 type PageProps = { params: Promise<{ locale: string }> };
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale } = await params;
-  const t = getContent(isLocale(locale) ? locale : defaultLocale);
-  return {
+  const resolved = isLocale(locale) ? locale : defaultLocale;
+  const t = getContent(resolved);
+  return buildPageMetadata({
+    locale: resolved,
+    path: "/chi-siamo",
     title: t.meta.chiSiamo.title,
     description: t.meta.chiSiamo.description,
-    alternates: {
-      canonical: `/${locale}/chi-siamo`,
-      languages: Object.fromEntries(locales.map((l) => [l, `/${l}/chi-siamo`])),
-    },
-  };
+  });
 }
 
 export default async function ChiSiamoPage({ params }: PageProps) {
@@ -27,6 +28,14 @@ export default async function ChiSiamoPage({ params }: PageProps) {
 
   return (
     <>
+      <JsonLd
+        data={jsonLdGraph(
+          breadcrumbJsonLd([
+            { name: t.site.name, path: localePath(locale) },
+            { name: t.about.heroLabel, path: `${localePath(locale)}/chi-siamo` },
+          ])
+        )}
+      />
       {/* Hero + storia */}
       <section className="relative section-y pt-40 md:pt-48">
         <div aria-hidden className="cosmic-bg" />

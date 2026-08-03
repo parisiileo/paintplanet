@@ -51,6 +51,41 @@ export type GalleryItem = {
 
 export type PageMeta = { title: string; description: string };
 
+/** Blocco di una pagina legale. Le righe che iniziano con "- " diventano lista. */
+export type LegalSection = { title: string; body: string[] };
+
+export type LegalPage = {
+  slug: string;
+  title: string;
+  intro: string;
+  sections: LegalSection[];
+  meta: PageMeta;
+};
+
+/**
+ * Dati identificativi obbligatori (art. 7 D.lgs 70/2003, art. 2250 c.c.)
+ * e titolare del trattamento (art. 13 GDPR).
+ * Unico punto da aggiornare se cambiano i dati camerali: da qui si
+ * propagano a pagine legali, footer e dati strutturati.
+ */
+export type CompanyData = {
+  /** Denominazione a registro: per un'impresa individuale è il nome del titolare. */
+  legalName: string;
+  /** Insegna depositata: è il nome con cui l'attività si presenta al pubblico. */
+  tradeName: string;
+  registeredOffice: string;
+  /** Solo il numero: l'etichetta la mette chi lo mostra, via `vatLabel`. */
+  vat: string;
+  vatLabel: string;
+  taxCode: string;
+  rea: string;
+  /** Qualifica artigiana / sezione speciale del Registro Imprese */
+  artisanRegistry: string;
+  pec: string;
+  /** Titolare del trattamento, se diverso dalla ragione sociale */
+  dataController: string;
+};
+
 export type Content = {
   site: {
     name: string;
@@ -65,13 +100,21 @@ export type Content = {
     address: string;
     instagram: string;
     instagramHref: string;
-    vat: string;
     city: string;
     region: string;
   };
+  /** Stringhe non visibili: aria-label, skip link, stati per screen reader. */
+  a11y: {
+    skipToContent: string;
+    mainNav: string;
+    mobileNav: string;
+    openMenu: string;
+    closeMenu: string;
+  };
+
   /** href senza prefisso locale — prefissato nei componenti */
   nav: { label: string; href: string }[];
-  cta: { quote: string; call: string; discover: string };
+  cta: { quote: string; call: string; discover: string; whatsapp: string };
 
   hero: {
     label: string;
@@ -112,8 +155,12 @@ export type Content = {
     strengths: { title: string; text: string }[];
   };
 
-  /** [DA CONFERMARE] — numeri placeholder da validare col cliente */
-  stats: { value: number; suffix: string; label: string }[];
+  /**
+   * Fascia numeri della home. Ogni voce deve essere verificabile: niente
+   * metriche di vanità. `from: "galleryCount"` fa leggere il valore dalla
+   * galleria, così il numero resta vero anche aggiungendo foto.
+   */
+  stats: { value: number; suffix: string; label: string; from?: "galleryCount" }[];
 
   contactStrip: {
     label: string;
@@ -142,6 +189,10 @@ export type Content = {
     countLabel: string;
     /** Etichetta del filtro che mostra tutti i lavori */
     filterAll: string;
+    /** aria-label del gruppo di filtri */
+    filtersLabel: string;
+    /** aria-label del rail di miniature nel lightbox */
+    thumbsLabel: string;
     /** Nome leggibile di ogni famiglia di lavorazione */
     categories: Record<GalleryCategory, string>;
     items: GalleryItem[];
@@ -181,6 +232,32 @@ export type Content = {
     blurb: string;
     exploreLabel: string;
     contactsLabel: string;
+    legalLabel: string;
+  };
+
+  company: CompanyData;
+
+  /** Banner cookie + gate di consenso della mappa. */
+  consent: {
+    title: string;
+    text: string;
+    acceptAll: string;
+    necessaryOnly: string;
+    policyLink: string;
+    /** Placeholder al posto dell'iframe Google Maps */
+    mapTitle: string;
+    mapText: string;
+    mapLoad: string;
+    mapOpenExternal: string;
+  };
+
+  legal: {
+    /** Data ultimo aggiornamento, formato leggibile */
+    updated: string;
+    updatedLabel: string;
+    privacy: LegalPage;
+    cookie: LegalPage;
+    terms: LegalPage;
   };
 
   preloaderTagline: string;

@@ -23,13 +23,13 @@ export function ContactStrip({ locale, t }: Props) {
           <div className="mt-10 grid gap-8 md:grid-cols-3">
             <div>
               <p className="tech-label text-mist-dim">{t.contactStrip.labels.phone}</p>
-              <a href={t.site.phoneHref} className="font-display mt-2 block text-xl text-paper hover:text-cobalt">
+              <a href={t.site.phoneHref} className="font-display mt-2 block text-xl text-paper hover:text-cobalt-lite">
                 {t.site.phone}
               </a>
             </div>
             <div>
               <p className="tech-label text-mist-dim">{t.contactStrip.labels.email}</p>
-              <a href={t.site.emailHref} className="font-display mt-2 block text-xl text-paper hover:text-cobalt">
+              <a href={t.site.emailHref} className="font-display mt-2 block text-xl text-paper hover:text-cobalt-lite">
                 {t.site.email}
               </a>
             </div>

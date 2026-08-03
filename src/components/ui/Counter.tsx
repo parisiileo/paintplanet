@@ -21,7 +21,10 @@ export function Counter({ value, suffix = "", label, onLight = false }: Props) {
           onLight ? "text-ink" : "text-paper"
         }`}
       >
-        <span ref={ref}>0</span>
+        {/* Il valore finale è già nell'HTML: senza JS (o prima
+            dell'idratazione) la fascia mostra i numeri veri, non zeri.
+            È `useCounter` a riportarlo a 0 subito prima di animare. */}
+        <span ref={ref}>{value}</span>
         <span className="text-coral">{suffix}</span>
       </p>
       <p className={`text-sm ${onLight ? "text-ink/60" : "text-mist"}`}>{label}</p>

@@ -89,7 +89,7 @@ export function GalleryScroller({ t, href, className = "" }: Props) {
         onClickCapture={onClickCapture}
         className="no-scrollbar drag-rail flex snap-x snap-mandatory gap-4 overflow-x-auto px-[var(--gutter)] pb-2 scroll-px-[var(--gutter)] sm:gap-5"
       >
-        {t.gallery.items.map((item) => (
+        {t.gallery.items.map((item, i) => (
           <Link
             key={item.id}
             href={href}
@@ -103,6 +103,8 @@ export function GalleryScroller({ t, href, className = "" }: Props) {
               fill
               draggable={false}
               sizes="(max-width: 640px) 80vw, 40vw"
+              // Solo le prime due card sono visibili senza scorrere il rail.
+              loading={i < 2 ? "eager" : "lazy"}
               className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
             />
             <span
@@ -130,7 +132,7 @@ export function GalleryScroller({ t, href, className = "" }: Props) {
           <span className="font-display text-2xl font-semibold leading-tight text-paper">
             {t.gallery.heroLabel}
           </span>
-          <span className="flex h-11 w-11 items-center justify-center rounded-full border border-paper/25 text-paper transition-colors duration-500 group-hover:border-cobalt group-hover:text-cobalt">
+          <span className="flex h-11 w-11 items-center justify-center rounded-full border border-paper/25 text-paper transition-colors duration-500 group-hover:border-cobalt group-hover:text-cobalt-lite">
             →
           </span>
         </Link>
@@ -143,7 +145,7 @@ export function GalleryScroller({ t, href, className = "" }: Props) {
             type="button"
             aria-label={t.gallery.prev}
             onClick={() => scrollByCards(-1)}
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-paper/20 text-paper transition-colors hover:border-cobalt hover:text-cobalt"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-paper/20 text-paper transition-colors hover:border-cobalt hover:text-cobalt-lite"
           >
             <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M15 5l-7 7 7 7" strokeLinecap="round" strokeLinejoin="round" />
@@ -153,7 +155,7 @@ export function GalleryScroller({ t, href, className = "" }: Props) {
             type="button"
             aria-label={t.gallery.next}
             onClick={() => scrollByCards(1)}
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-paper/20 text-paper transition-colors hover:border-cobalt hover:text-cobalt"
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-paper/20 text-paper transition-colors hover:border-cobalt hover:text-cobalt-lite"
           >
             <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M9 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />

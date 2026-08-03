@@ -20,7 +20,7 @@ export function GalleryTeaser({ locale, t }: Props) {
           </div>
           <AnimatedLink
             href={localeHref(locale, "/galleria")}
-            className="text-sm font-medium text-cobalt"
+            className="text-sm font-medium text-cobalt-lite"
           >
             {t.gallery.heroLabel} →
           </AnimatedLink>

@@ -120,7 +120,7 @@ export function StoryHero({ locale, t }: Props) {
         <div aria-hidden className="absolute inset-0"><PaintSweep progress={progress} apiRef={sweepApi} base={SWEEP_BASE} /></div>
         <div className="container-pp relative z-10 pb-20 pt-40">
           <p className="tech-label mb-6 text-mist">
-            <span className="text-cobalt">BZ 39100</span> — {t.hero.label}
+            <span className="text-cobalt-lite">BZ 39100</span> — {t.hero.label}
           </p>
           {Title}
           <p className="mt-8 max-w-xl text-[var(--text-lead)] text-mist">{t.hero.lead}</p>
@@ -133,7 +133,7 @@ export function StoryHero({ locale, t }: Props) {
           <ol className="mt-16 grid gap-8 sm:grid-cols-2">
             {t.story.steps.map((s) => (
               <li key={s.num} className="border-l border-paper/15 pl-5">
-                <p className="font-display text-3xl text-cobalt">{s.num}</p>
+                <p className="font-display text-3xl text-cobalt-lite">{s.num}</p>
                 <p className="mt-2 font-display text-xl text-paper">{s.title}</p>
                 <p className="mt-2 text-sm text-mist">{s.text}</p>
               </li>
@@ -145,9 +145,9 @@ export function StoryHero({ locale, t }: Props) {
   }
 
   return (
-    <section ref={sectionRef} className="relative h-[420vh]">
+    <section ref={sectionRef} className="story-scroll relative h-[420vh]">
       {/* Sticky stage */}
-      <div className="sticky top-0 flex h-screen items-center overflow-hidden">
+      <div className="story-stage sticky top-0 flex h-screen items-center overflow-hidden">
         <div aria-hidden className="cosmic-bg" />
         <div aria-hidden className="starfield" />
 

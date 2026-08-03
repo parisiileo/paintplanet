@@ -133,6 +133,11 @@ export function useCounter<T extends HTMLElement>(target: number, options?: { du
       return;
     }
 
+    // L'HTML contiene già il valore finale (vedi Counter): azzeriamo qui,
+    // dopo l'idratazione, così l'animazione parte da 0 senza che chi non ha
+    // JS veda una fascia di zeri.
+    el.textContent = "0";
+
     const obj = { v: 0 };
     const ctx = gsap.context(() => {
       gsap.to(obj, {

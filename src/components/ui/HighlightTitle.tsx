@@ -7,7 +7,7 @@ type Props = {
 };
 
 const COLOR_CLS: Record<NonNullable<Props["color"]>, string> = {
-  cobalt: "text-cobalt",
+  cobalt: "text-cobalt-lite",
   coral: "text-coral",
   sun: "text-sun",
   mint: "text-mint",
