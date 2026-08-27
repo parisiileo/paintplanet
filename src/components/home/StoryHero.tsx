@@ -119,9 +119,6 @@ export function StoryHero({ locale, t }: Props) {
         <div aria-hidden className="cosmic-bg" />
         <div aria-hidden className="absolute inset-0"><PaintSweep progress={progress} apiRef={sweepApi} base={SWEEP_BASE} /></div>
         <div className="container-pp relative z-10 pb-20 pt-40">
-          <p className="tech-label mb-6 text-mist">
-            <span className="text-cobalt-lite">BZ 39100</span> — {t.hero.label}
-          </p>
           {Title}
           <p className="mt-8 max-w-xl text-[var(--text-lead)] text-mist">{t.hero.lead}</p>
           <div className="mt-10 flex flex-wrap gap-4">
@@ -166,9 +163,6 @@ export function StoryHero({ locale, t }: Props) {
 
         {/* Contenuto hero (sfuma allo scroll) */}
         <div ref={heroRef} className="container-pp relative z-10">
-          <p className="hero-fade-anim tech-label mb-7 text-mist" style={{ animationDelay: "0.42s" }}>
-            {t.hero.label}
-          </p>
           {Title}
           <p
             className="hero-fade-anim mt-8 max-w-lg text-[var(--text-lead)] leading-relaxed text-paper/75 [text-shadow:0_0_20px_rgba(7,9,18,0.4)]"
@@ -188,7 +182,6 @@ export function StoryHero({ locale, t }: Props) {
             className="hero-fade-anim absolute right-[var(--gutter)] top-1/2 hidden -translate-y-1/2 flex-col items-end gap-3.5 xl:flex"
             style={{ animationDelay: "0.72s" }}
           >
-            <span className="tech-label mb-1 text-mist-dim">{t.servicesSection.label}</span>
             {t.services.map((s) => (
               <div
                 key={s.key}
@@ -232,7 +225,6 @@ export function StoryHero({ locale, t }: Props) {
               <div className="container-pp absolute inset-x-0 bottom-[12vh]">
                 <article className="ml-auto flex max-w-[24rem] flex-col gap-5 rounded-[1.6rem] bg-void/80 p-7 shadow-[0_40px_90px_-35px_rgba(0,0,0,0.95)] ring-1 ring-inset ring-white/10 backdrop-blur-2xl md:mr-2">
                   <div className="flex items-center justify-between">
-                    <span className="tech-label tracking-[0.28em] text-mist-dim">{t.story.label}</span>
                     <span className="font-mono text-xs tabular-nums text-mist-dim">
                       {s.num} <span className="text-mist-dim/50">/ 0{t.story.steps.length}</span>
                     </span>
@@ -259,9 +251,6 @@ export function StoryHero({ locale, t }: Props) {
           className="hero-fadeop-anim absolute bottom-9 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-3 md:flex"
           style={{ animationDelay: "0.8s" }}
         >
-          <span className="tech-label text-paper/70 [text-shadow:0_0_12px_rgba(7,9,18,0.5)]">
-            {t.hero.scroll}
-          </span>
           <span className="flex h-9 w-[24px] justify-center rounded-full pt-2 ring-1 ring-paper/45">
             <span
               className="h-1.5 w-[3px] rounded-full bg-paper/85"

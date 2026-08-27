@@ -1,4 +1,3 @@
-import { SectionLabel } from "@/components/ui/SectionLabel";
 import { Reveal, StaggerReveal } from "@/components/ui/Reveal";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { Stats } from "@/components/home/Stats";
@@ -13,7 +12,6 @@ export function AboutPage({ locale, t }: { locale: Locale; t: Content }) {
         <div aria-hidden className="starfield" />
         <div className="container-pp relative">
           <div className="flex flex-col gap-5">
-            <SectionLabel num="—">{t.about.heroLabel}</SectionLabel>
             <Reveal as="h1" className="font-display max-w-4xl text-[clamp(2.4rem,6vw,5rem)] font-semibold leading-[1.05] tracking-tight text-paper">
               {t.about.heroTitle}
             </Reveal>
@@ -46,7 +44,6 @@ export function AboutPage({ locale, t }: { locale: Locale; t: Content }) {
       <section className="surface-light section-y">
         <div className="container-pp">
           <div className="mb-12 flex flex-col gap-5">
-            <SectionLabel onLight>{t.about.valuesLabel}</SectionLabel>
             <Reveal as="h2" className="font-display max-w-2xl text-[var(--text-h2)] font-semibold leading-[1.05] text-ink">
               {t.about.valuesTitle}
             </Reveal>

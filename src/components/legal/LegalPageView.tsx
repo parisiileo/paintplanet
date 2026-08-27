@@ -1,4 +1,3 @@
-import { SectionLabel } from "@/components/ui/SectionLabel";
 import { Reveal } from "@/components/ui/Reveal";
 import { ConsentReset } from "@/components/legal/ConsentReset";
 import type { Content, LegalPage } from "@/content";
@@ -34,7 +33,6 @@ export function LegalPageView({ t, page }: Props) {
       <div aria-hidden className="cosmic-bg opacity-40" />
       <div className="container-pp relative">
         <div className="flex max-w-3xl flex-col gap-5">
-          <SectionLabel>{t.footer.legalLabel}</SectionLabel>
           <Reveal
             as="h1"
             className="font-display text-[clamp(2.2rem,5.4vw,4.2rem)] font-semibold leading-[1.05] tracking-tight text-paper"

@@ -85,7 +85,7 @@
 
   /* Type scale (fluid) */
   --text-hero: clamp(2.9rem, 9vw, 8.5rem);
-  --text-h2: clamp(2rem, 5.2vw, 4.4rem);
+  --text-h2: clamp(2.25rem, 5.7vw, 4.9rem);
   --text-h3: clamp(1.4rem, 2.6vw, 2.2rem);
   --text-lead: clamp(1.1rem, 1.6vw, 1.4rem);
 }
@@ -416,10 +416,15 @@ html.js [data-reveal-line] > * {
 /* Rail trascinabile: cursore "grab" e niente selezione testo durante il drag */
 .drag-rail {
   cursor: grab;
+  overscroll-behavior-x: contain;
 }
 .drag-rail.is-dragging {
   cursor: grabbing;
   user-select: none;
+  /* Con lo snap attivo il browser riaggancia a ogni scrollLeft impostato a
+     mano: il trascinamento risulterebbe bloccato. Torna attivo al rilascio. */
+  scroll-snap-type: none;
+  scroll-behavior: auto;
 }
 .drag-rail.is-dragging a,
 .drag-rail.is-dragging img {

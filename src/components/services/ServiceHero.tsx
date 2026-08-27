@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { SectionLabel } from "@/components/ui/SectionLabel";
 import { servicesAnchorPath, type Locale, type ServiceContent } from "@/content";
 
 const TONE_CLASS: Record<string, string> = {
@@ -41,10 +40,7 @@ export function ServiceHero({
             <span aria-hidden>←</span> {backLabel}
           </Link>
         </div>
-        <div className="sh-fade sh-fade-1">
-          <SectionLabel num={service.num}>{service.title}</SectionLabel>
-        </div>
-        <h1 className="font-display mt-6 max-w-4xl text-[clamp(2.4rem,6vw,5.2rem)] font-semibold leading-[1.03] tracking-tight text-paper">
+        <h1 className="font-display max-w-4xl text-[clamp(2.4rem,6vw,5.2rem)] font-semibold leading-[1.03] tracking-tight text-paper">
           <span className="block overflow-hidden">
             <span className="sh-line inline-block will-change-transform">{service.heroTitle}</span>
           </span>

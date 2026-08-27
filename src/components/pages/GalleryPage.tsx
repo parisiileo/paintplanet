@@ -1,4 +1,3 @@
-import { SectionLabel } from "@/components/ui/SectionLabel";
 import { Reveal } from "@/components/ui/Reveal";
 import { HighlightTitle } from "@/components/ui/HighlightTitle";
 import { GalleryGrid } from "@/components/gallery/GalleryGrid";
@@ -10,7 +9,6 @@ export function GalleryPage({ t }: { t: Content }) {
       <div aria-hidden className="cosmic-bg opacity-40" />
       <div className="container-pp relative">
         <div className="mb-12 flex flex-col gap-5">
-          <SectionLabel num="—">{t.gallery.heroLabel}</SectionLabel>
           <Reveal as="h1" className="font-display max-w-3xl text-[clamp(2.4rem,6vw,5rem)] font-semibold leading-[1.05] tracking-tight text-paper">
             <HighlightTitle title={t.gallery.heroTitle} color="pop" />
           </Reveal>

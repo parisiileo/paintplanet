@@ -1,4 +1,3 @@
-import { SectionLabel } from "@/components/ui/SectionLabel";
 import { Reveal } from "@/components/ui/Reveal";
 import { WhatsappCta } from "@/components/contact/WhatsappCta";
 import { MapEmbed } from "@/components/contact/MapEmbed";
@@ -10,7 +9,6 @@ export function ContactPage({ t }: { t: Content }) {
       <div aria-hidden className="cosmic-bg opacity-50" />
       <div className="container-pp relative">
         <div className="flex flex-col gap-5">
-          <SectionLabel num="—">{t.contact.heroLabel}</SectionLabel>
           <Reveal as="h1" className="font-display max-w-3xl text-[clamp(2.4rem,6vw,5rem)] font-semibold leading-[1.05] tracking-tight text-paper">
             {t.contact.heroTitle}
           </Reveal>

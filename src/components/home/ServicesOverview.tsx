@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { SectionLabel } from "@/components/ui/SectionLabel";
 import { HighlightTitle } from "@/components/ui/HighlightTitle";
 import { Reveal, StaggerReveal } from "@/components/ui/Reveal";
 import { servicePath, type Content, type Locale } from "@/content";
@@ -19,8 +18,7 @@ export function ServicesOverview({ locale, t }: Props) {
       <div className="container-pp">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div className="max-w-2xl">
-            <SectionLabel num="01">{t.servicesSection.label}</SectionLabel>
-            <h2 className="font-display mt-5 text-[var(--text-h2)] font-semibold leading-[1.05] text-paper">
+            <h2 className="font-display text-[var(--text-h2)] font-semibold leading-[1.05] text-paper">
               <HighlightTitle title={t.servicesSection.title} color="pop" />
             </h2>
           </div>

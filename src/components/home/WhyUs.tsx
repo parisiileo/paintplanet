@@ -1,4 +1,3 @@
-import { SectionLabel } from "@/components/ui/SectionLabel";
 import { HighlightTitle } from "@/components/ui/HighlightTitle";
 import { Reveal, StaggerReveal } from "@/components/ui/Reveal";
 import type { Content } from "@/content";
@@ -10,10 +9,7 @@ export function WhyUs({ t }: Props) {
     <section className="surface-light section-y">
       <div className="container-pp grid gap-14 lg:grid-cols-[0.9fr_1.1fr]">
         <div>
-          <SectionLabel num="02" onLight>
-            {t.whyUs.label}
-          </SectionLabel>
-          <Reveal as="h2" className="font-display mt-5 text-[var(--text-h2)] font-semibold leading-[1.05] text-ink">
+          <Reveal as="h2" className="font-display text-[var(--text-h2)] font-semibold leading-[1.05] text-ink">
             <HighlightTitle title={t.whyUs.title} color="coral" />
           </Reveal>
           <Reveal className="mt-6 max-w-md text-ink/70" delay={0.05}>

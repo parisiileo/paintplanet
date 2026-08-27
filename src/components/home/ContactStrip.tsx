@@ -1,4 +1,3 @@
-import { SectionLabel } from "@/components/ui/SectionLabel";
 import { HighlightTitle } from "@/components/ui/HighlightTitle";
 import { Reveal } from "@/components/ui/Reveal";
 import { MagneticButton } from "@/components/ui/MagneticButton";
@@ -12,8 +11,7 @@ export function ContactStrip({ locale, t }: Props) {
       <div aria-hidden className="cosmic-bg opacity-60" />
       <div className="container-pp relative">
         <div className="rounded-[var(--radius-card)] border border-paper/10 bg-nebula/30 p-8 backdrop-blur-sm md:p-14">
-          <SectionLabel num="05">{t.contactStrip.label}</SectionLabel>
-          <Reveal as="h2" className="font-display mt-5 max-w-3xl text-[var(--text-h2)] font-semibold leading-[1.05] text-paper">
+          <Reveal as="h2" className="font-display max-w-3xl text-[var(--text-h2)] font-semibold leading-[1.05] text-paper">
             <HighlightTitle title={t.contactStrip.title} color="pop" />
           </Reveal>
           <Reveal className="mt-5 max-w-xl text-mist" delay={0.05}>

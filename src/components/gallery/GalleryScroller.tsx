@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { prefersReducedMotion } from "@/lib/animations/gsap-config";
 import type { Content } from "@/content";
 
 type Props = {
@@ -21,8 +22,27 @@ export function GalleryScroller({ t, href, className = "" }: Props) {
   const railRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
 
-  /* Drag col mouse (su touch resta lo scroll nativo). */
-  const drag = useRef({ active: false, startX: 0, startLeft: 0, moved: 0 });
+  /* Trascinamento col mouse con inerzia. Durante il drag lo scroll-snap va
+     disattivato (classe .is-dragging): con snap attivo il browser rimbalza
+     sul punto di aggancio a ogni assegnazione di scrollLeft e il rail sembra
+     "incollato". Su touch resta lo scroll nativo. */
+  const drag = useRef({
+    active: false,
+    startX: 0,
+    startLeft: 0,
+    moved: 0,
+    lastX: 0,
+    lastT: 0,
+    velocity: 0,
+  });
+  const momentum = useRef(0);
+
+  const stopMomentum = () => {
+    if (momentum.current) {
+      cancelAnimationFrame(momentum.current);
+      momentum.current = 0;
+    }
+  };
 
   const updateProgress = useCallback(() => {
     const el = railRef.current;
@@ -34,32 +54,78 @@ export function GalleryScroller({ t, href, className = "" }: Props) {
   useEffect(() => {
     updateProgress();
     window.addEventListener("resize", updateProgress);
-    return () => window.removeEventListener("resize", updateProgress);
+    return () => {
+      window.removeEventListener("resize", updateProgress);
+      stopMomentum();
+    };
   }, [updateProgress]);
 
   const onPointerDown = (e: React.PointerEvent) => {
-    if (e.pointerType === "touch") return;
+    if (e.pointerType === "touch" || e.button !== 0) return;
     const el = railRef.current;
     if (!el) return;
-    drag.current = { active: true, startX: e.clientX, startLeft: el.scrollLeft, moved: 0 };
+    stopMomentum();
+    drag.current = {
+      active: true,
+      startX: e.clientX,
+      startLeft: el.scrollLeft,
+      moved: 0,
+      lastX: e.clientX,
+      lastT: performance.now(),
+      velocity: 0,
+    };
     el.classList.add("is-dragging");
     el.setPointerCapture(e.pointerId);
   };
 
   const onPointerMove = (e: React.PointerEvent) => {
     const el = railRef.current;
-    if (!el || !drag.current.active) return;
-    const dx = e.clientX - drag.current.startX;
-    drag.current.moved = Math.max(drag.current.moved, Math.abs(dx));
-    el.scrollLeft = drag.current.startLeft - dx;
+    const d = drag.current;
+    if (!el || !d.active) return;
+    e.preventDefault();
+    const dx = e.clientX - d.startX;
+    d.moved = Math.max(d.moved, Math.abs(dx));
+    el.scrollLeft = d.startLeft - dx;
+
+    /* Velocità istantanea (px/ms) filtrata, serve per l'inerzia al rilascio. */
+    const now = performance.now();
+    const dt = now - d.lastT;
+    if (dt > 0) {
+      const v = (e.clientX - d.lastX) / dt;
+      d.velocity = d.velocity * 0.7 + v * 0.3;
+      d.lastX = e.clientX;
+      d.lastT = now;
+    }
   };
 
   const endDrag = (e: React.PointerEvent) => {
     const el = railRef.current;
-    if (!el || !drag.current.active) return;
-    drag.current.active = false;
-    el.classList.remove("is-dragging");
+    const d = drag.current;
+    if (!el || !d.active) return;
+    d.active = false;
     if (el.hasPointerCapture(e.pointerId)) el.releasePointerCapture(e.pointerId);
+
+    /* Inerzia: continua a scorrere e decelera, poi riattiva lo snap. */
+    let v = -d.velocity * 16; // px per frame
+    const release = () => {
+      el.classList.remove("is-dragging");
+      momentum.current = 0;
+    };
+    if (Math.abs(v) < 0.6 || prefersReducedMotion()) {
+      release();
+      return;
+    }
+    const step = () => {
+      el.scrollLeft += v;
+      v *= 0.92;
+      const atEdge = el.scrollLeft <= 0 || el.scrollLeft >= el.scrollWidth - el.clientWidth;
+      if (Math.abs(v) < 0.4 || atEdge) {
+        release();
+        return;
+      }
+      momentum.current = requestAnimationFrame(step);
+    };
+    momentum.current = requestAnimationFrame(step);
   };
 
   /* Dopo un drag il click sul tile va annullato, altrimenti naviga. */
@@ -74,6 +140,8 @@ export function GalleryScroller({ t, href, className = "" }: Props) {
   const scrollByCards = (dir: 1 | -1) => {
     const el = railRef.current;
     if (!el) return;
+    stopMomentum();
+    el.classList.remove("is-dragging");
     el.scrollBy({ left: dir * Math.min(el.clientWidth * 0.8, 640), behavior: "smooth" });
   };
 
@@ -87,7 +155,7 @@ export function GalleryScroller({ t, href, className = "" }: Props) {
         onPointerUp={endDrag}
         onPointerCancel={endDrag}
         onClickCapture={onClickCapture}
-        className="no-scrollbar drag-rail flex snap-x snap-mandatory gap-4 overflow-x-auto px-[var(--gutter)] pb-2 scroll-px-[var(--gutter)] sm:gap-5"
+        className="no-scrollbar drag-rail flex snap-x snap-proximity gap-4 overflow-x-auto px-[var(--gutter)] pb-2 scroll-px-[var(--gutter)] sm:gap-5"
       >
         {t.gallery.items.map((item, i) => (
           <Link
@@ -170,9 +238,6 @@ export function GalleryScroller({ t, href, className = "" }: Props) {
           />
         </div>
 
-        <span className="tech-label hidden shrink-0 text-mist-dim sm:block">
-          {t.gallery.dragHint}
-        </span>
       </div>
     </div>
   );

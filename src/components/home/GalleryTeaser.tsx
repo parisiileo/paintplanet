@@ -1,4 +1,3 @@
-import { SectionLabel } from "@/components/ui/SectionLabel";
 import { HighlightTitle } from "@/components/ui/HighlightTitle";
 import { Reveal } from "@/components/ui/Reveal";
 import { AnimatedLink } from "@/components/ui/AnimatedLink";
@@ -13,8 +12,7 @@ export function GalleryTeaser({ locale, t }: Props) {
       <div className="container-pp">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
-            <SectionLabel num="04">{t.gallery.heroLabel}</SectionLabel>
-            <h2 className="font-display mt-5 text-[var(--text-h2)] font-semibold leading-[1.05] text-paper">
+            <h2 className="font-display text-[var(--text-h2)] font-semibold leading-[1.05] text-paper">
               <HighlightTitle title={t.gallery.heroTitle} color="pop" />
             </h2>
           </div>
