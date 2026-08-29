@@ -11,7 +11,7 @@ export function ContactStrip({ locale, t }: Props) {
       <div aria-hidden className="cosmic-bg opacity-60" />
       <div className="container-pp relative">
         <div className="rounded-[var(--radius-card)] border border-paper/10 bg-nebula/30 p-8 backdrop-blur-sm md:p-14">
-          <Reveal as="h2" className="font-display max-w-3xl text-[var(--text-h2)] font-semibold leading-[1.05] text-paper">
+          <Reveal as="h2" className="font-display max-w-3xl text-h2 font-semibold leading-[1.05] text-paper">
             <HighlightTitle title={t.contactStrip.title} color="pop" />
           </Reveal>
           <Reveal className="mt-5 max-w-xl text-mist" delay={0.05}>
@@ -21,13 +21,13 @@ export function ContactStrip({ locale, t }: Props) {
           <div className="mt-10 grid gap-8 md:grid-cols-3">
             <div>
               <p className="tech-label text-mist-dim">{t.contactStrip.labels.phone}</p>
-              <a href={t.site.phoneHref} className="font-display mt-2 block text-xl text-paper hover:text-cobalt-lite">
+              <a href={t.site.phoneHref} className="font-display mt-2 inline-flex min-h-11 items-center text-xl text-paper hover:text-cobalt-lite">
                 {t.site.phone}
               </a>
             </div>
             <div>
               <p className="tech-label text-mist-dim">{t.contactStrip.labels.email}</p>
-              <a href={t.site.emailHref} className="font-display mt-2 block text-xl text-paper hover:text-cobalt-lite">
+              <a href={t.site.emailHref} className="font-display mt-2 inline-flex min-h-11 items-center text-xl text-paper hover:text-cobalt-lite">
                 {t.site.email}
               </a>
             </div>

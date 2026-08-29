@@ -23,7 +23,7 @@ export const it: Content = {
     instagram: "@paint_planett",
     instagramHref: "https://www.instagram.com/paint_planett/",
     city: "Bolzano",
-    region: "Alto Adige — Südtirol",
+    region: "Alto Adige / Südtirol",
   },
 
   a11y: {
@@ -334,12 +334,18 @@ export const it: Content = {
 
   /* Ogni numero è verificabile: galleria, visura camerale, modo di lavorare.
      Niente "anni di esperienza" o "ambienti trasformati" inventati. */
-  stats: [
-    { value: 0, suffix: "", label: "Lavori nella nostra galleria", from: "galleryCount" },
-    { value: 3, suffix: "", label: "Lavorazioni artigiane iscritte a registro" },
-    { value: 2, suffix: "", label: "Lingue in cantiere: italiano e tedesco" },
-    { value: 0, suffix: "€", label: "Sopralluogo e preventivo" },
-  ],
+
+  reviews: {
+    label: "Recensioni",
+    title: {
+      pre: "Hai lavorato con noi? ",
+      highlight: "Lascia una recensione",
+      post: "",
+    },
+    text: "Bastano trenta secondi e ci aiuti moltissimo. Le recensioni su Google sono il modo più diretto che hanno i nostri prossimi clienti per capire come lavoriamo.",
+    cta: "Recensiscici su Google",
+    href: "https://g.page/r/CdYP_3G-EF6VEBM/review",
+  },
 
   contactStrip: {
     label: "Iniziamo",
@@ -358,7 +364,7 @@ export const it: Content = {
     story: [
       "Paint Planet è la realtà di imbianchini e decoratori di Bolzano che mette il colore al centro di ogni progetto. Nasce dal lavoro artigianale e dall'attenzione al dettaglio, con l'idea che una parete ben fatta cambi il modo di vivere uno spazio.",
       "Lavoriamo per privati, condomìni, uffici e attività commerciali in tutto l'Alto Adige. Tinteggiature, decorazioni, facciate e resine: un'unica squadra per ogni superficie, dentro e fuori casa.",
-      "Crediamo nei preventivi chiari, nei materiali certificati e nel rispetto dei tuoi spazi e dei tuoi tempi. Perché un buon lavoro si vede — e si vive — ogni giorno.",
+      "Crediamo nei preventivi chiari, nei materiali certificati e nel rispetto dei tuoi spazi e dei tuoi tempi. Perché un buon lavoro si vede, e si vive, ogni giorno.",
     ],
     whereLabel: "Dove operiamo",
     whereTitle: "Bolzano e tutto l'Alto Adige",
@@ -417,7 +423,7 @@ export const it: Content = {
         id: 2,
         title: "Parete effetto marmo con camino",
         caption: "Finitura marmorizzata su parete e rivestimento del camino",
-        src: "/gallery/parete-marmorizzata-camino.png",
+        src: "/gallery/parete-marmorizzata-camino.jpg",
         width: 915,
         height: 512,
         category: "decorazioni",
@@ -435,7 +441,7 @@ export const it: Content = {
         id: 4,
         title: "Parete TV in spatolato",
         caption: "Spatolato grigio perla nella zona living con mobile a sospensione",
-        src: "/gallery/soggiorno-parete-tv.png",
+        src: "/gallery/soggiorno-parete-tv.jpg",
         width: 805,
         height: 413,
         category: "decorazioni",
@@ -640,7 +646,7 @@ export const it: Content = {
       },
       {
         id: 27,
-        title: "Resina blu — stesura a rullo",
+        title: "Resina blu, stesura a rullo",
         caption: "Seconda mano a rullo per una superficie uniforme e antiscivolo",
         src: "/gallery/resina-pavimento-blu-dettaglio.jpg",
         width: 1200,
@@ -725,7 +731,7 @@ export const it: Content = {
     ctaTitle: "Diamo colore",
     ctaTitleMuted: "al tuo prossimo spazio",
     blurb:
-      "Paint Planet — imbianchino, pittore e decoratore a Bolzano. Tinteggiature, decorazioni, facciate e resine con cura artigianale.",
+      "Paint Planet, imbianchino, pittore e decoratore a Bolzano. Tinteggiature, decorazioni, facciate e resine con cura artigianale.",
     exploreLabel: "Naviga",
     contactsLabel: "Contatti",
     legalLabel: "Informazioni legali",
@@ -750,14 +756,14 @@ export const it: Content = {
 
   openingHours: {
     label: "Orari",
-    days: "Lunedì — Sabato",
-    hours: "8:00 – 12:00 · 13:00 – 19:00",
+    days: "Lunedì - Sabato",
+    hours: "8:00 - 12:00 · 13:00 - 19:00",
     closed: "Domenica chiuso",
   },
 
   consent: {
     title: "Cookie e servizi esterni",
-    text: "Usiamo solo cookie tecnici, necessari al funzionamento del sito (ad esempio per ricordare la lingua scelta). Nella pagina Contatti è presente una mappa di Google: se la carichi, Google può impostare cookie propri e ricevere il tuo indirizzo IP. Puoi decidere tu.",
+    text: "Usiamo solo cookie tecnici. La mappa di Google nella pagina Contatti si carica solo se acconsenti.",
     acceptAll: "Accetta tutto",
     necessaryOnly: "Solo necessari",
     policyLink: "Cookie policy",
@@ -798,18 +804,18 @@ export const it: Content = {
         {
           title: "Perché li trattiamo e su quale base",
           body: [
-            "- Erogare il sito e garantirne la sicurezza — legittimo interesse del titolare (art. 6.1.f GDPR).",
-            "- Ricordare lingua e scelta sui cookie — legittimo interesse; sono cookie tecnici, per i quali non è richiesto il consenso.",
-            "- Rispondere alle tue richieste di preventivo o informazioni — esecuzione di misure precontrattuali su tua richiesta (art. 6.1.b GDPR).",
-            "- Caricare la mappa di Google — tuo consenso, che puoi dare o negare liberamente e revocare in ogni momento (art. 6.1.a GDPR).",
+            "- Erogare il sito e garantirne la sicurezza: legittimo interesse del titolare (art. 6.1.f GDPR).",
+            "- Ricordare lingua e scelta sui cookie: legittimo interesse; sono cookie tecnici, per i quali non è richiesto il consenso.",
+            "- Rispondere alle tue richieste di preventivo o informazioni: esecuzione di misure precontrattuali su tua richiesta (art. 6.1.b GDPR).",
+            "- Caricare la mappa di Google: tuo consenso, che puoi dare o negare liberamente e revocare in ogni momento (art. 6.1.a GDPR).",
           ],
         },
         {
           title: "A chi comunichiamo i dati",
           body: [
             "Non vendiamo né cediamo i tuoi dati. Possono accedervi, come responsabili del trattamento o titolari autonomi, solo i fornitori tecnici necessari al funzionamento del sito:",
-            "- Vercel Inc. — hosting e distribuzione del sito.",
-            "- Google Ireland Ltd. — solo se scegli di caricare la mappa nella pagina Contatti.",
+            "- Vercel Inc.: hosting e distribuzione del sito.",
+            "- Google Ireland Ltd.: solo se scegli di caricare la mappa nella pagina Contatti.",
             "- Il tuo provider di posta o WhatsApp (Meta Platforms Ireland Ltd.), se ci contatti tramite questi canali.",
             "Alcuni di questi fornitori possono trattare dati fuori dallo Spazio Economico Europeo. In tal caso il trasferimento avviene sulla base delle Clausole Contrattuali Standard approvate dalla Commissione Europea o di una decisione di adeguatezza.",
           ],
@@ -853,15 +859,15 @@ export const it: Content = {
           title: "Cookie tecnici (sempre attivi)",
           body: [
             "Servono al funzionamento del sito. Ai sensi dell'art. 122 del Codice Privacy non richiedono il tuo consenso, ma te ne diamo comunque conto.",
-            "- pp-locale — ricorda la lingua scelta (italiano o tedesco) per non riproporti il rilevamento automatico a ogni visita. Durata: 12 mesi.",
-            "- pp-consent — ricorda la tua risposta al banner cookie. Durata: 12 mesi.",
+            "- pp-locale: ricorda la lingua scelta (italiano o tedesco) per non riproporti il rilevamento automatico a ogni visita. Durata: 12 mesi.",
+            "- pp-consent: ricorda la tua risposta al banner cookie. Durata: 12 mesi.",
           ],
         },
         {
           title: "Cookie di terze parti (solo con il tuo consenso)",
           body: [
             "Nella pagina Contatti è presente una mappa fornita da Google. La mappa non viene caricata finché non lo autorizzi: fino a quel momento Google non riceve alcun dato da questo sito.",
-            "- Google Maps (Google Ireland Ltd.) — se carichi la mappa, Google riceve il tuo indirizzo IP e può impostare cookie propri, anche di profilazione. Informativa: policies.google.com/privacy",
+            "- Google Maps (Google Ireland Ltd.): se carichi la mappa, Google riceve il tuo indirizzo IP e può impostare cookie propri, anche di profilazione. Informativa: policies.google.com/privacy",
             "Puoi consultare la mappa anche senza caricarla nel sito, aprendo Google Maps direttamente dal link che trovi accanto al riquadro.",
           ],
         },
@@ -944,11 +950,10 @@ export const it: Content = {
     },
   },
 
-  preloaderTagline: "Diamo colore ai tuoi spazi",
 
   meta: {
     home: {
-      title: "Paint Planet — Imbianchino e Decoratore a Bolzano",
+      title: "Paint Planet | Imbianchino e Decoratore a Bolzano",
       description:
         "Tinteggiature, decorazioni, facciate e resine a Bolzano. Paint Planet: artigiani del colore per case, uffici e spazi commerciali. Preventivo gratuito.",
     },
@@ -979,12 +984,12 @@ export const it: Content = {
         "Foto di lavori reali: tinteggiature, decorazioni, resine, cartongesso e facciate realizzati da Paint Planet a Bolzano e in Alto Adige.",
     },
     chiSiamo: {
-      title: "Chi siamo — Imbianchini a Bolzano",
+      title: "Chi siamo: imbianchini a Bolzano",
       description:
         "Paint Planet è l'impresa artigiana di Shahi Miklovan a Bolzano: pittore, verniciatore e stuccatore. Cura del dettaglio e cantieri puliti.",
     },
     contatti: {
-      title: "Contatti — Preventivo gratuito a Bolzano",
+      title: "Contatti: preventivo gratuito a Bolzano",
       description:
         "Scrivici su WhatsApp per un sopralluogo e un preventivo gratuiti a Bolzano: tinteggiature, decorazioni, facciate e resine. Si parla italiano e tedesco.",
     },

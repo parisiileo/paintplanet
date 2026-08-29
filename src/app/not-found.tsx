@@ -7,7 +7,7 @@ import "./globals.css";
  * conoscere la lingua per un percorso che non corrisponde a nessuna rotta),
  * quindi cade sulla lingua di default e offre entrambe le strade.
  */
-export const metadata = { title: "404 — Paint Planet" };
+export const metadata = { title: "404 | Paint Planet" };
 
 export default function NotFound() {
   const t = getContent(defaultLocale);
@@ -15,7 +15,9 @@ export default function NotFound() {
   return (
     <html lang={defaultLocale}>
       <body className="antialiased">
-        <main className="relative flex min-h-screen items-center overflow-hidden bg-space">
+        {/* dvh e non vh: su iOS `100vh` e' il viewport GRANDE (barra indirizzi
+            nascosta), quindi a barra visibile la pagina sborda. */}
+        <main className="relative flex min-h-[100dvh] items-center overflow-hidden bg-space">
           <div aria-hidden className="cosmic-bg opacity-60" />
           <div className="container-pp relative flex flex-col items-start gap-6">
             <p className="tech-label text-coral">404</p>
@@ -34,13 +36,13 @@ export default function NotFound() {
                 href="/it"
                 className="rounded-full bg-coral px-7 py-3.5 font-medium text-ink transition-colors hover:bg-coral-deep"
               >
-                {t.site.name} — Italiano
+                {t.site.name} Italiano
               </Link>
               <Link
                 href="/de"
                 className="rounded-full border border-paper/25 px-7 py-3.5 font-medium text-paper transition-colors hover:bg-paper/10"
               >
-                {t.site.name} — Deutsch
+                {t.site.name} Deutsch
               </Link>
             </div>
           </div>

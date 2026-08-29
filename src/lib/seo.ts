@@ -17,7 +17,7 @@ import {
  * hreflang e OpenGraph (era la fonte più probabile di incoerenze).
  */
 
-export const BASE = "https://www.paintplanet.bz.it";
+export const BASE = "https://www.paintplanet.it";
 
 /** @id stabili: permettono ai nodi dello schema di riferirsi fra loro. */
 export const BUSINESS_ID = `${BASE}/#business`;
@@ -167,7 +167,7 @@ export function businessJsonLd(locale: Locale, t: Content) {
     openingHoursSpecification: OPENING_HOURS,
     areaServed: [
       { "@type": "City", name: "Bolzano" },
-      { "@type": "AdministrativeArea", name: "Alto Adige — Südtirol" },
+      { "@type": "AdministrativeArea", name: "Alto Adige / Südtirol" },
     ],
     knowsAbout: ["Pittore e verniciatore", "Intonacatore", "Stuccatore"],
     knowsLanguage: ["it", "de"],
@@ -241,7 +241,7 @@ export function serviceJsonLd(locale: Locale, service: ServiceContent) {
     provider: { "@id": BUSINESS_ID },
     areaServed: [
       { "@type": "City", name: "Bolzano" },
-      { "@type": "AdministrativeArea", name: "Alto Adige — Südtirol" },
+      { "@type": "AdministrativeArea", name: "Alto Adige / Südtirol" },
     ],
     /* Le lavorazioni comprese diventano un catalogo: è il modo in cui Google
        capisce cosa include davvero il servizio. */

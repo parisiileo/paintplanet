@@ -7,7 +7,15 @@ import { useIsoLayoutEffect } from "@/lib/animations/hooks";
 import { gsap, ScrollTrigger, prefersReducedMotion } from "@/lib/animations/gsap-config";
 import { pagePath, servicesAnchorPath, type Content, type Locale } from "@/content";
 
-type Props = { locale: Locale; t: Content };
+/* `services` arriva ridotto ai tre campi che l'aside desktop usa davvero:
+   il blocco completo pesa 6,7 kB ed è già reso da ServicesOverview, che è
+   un componente server e quindi non finisce nel payload RSC. */
+type Props = {
+  locale: Locale;
+  t: Pick<Content, "hero" | "story" | "cta"> & {
+    services: { key: string; tone: Content["services"][number]["tone"]; title: string }[];
+  };
+};
 
 /**
  * Hero + storytelling scroll-driven. Un'unica sezione alta: la pennellata
@@ -31,9 +39,15 @@ export function StoryHero({ locale, t }: Props) {
   /* Layout statico quando: reduced-motion OPPURE mobile / touch. Sui telefoni
      lo scroll-scrub sticky (viewport che si ridimensiona con la barra URL,
      scroll throttlato, SVG con blur) generava scatti e glitch: meglio una
-     versione impilata e stabile. Si decide dopo il mount per non rompere
-     l'hydration (il server rende sempre la versione desktop). */
-  const [isStatic, setIsStatic] = useState(false);
+     versione impilata e stabile.
+     Il default è `true`, cioè il SERVER rende la variante statica. Prima
+     rendeva quella desktop e su mobile, al mount, l'albero cambiava: l'hero
+     cresceva e tutto ciò che stava sotto saltava. Misurato un layout shift
+     da 0,21 su una sola sezione (#servizi passava da top 620 a top 0).
+     Con questo default su mobile server e client coincidono e il salto non
+     esiste; su desktop il passaggio alla variante scroll-driven avviene a
+     parità di altezza, perché il CSS riserva i 250vh prima del mount. */
+  const [isStatic, setIsStatic] = useState(true);
 
   useIsoLayoutEffect(() => {
     const mq = window.matchMedia("(max-width: 860px), (pointer: coarse)");
@@ -115,12 +129,12 @@ export function StoryHero({ locale, t }: Props) {
   /* ---- Layout statico (reduced motion o mobile/touch) ---- */
   if (isStatic) {
     return (
-      <section className="relative overflow-hidden">
+      <section className="story-static relative overflow-hidden">
         <div aria-hidden className="cosmic-bg" />
         <div aria-hidden className="absolute inset-0"><PaintSweep progress={progress} apiRef={sweepApi} base={SWEEP_BASE} /></div>
         <div className="container-pp relative z-10 pb-20 pt-40">
           {Title}
-          <p className="mt-8 max-w-xl text-[var(--text-lead)] text-mist">{t.hero.lead}</p>
+          <p className="mt-8 max-w-xl text-lead text-mist">{t.hero.lead}</p>
           <div className="mt-10 flex flex-wrap gap-4">
             <MagneticButton href={pagePath(locale, "contact")}>{t.cta.quote}</MagneticButton>
             <MagneticButton href={servicesAnchorPath(locale)} variant="ghost">
@@ -142,7 +156,11 @@ export function StoryHero({ locale, t }: Props) {
   }
 
   return (
-    <section ref={sectionRef} className="story-scroll relative h-[420vh]">
+    /* 250vh invece di 420vh: a 420 l'hero era il 45% dell'intera pagina e il
+       primo servizio arrivava dopo 4,2 schermate di scroll. L'effetto della
+       pennellata e il cross-fade degli step restano, la pazienza richiesta no.
+       Riguarda solo il desktop: su touch questo ramo non viene mai reso. */
+    <section ref={sectionRef} className="story-scroll relative h-[250vh]">
       {/* Sticky stage */}
       <div className="story-stage sticky top-0 flex h-screen items-center overflow-hidden">
         <div aria-hidden className="cosmic-bg" />
@@ -165,7 +183,7 @@ export function StoryHero({ locale, t }: Props) {
         <div ref={heroRef} className="container-pp relative z-10">
           {Title}
           <p
-            className="hero-fade-anim mt-8 max-w-lg text-[var(--text-lead)] leading-relaxed text-paper/75 [text-shadow:0_0_20px_rgba(7,9,18,0.4)]"
+            className="hero-fade-anim mt-8 max-w-lg text-lead leading-relaxed text-paper/75 [text-shadow:0_0_20px_rgba(7,9,18,0.4)]"
             style={{ animationDelay: "0.52s" }}
           >
             {t.hero.lead}

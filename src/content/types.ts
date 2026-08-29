@@ -137,6 +137,7 @@ export type Content = {
   };
 
   servicesSection: { label: string; title: Highlight; text: string };
+  reviews: { label: string; title: Highlight; text: string; cta: string; href: string };
   services: ServiceContent[];
 
   servicePage: {
@@ -163,7 +164,6 @@ export type Content = {
    * metriche di vanità. `from: "galleryCount"` fa leggere il valore dalla
    * galleria, così il numero resta vero anche aggiungendo foto.
    */
-  stats: { value: number; suffix: string; label: string; from?: "galleryCount" }[];
 
   contactStrip: {
     label: string;
@@ -270,7 +270,6 @@ export type Content = {
     terms: LegalPage;
   };
 
-  preloaderTagline: string;
 
   meta: {
     home: PageMeta;

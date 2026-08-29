@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { navPath, pagePath, legalPath, LEGAL_KEYS, type Content, type Locale } from "@/content";
 
@@ -31,36 +32,36 @@ export function Footer({ locale, t }: Props) {
         {/* Colonne */}
         <div className="container-pp grid gap-10 py-14 md:grid-cols-3 lg:grid-cols-5">
           <div className="lg:col-span-2">
-            <p className="font-display flex items-center gap-2 text-xl font-semibold">
-              <span
-                aria-hidden
-                className="h-2.5 w-2.5 rounded-full"
-                style={{ background: "conic-gradient(from 210deg, var(--cobalt), var(--coral), var(--sun), var(--cobalt))" }}
-              />
-              Paint<span className="text-cobalt-lite">&nbsp;Planet</span>
-            </p>
+            <Image
+              src="/logo.svg"
+              alt="Paint Planet"
+              width={404}
+              height={109}
+              unoptimized
+              className="h-9 w-auto"
+            />
             <p className="mt-3 max-w-sm text-sm leading-relaxed text-mist">{t.footer.blurb}</p>
           </div>
 
-          <nav aria-label={t.footer.exploreLabel} className="flex flex-col gap-2.5">
+          <nav aria-label={t.footer.exploreLabel} className="flex flex-col gap-1">
             <p className="tech-label mb-2 text-mist-dim">{t.footer.exploreLabel}</p>
             {t.nav.map((item) => (
               <Link
                 key={item.key}
                 href={navPath(locale, item.key)}
-                className="w-fit text-sm text-mist transition-colors hover:text-paper"
+                className="flex w-fit items-center py-2 text-sm text-mist transition-colors hover:text-paper"
               >
                 {item.label}
               </Link>
             ))}
           </nav>
 
-          <div className="flex flex-col gap-2.5">
+          <div className="flex flex-col gap-1">
             <p className="tech-label mb-2 text-mist-dim">{t.footer.contactsLabel}</p>
-            <a href={t.site.phoneHref} className="w-fit text-sm text-mist hover:text-paper">
+            <a href={t.site.phoneHref} className="flex w-fit items-center py-2 text-sm text-mist hover:text-paper">
               {t.site.phone}
             </a>
-            <a href={t.site.emailHref} className="w-fit text-sm text-mist hover:text-paper">
+            <a href={t.site.emailHref} className="flex w-fit items-center py-2 text-sm text-mist hover:text-paper">
               {t.site.email}
             </a>
             <p className="text-sm text-mist">{t.site.address}</p>
@@ -72,19 +73,19 @@ export function Footer({ locale, t }: Props) {
               href={t.site.instagramHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-fit text-sm text-mist hover:text-paper"
+              className="flex w-fit items-center py-2 text-sm text-mist hover:text-paper"
             >
               Instagram {t.site.instagram}
             </a>
           </div>
 
-          <nav aria-label={t.footer.legalLabel} className="flex flex-col gap-2.5">
+          <nav aria-label={t.footer.legalLabel} className="flex flex-col gap-1">
             <p className="tech-label mb-2 text-mist-dim">{t.footer.legalLabel}</p>
             {LEGAL_KEYS.map((key) => (
               <Link
                 key={key}
                 href={legalPath(locale, key)}
-                className="w-fit text-sm text-mist transition-colors hover:text-paper"
+                className="flex w-fit items-center py-2 text-sm text-mist transition-colors hover:text-paper"
               >
                 {t.legal[key].title}
               </Link>
@@ -94,7 +95,7 @@ export function Footer({ locale, t }: Props) {
 
         <div className="container-pp flex flex-col gap-2 border-t border-paper/10 py-6 text-xs text-mist-dim md:flex-row md:items-center md:justify-between">
           <p>
-            © {new Date().getFullYear()} {t.company.tradeName} — {t.company.vatLabel}{" "}
+            © {new Date().getFullYear()} {t.company.tradeName} · {t.company.vatLabel}{" "}
             {t.company.vat}
           </p>
           <p>{t.company.registeredOffice}</p>

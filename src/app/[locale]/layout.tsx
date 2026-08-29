@@ -3,14 +3,13 @@ import { notFound } from "next/navigation";
 import localFont from "next/font/local";
 import { JetBrains_Mono } from "next/font/google";
 import { LenisProvider } from "@/lib/lenis";
-import { Preloader } from "@/components/layout/Preloader";
 import { PageTransition } from "@/components/layout/PageTransition";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CookieBanner } from "@/components/layout/CookieBanner";
 import { WhatsappFab } from "@/components/contact/WhatsappFab";
 import { ConsentProvider } from "@/lib/consent";
-import { getContent, isLocale, locales } from "@/content";
+import { getContent, isLocale, locales, slice } from "@/content";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { BASE, businessJsonLd, websiteJsonLd, jsonLdGraph } from "@/lib/seo";
 import "../globals.css";
@@ -22,19 +21,21 @@ const clash = localFont({
   weight: "200 700",
 });
 
+/* Solo il corsivo NON viene caricato: pesava 43 kB in preload ad alta
+   priorita' (in gara con l'LCP) e nel sito non c'e' un solo elemento in
+   corsivo. Il file resta in src/fonts, basta rimettere la voce se servira'. */
 const satoshi = localFont({
-  src: [
-    { path: "../../fonts/Satoshi-Variable.woff2", weight: "300 900", style: "normal" },
-    { path: "../../fonts/Satoshi-VariableItalic.woff2", weight: "300 900", style: "italic" },
-  ],
+  src: [{ path: "../../fonts/Satoshi-Variable.woff2", weight: "300 900", style: "normal" }],
   variable: "--font-satoshi",
   display: "swap",
 });
 
+/* Un solo peso: il 500 non e' usato da nessun elemento (tutto il testo
+   mono e' a peso normale). */
 const jetbrains = JetBrains_Mono({
   variable: "--font-jetbrains",
   subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: ["400"],
   display: "swap",
 });
 
@@ -69,7 +70,12 @@ export async function generateMetadata({
     authors: [{ name: t.company.tradeName, url: BASE }],
     creator: t.company.tradeName,
     publisher: t.company.tradeName,
-    formatDetection: { telephone: true, address: true, email: true },
+    /* Token di Search Console via env (Vercel → Settings → Environment
+       Variables). Se assente, Next non emette il tag: nessun placeholder
+       fasullo in produzione. */
+    verification: process.env.GOOGLE_SITE_VERIFICATION
+      ? { google: process.env.GOOGLE_SITE_VERIFICATION }
+      : undefined,
     robots: {
       index: true,
       follow: true,
@@ -102,6 +108,17 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
   return (
     <html lang={locale} className={`${clash.variable} ${satoshi.variable} ${jetbrains.variable}`}>
       <body className="antialiased">
+        {/* La scelta sui cookie sta in localStorage, leggibile solo da JS.
+            Questo script gira durante il parsing del body, PRIMA del primo
+            paint e senza aspettare React: marca <html> e il CSS mette
+            banner e FAB nello stato giusto subito. Senza, entrambi
+            comparivano a idratazione avvenuta, misurata a 4,1 s su mobile. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              'try{if(localStorage.getItem("pp-consent"))document.documentElement.dataset.consent="1"}catch(e){}',
+          }}
+        />
         {/* Nodi condivisi da tutte le pagine: l'attività e il sito. Le rotte
             aggiungono i propri (breadcrumb, servizio, galleria) agganciandosi
             a questi tramite @id. */}
@@ -111,15 +128,14 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
         </a>
         <ConsentProvider>
           <LenisProvider>
-            <Preloader tagline={t.preloaderTagline} />
             <PageTransition>
-              <Header locale={locale} t={t} />
+              <Header locale={locale} t={slice(t, "nav", "cta", "a11y", "site")} />
               <main id="main">{children}</main>
               <Footer locale={locale} t={t} />
             </PageTransition>
           </LenisProvider>
-          <WhatsappFab t={t} />
-          <CookieBanner locale={locale} t={t} />
+          <WhatsappFab t={slice(t, "site", "cta", "contact")} />
+          <CookieBanner locale={locale} t={slice(t, "consent")} />
         </ConsentProvider>
       </body>
     </html>

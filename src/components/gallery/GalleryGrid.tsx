@@ -52,7 +52,9 @@ function distribute<T extends { width: number; height: number }>(items: T[], col
   return columns;
 }
 
-export function GalleryGrid({ t }: { t: Content }) {
+/* Solo la fetta `gallery`: il resto del dizionario non serve e attraversare
+   il confine client lo farebbe finire nel payload RSC. */
+export function GalleryGrid({ t }: { t: Pick<Content, "gallery"> }) {
   const all = t.gallery.items;
   const [filter, setFilter] = useState<Filter>("all");
   const [index, setIndex] = useState<number | null>(null);
@@ -209,7 +211,7 @@ export function GalleryGrid({ t }: { t: Content }) {
 /* ------------------------------------------------------------------ */
 
 type LightboxProps = {
-  t: Content;
+  t: Pick<Content, "gallery">;
   /** Sottoinsieme attualmente a schermo: la navigazione resta dentro il filtro. */
   items: GalleryItem[];
   index: number;

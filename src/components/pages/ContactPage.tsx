@@ -1,6 +1,7 @@
 import { Reveal } from "@/components/ui/Reveal";
 import { WhatsappCta } from "@/components/contact/WhatsappCta";
 import { MapEmbed } from "@/components/contact/MapEmbed";
+import { slice } from "@/content";
 import type { Content } from "@/content";
 
 export function ContactPage({ t }: { t: Content }) {
@@ -28,12 +29,12 @@ export function ContactPage({ t }: { t: Content }) {
                 <p className="tech-label mb-4 text-mist">{t.contact.dataLabel}</p>
                 <ul className="flex flex-col gap-3">
                   <li>
-                    <a href={t.site.phoneHref} className="font-display text-xl font-medium text-paper transition-colors hover:text-cobalt-lite">
+                    <a href={t.site.phoneHref} className="font-display inline-flex min-h-11 items-center text-xl font-medium text-paper transition-colors hover:text-cobalt-lite">
                       {t.site.phone}
                     </a>
                   </li>
                   <li>
-                    <a href={t.site.emailHref} className="font-display text-xl font-medium text-paper transition-colors hover:text-cobalt-lite">
+                    <a href={t.site.emailHref} className="font-display inline-flex min-h-11 items-center text-xl font-medium text-paper transition-colors hover:text-cobalt-lite">
                       {t.site.email}
                     </a>
                   </li>
@@ -43,7 +44,7 @@ export function ContactPage({ t }: { t: Content }) {
                       href={t.site.instagramHref}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-mist transition-colors hover:text-cobalt-lite"
+                      className="inline-flex min-h-11 items-center text-mist transition-colors hover:text-cobalt-lite"
                     >
                       Instagram {t.site.instagram}
                     </a>
@@ -58,7 +59,7 @@ export function ContactPage({ t }: { t: Content }) {
                 <p className="mt-2 text-sm text-mist-dim">{t.openingHours.closed}</p>
               </div>
 
-              <MapEmbed t={t} />
+              <MapEmbed t={slice(t, "consent", "contact", "site")} />
             </div>
           </Reveal>
         </div>

@@ -1,6 +1,7 @@
 import { Reveal } from "@/components/ui/Reveal";
 import { HighlightTitle } from "@/components/ui/HighlightTitle";
 import { GalleryGrid } from "@/components/gallery/GalleryGrid";
+import { slice } from "@/content";
 import type { Content } from "@/content";
 
 export function GalleryPage({ t }: { t: Content }) {
@@ -22,7 +23,7 @@ export function GalleryPage({ t }: { t: Content }) {
             </span>
           </Reveal>
         </div>
-        <GalleryGrid t={t} />
+        <GalleryGrid t={slice(t, "gallery")} />
       </div>
     </section>
   );

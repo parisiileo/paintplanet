@@ -13,6 +13,22 @@ export const useIsoLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 /**
+ * Su mobile i reveal sono disattivati del tutto.
+ *
+ * Motivo: `html.js [data-reveal] { opacity: 0 }` nasconde il contenuto finché
+ * GSAP non è idratato, e l'idratazione su mobile finiva a ~4 s. Chi scrolla
+ * prima trovava sezioni vuote. In più durata 1,1 s e stagger 0,1 s per figlio
+ * significavano che un contenitore da 8 elementi finiva di comparire dopo 1,7 s,
+ * mentre il dito è già due sezioni più giù. Su desktop l'effetto resta.
+ */
+function skipReveal(): boolean {
+  return (
+    prefersReducedMotion() ||
+    window.matchMedia("(max-width: 860px), (pointer: coarse)").matches
+  );
+}
+
+/**
  * Reveal on-scroll di un elemento (fade + rise).
  * Usare insieme all'attributo data-reveal sull'elemento per evitare FOUC.
  */
@@ -25,7 +41,7 @@ export function useReveal<T extends HTMLElement>(options?: {
 
   useIsoLayoutEffect(() => {
     const el = ref.current;
-    if (!el || prefersReducedMotion()) return;
+    if (!el || skipReveal()) return;
 
     const ctx = gsap.context(() => {
       gsap.fromTo(
@@ -64,7 +80,7 @@ export function useStaggerReveal<T extends HTMLElement>(options?: {
 
   useIsoLayoutEffect(() => {
     const el = ref.current;
-    if (!el || prefersReducedMotion()) return;
+    if (!el || skipReveal()) return;
 
     const ctx = gsap.context(() => {
       gsap.fromTo(
@@ -116,42 +132,6 @@ export function useParallax<T extends HTMLElement>(amount = 60) {
     });
     return () => ctx.revert();
   }, [amount]);
-
-  return ref;
-}
-
-/** Contatore animato quando entra in viewport. */
-export function useCounter<T extends HTMLElement>(target: number, options?: { duration?: number }) {
-  const ref = useRef<T>(null);
-
-  useIsoLayoutEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    if (prefersReducedMotion()) {
-      el.textContent = String(target);
-      return;
-    }
-
-    // L'HTML contiene già il valore finale (vedi Counter): azzeriamo qui,
-    // dopo l'idratazione, così l'animazione parte da 0 senza che chi non ha
-    // JS veda una fascia di zeri.
-    el.textContent = "0";
-
-    const obj = { v: 0 };
-    const ctx = gsap.context(() => {
-      gsap.to(obj, {
-        v: target,
-        duration: options?.duration ?? 2,
-        ease: "power2.out",
-        scrollTrigger: { trigger: el, start: "top 88%", once: true },
-        onUpdate: () => {
-          el.textContent = String(Math.round(obj.v));
-        },
-      });
-    });
-    return () => ctx.revert();
-  }, [target, options?.duration]);
 
   return ref;
 }

@@ -1,29 +1,33 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { AnimatedLink } from "@/components/ui/AnimatedLink";
 import { LangSwitcher } from "./LangSwitcher";
 import { gsap, prefersReducedMotion } from "@/lib/animations/gsap-config";
+import { useLenis } from "@/lib/lenis";
 import { navPath, pagePath, type Content, type Locale } from "@/content";
 
-type Props = { locale: Locale; t: Content };
+/* Solo le chiavi usate davvero: vedi `slice` in content/index.ts. */
+type Props = { locale: Locale; t: Pick<Content, "nav" | "cta" | "a11y" | "site"> };
 
-/** Wordmark tipografico (in attesa del logo ufficiale). */
+/** Logo ufficiale. L'SVG non passa dall'ottimizzatore immagini (non
+    servirebbe a nulla) ma tiene width/height espliciti: niente reflow
+    quando arriva. */
 function Logo({ locale }: { locale: Locale }) {
   return (
-    <Link
-      href={`/${locale}`}
-      aria-label="Paint Planet — Home"
-      className="font-display flex items-center gap-2 text-xl font-semibold tracking-tight text-paper"
-    >
-      <span
-        aria-hidden
-        className="h-2.5 w-2.5 rounded-full"
-        style={{ background: "conic-gradient(from 210deg, var(--cobalt), var(--coral), var(--sun), var(--cobalt))" }}
+    <Link href={`/${locale}`} aria-label="Paint Planet, home" className="flex items-center py-1.5">
+      <Image
+        src="/logo.svg"
+        alt="Paint Planet"
+        width={404}
+        height={109}
+        priority
+        unoptimized
+        className="h-8 w-auto md:h-9"
       />
-      Paint<span className="text-cobalt-lite">&nbsp;Planet</span>
     </Link>
   );
 }
@@ -34,6 +38,9 @@ export function Header({ locale, t }: Props) {
   const pathname = usePathname();
   const menuRef = useRef<HTMLDivElement>(null);
   const burgerRef = useRef<HTMLButtonElement>(null);
+  const lenis = useLenis();
+  const lenisRef = useRef(lenis);
+  lenisRef.current = lenis;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -45,6 +52,14 @@ export function Header({ locale, t }: Props) {
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
+
+  /* La voce "Servizi" punta a `/it#servizi`: dalla home l'ancora NON cambia
+     `pathname`, quindi l'effetto qui sopra non scattava e il menu restava
+     aperto con lo scroll ancora bloccato. Chiudiamo su qualunque link del
+     pannello: copre ancore, CTA, recapiti e switcher di lingua. */
+  const closeOnLink = (e: React.MouseEvent<HTMLDivElement>) => {
+    if ((e.target as HTMLElement).closest("a")) setOpen(false);
+  };
 
   /* Esc chiude il menu e riporta il focus sul burger (WCAG 2.1.2). */
   useEffect(() => {
@@ -58,31 +73,52 @@ export function Header({ locale, t }: Props) {
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
 
+  /* Scroll lock. `overflow: hidden` sul body NON blocca lo scroll touch su
+     iOS Safari (verificato: a menu aperto la pagina dietro continuava a
+     scorrere), quindi si usa position:fixed conservando e ripristinando
+     l'offset. Lenis, quando attivo, va fermato a parte: altrimenti il suo
+     stato interno diverge da quello reale e alla chiusura la pagina salta. */
+  useEffect(() => {
+    if (!open) return;
+    const body = document.body;
+    const y = window.scrollY;
+    const prev = { position: body.style.position, top: body.style.top, width: body.style.width };
+
+    lenisRef.current?.stop();
+    body.style.position = "fixed";
+    body.style.top = `-${y}px`;
+    body.style.width = "100%";
+
+    return () => {
+      body.style.position = prev.position;
+      body.style.top = prev.top;
+      body.style.width = prev.width;
+      window.scrollTo(0, y);
+      lenisRef.current?.start();
+    };
+  }, [open]);
+
   useEffect(() => {
     const menu = menuRef.current;
-    if (!menu) return;
-    document.body.style.overflow = open ? "hidden" : "";
-
-    if (open && !prefersReducedMotion()) {
-      gsap.fromTo(
-        menu.querySelectorAll("[data-menu-item]"),
-        { opacity: 0, y: 32 },
-        { opacity: 1, y: 0, duration: 0.6, stagger: 0.06, ease: "power3.out", delay: 0.15 }
-      );
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
+    if (!menu || !open || prefersReducedMotion()) return;
+    /* Stagger corto: con delay 0.15 + stagger 0.06 + durata 0.6 l'ultima voce
+       arrivava dopo un secondo pieno, ed è ciò che si legge come "scattoso". */
+    gsap.fromTo(
+      menu.querySelectorAll("[data-menu-item]"),
+      { opacity: 0, y: 24 },
+      { opacity: 1, y: 0, duration: 0.35, stagger: 0.04, ease: "power3.out", delay: 0.05 }
+    );
   }, [open]);
 
   return (
     <header className="fixed inset-x-0 top-0 z-[70]">
-      {/* Sfondo a sfumatura continua: nessuna hairline né bordo netto del
-          backdrop-blur, così non si vede lo stacco tra header e sezione.
-          È un overlay separato per poter animare l'opacità in modo morbido. */}
+      {/* Velo di sfondo (vedi .header-veil in globals.css). Overlay separato
+          per poter animare l'opacità senza toccare il contenuto. Transizione
+          a 200 ms: a 300 ms, durante uno scroll rapido, la barra restava
+          visibilmente trasparente per un terzo di secondo. */}
       <div
         aria-hidden
-        className={`pointer-events-none absolute inset-0 bg-gradient-to-b from-void via-void/80 to-transparent transition-opacity duration-300 ${
+        className={`header-veil pointer-events-none absolute inset-x-0 top-0 h-[calc(100%+2rem)] transition-opacity duration-200 ${
           scrolled && !open ? "opacity-100" : "opacity-0"
         }`}
       />
@@ -141,6 +177,7 @@ export function Header({ locale, t }: Props) {
       {/* Menu mobile fullscreen */}
       <div
         ref={menuRef}
+        onClick={closeOnLink}
         id="mobile-menu"
         /* `inert` toglie il pannello chiuso dal flusso di tabulazione e
            dall'albero di accessibilità: senza, i link invisibili restavano

@@ -9,6 +9,9 @@
 :root {
   /* Cosmic base */
   --void: #070912;
+  /* Canale RGB dello stesso colore: serve a comporre alpha in gradienti e
+     veli senza dipendere da color-mix (supporto disomogeneo su Safari). */
+  --void-rgb: 7 9 18;
   --space: #0b1030;
   --space-2: #131a45;
   --nebula: #1c2456;
@@ -195,12 +198,55 @@ body {
   color: transparent;
 }
 
+/* ---- Velo dell'header ----
+   Il gradiente originale finiva a `transparent` sul BORDO INFERIORE della
+   barra: anche a piena opacità la metà bassa dell'header lasciava passare il
+   contenuto, ed è il "fondo trasparente" segnalato. Qui il pieno copre tutta
+   l'altezza della barra e la sfumatura è spostata nei ~2rem SOTTO, così
+   resta l'assenza di bordo netto che il gradiente cercava, ma il testo sopra
+   è sempre leggibile.
+   Il blur è additivo: se il browser non applica backdrop-filter (o un
+   antenato crea uno stacking context che lo rompe) la leggibilità regge
+   comunque, perché sotto c'è colore pieno e non solo sfocatura. */
+.header-veil {
+  background: linear-gradient(
+    to bottom,
+    rgb(var(--void-rgb)) 0%,
+    rgb(var(--void-rgb)) 72%,
+    rgb(var(--void-rgb) / 0.85) 86%,
+    rgb(var(--void-rgb) / 0) 100%
+  );
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+/* ---- Consenso cookie: stato pre-idratazione ----
+   Vedi lo script inline in layout.tsx. Banner e FAB sono entrambi nell'HTML
+   iniziale; queste due regole decidono chi si vede finché React non prende
+   il controllo, così nessuno dei due "compare" a pagina gia' letta. */
+html[data-consent] .pp-consent-banner {
+  display: none;
+}
+html:not([data-consent]) .pp-wa-fab {
+  display: none;
+}
+
 /* ---- Reveal on-scroll: stato iniziale (evita FOUC solo con JS) ---- */
 html.js [data-reveal] {
   opacity: 0;
 }
 html.js [data-reveal-line] > * {
   opacity: 0;
+}
+
+/* Su mobile/touch i reveal non partono (vedi skipReveal in hooks.ts): senza
+   questa regola il contenuto resterebbe a opacity 0 per sempre. Deve stare
+   DOPO le due regole qui sopra. */
+@media (max-width: 860px), (pointer: coarse) {
+  html.js [data-reveal],
+  html.js [data-reveal-line] > * {
+    opacity: 1;
+  }
 }
 
 /* ============================================
@@ -249,22 +295,18 @@ html.js [data-reveal-line] > * {
     animation-delay: 0.68s;
   }
 
+  /* L'hero entra da solo al primo paint. Prima queste animazioni restavano
+     in pausa finché il preloader non aggiungeva `.hero-go`: rimosso il
+     preloader, il gate non serve più (e lasciandolo il titolo non sarebbe
+     mai comparso). */
   html.js .hero-line-anim {
     animation: pp-line-in 1.1s var(--ease-out-expo) both;
-    animation-play-state: paused;
   }
   html.js .hero-fade-anim {
     animation: pp-fade-in 0.9s ease-out both;
-    animation-play-state: paused;
   }
   html.js .hero-fadeop-anim {
     animation: pp-fade-op 0.9s ease-out both;
-    animation-play-state: paused;
-  }
-  html.js.hero-go .hero-line-anim,
-  html.js.hero-go .hero-fade-anim,
-  html.js.hero-go .hero-fadeop-anim {
-    animation-play-state: running;
   }
 }
 
@@ -347,19 +389,15 @@ html.js [data-reveal-line] > * {
   }
 }
 
-/* Hero scroll-driven: il server rende sempre la variante desktop (alta 420vh)
-   perché la scelta dipende da matchMedia, disponibile solo dopo il mount. Su
-   mobile, prima dell'idratazione, si vedeva quindi una pagina lunghissima che
-   poi collassava. Finché il JS non ha deciso (html senza .js) la teniamo
-   compatta: il salto di layout sparisce. */
-@media (max-width: 860px), (pointer: coarse) {
-  html:not(.js) .story-scroll {
-    height: auto;
-  }
-  html:not(.js) .story-stage {
-    position: static;
-    height: auto;
-    padding-block: 9rem 4rem;
+/* Hero scroll-driven: il server rende la variante STATICA (vedi StoryHero),
+   che è quella giusta su mobile — lì server e client coincidono e non c'è
+   alcun salto. Su desktop, al mount, l'albero passa alla variante
+   scroll-driven alta 250vh: senza riservare quello spazio prima, tutto il
+   contenuto sotto scenderebbe di colpo. Qui lo riserviamo, così l'altezza
+   del documento non cambia e il layout shift resta a zero anche lì. */
+@media (min-width: 861px) and (pointer: fine) {
+  html:not(.js) .story-static {
+    min-height: 250vh;
   }
 }
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import Lenis from "lenis";
 import { gsap, ScrollTrigger, prefersReducedMotion } from "@/lib/animations/gsap-config";
 
@@ -12,17 +12,49 @@ export function useLenis() {
 
 /**
  * Smooth scroll globale, sincronizzato con GSAP ScrollTrigger.
- * Disattivato se prefers-reduced-motion.
+ * Attivo SOLO su puntatore fine (mouse/trackpad): vedi nota sotto.
  */
 export function LenisProvider({ children }: { children: React.ReactNode }) {
   const [lenis, setLenis] = useState<Lenis | null>(null);
-  const rafId = useRef<number>(0);
 
   useEffect(() => {
     // Marca il JS attivo: gli stati iniziali dei reveal si applicano solo ora
     document.documentElement.classList.add("js");
 
-    if (prefersReducedMotion()) return;
+    /*
+     * Ricalcolo delle posizioni dei ScrollTrigger dopo che il layout è
+     * DEFINITIVO. I trigger dei reveal (header di sezione, ecc.) vengono
+     * creati al mount, ma a quel punto:
+     *   - i font custom non sono ancora caricati (lo swap sposta il layout);
+     *   - l'evento `load` può essere già scattato prima che i trigger
+     *     esistano, così l'auto-refresh interno di ScrollTrigger non parte.
+     * Va fatto comunque, con o senza Lenis.
+     */
+    const refresh = () => ScrollTrigger.refresh();
+    const refreshRaf = requestAnimationFrame(refresh);
+    const timeouts = [setTimeout(refresh, 400), setTimeout(refresh, 1200)];
+    window.addEventListener("load", refresh);
+    if (document.fonts?.ready) document.fonts.ready.then(refresh).catch(() => {});
+
+    const cleanupCommon = () => {
+      cancelAnimationFrame(refreshRaf);
+      timeouts.forEach(clearTimeout);
+      window.removeEventListener("load", refresh);
+    };
+
+    /*
+     * Lenis solo su puntatore fine.
+     *
+     * Con `syncTouch` al default (false) Lenis NON smussa lo scroll touch:
+     * su mobile lo scroll resta quello nativo e la libreria non aggiunge
+     * nulla. In cambio registra comunque `touchmove` su window come NON
+     * passivo (lenis/dist/lenis.mjs: `const listenerOptions = { passive:
+     * false }`, applicato incondizionatamente), e un touchmove non passivo
+     * impedisce al compositor di avviare lo scroll prima che il JS abbia
+     * girato. Costo su ogni gesto, beneficio zero: qui non parte proprio.
+     */
+    const finePointer = window.matchMedia("(pointer: fine)").matches;
+    if (!finePointer || prefersReducedMotion()) return cleanupCommon;
 
     const instance = new Lenis({
       duration: 1.1,
@@ -32,13 +64,10 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
 
     instance.on("scroll", ScrollTrigger.update);
 
-    const raf = (time: number) => {
-      instance.raf(time);
-      rafId.current = requestAnimationFrame(raf);
-    };
-    rafId.current = requestAnimationFrame(raf);
-
-    // ScrollTrigger deve sapere che lo scroll è gestito da Lenis
+    /* Un solo rAF in tutta l'applicazione: Lenis è pilotato dal ticker di
+       GSAP invece di tenere un loop proprio in parallelo. */
+    const tick = (time: number) => instance.raf(time * 1000);
+    gsap.ticker.add(tick);
     gsap.ticker.lagSmoothing(0);
 
     setLenis(instance);
@@ -48,32 +77,9 @@ export function LenisProvider({ children }: { children: React.ReactNode }) {
       (window as unknown as { __lenis?: Lenis }).__lenis = instance;
     }
 
-    /*
-     * Ricalcolo delle posizioni dei ScrollTrigger dopo che il layout è
-     * DEFINITIVO. I trigger dei reveal (header di sezione, ecc.) vengono
-     * creati al mount, ma a quel punto:
-     *   - i font custom non sono ancora caricati (lo swap sposta il layout);
-     *   - il preloader può coprire la pagina;
-     *   - l'evento `load` può essere già scattato prima che i trigger
-     *     esistano, così l'auto-refresh interno di ScrollTrigger non parte.
-     * Senza un refresh esplicito le soglie restano calcolate su un layout
-     * sbagliato e gli header "in vista" non animano finché non si ricarica
-     * la pagina a mano. Rifacciamo il refresh a più riprese per coprire
-     * tutti questi casi.
-     */
-    const refresh = () => ScrollTrigger.refresh();
-    const raf1 = requestAnimationFrame(refresh);
-    const timeouts = [setTimeout(refresh, 400), setTimeout(refresh, 1200)];
-    window.addEventListener("load", refresh);
-    window.addEventListener("pp:preloader-done", refresh);
-    if (document.fonts?.ready) document.fonts.ready.then(refresh).catch(() => {});
-
     return () => {
-      cancelAnimationFrame(rafId.current);
-      cancelAnimationFrame(raf1);
-      timeouts.forEach(clearTimeout);
-      window.removeEventListener("load", refresh);
-      window.removeEventListener("pp:preloader-done", refresh);
+      cleanupCommon();
+      gsap.ticker.remove(tick);
       instance.destroy();
       setLenis(null);
     };

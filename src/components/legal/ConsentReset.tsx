@@ -4,7 +4,7 @@ import { useConsent } from "@/lib/consent";
 import type { Content } from "@/content";
 
 /** Revoca la scelta sui cookie e fa ricomparire il banner. */
-export function ConsentReset({ t }: { t: Content }) {
+export function ConsentReset({ t }: { t: Pick<Content, "consent"> }) {
   const { consent, reopen } = useConsent();
 
   return (
@@ -22,7 +22,7 @@ export function ConsentReset({ t }: { t: Content }) {
           ? t.consent.acceptAll
           : consent === "necessary"
             ? t.consent.necessaryOnly
-            : "—"}
+            : "non impostato"}
       </span>
     </div>
   );

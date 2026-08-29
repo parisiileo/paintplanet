@@ -3,9 +3,9 @@ import { StoryHero } from "@/components/home/StoryHero";
 import { ServicesOverview } from "@/components/home/ServicesOverview";
 import { WhyUs } from "@/components/home/WhyUs";
 import { GalleryTeaser } from "@/components/home/GalleryTeaser";
-import { Stats } from "@/components/home/Stats";
 import { ContactStrip } from "@/components/home/ContactStrip";
-import { getContent, isLocale, defaultLocale } from "@/content";
+import { ReviewCta } from "@/components/home/ReviewCta";
+import { getContent, isLocale, defaultLocale, slice } from "@/content";
 import { buildPageMetadata } from "@/lib/seo";
 
 type PageProps = { params: Promise<{ locale: string }> };
@@ -29,11 +29,17 @@ export default async function HomePage({ params }: PageProps) {
 
   return (
     <>
-      <StoryHero locale={locale} t={t} />
+      <StoryHero
+        locale={locale}
+        t={{
+          ...slice(t, "hero", "story", "cta"),
+          services: t.services.map((s) => ({ key: s.key, tone: s.tone, title: s.title })),
+        }}
+      />
       <ServicesOverview locale={locale} t={t} />
       <WhyUs t={t} />
-      <Stats t={t} />
-      <GalleryTeaser locale={locale} t={t} />
+      <GalleryTeaser locale={locale} t={slice(t, "gallery")} />
+      <ReviewCta t={t} />
       <ContactStrip locale={locale} t={t} />
     </>
   );

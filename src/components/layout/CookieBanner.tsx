@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 import { useConsent } from "@/lib/consent";
 import { legalPath, type Content, type Locale } from "@/content";
 
-type Props = { locale: Locale; t: Content };
+type Props = { locale: Locale; t: Pick<Content, "consent"> };
 
 /**
  * Banner cookie. Non blocca la navigazione (i cookie tecnici non lo
@@ -13,15 +13,20 @@ type Props = { locale: Locale; t: Content };
  * non viene caricata prima di una scelta esplicita.
  */
 export function CookieBanner({ locale, t }: Props) {
-  const { consent, ready, setConsent } = useConsent();
+  const { consent, setConsent } = useConsent();
   const acceptRef = useRef<HTMLButtonElement>(null);
-  const visible = ready && consent === null;
+  /* Niente gate su `ready`: il banner è renderizzato dal server e resta
+     nell'HTML iniziale. A chi ha già scelto lo toglie il CSS prima del
+     primo paint (vedi globals.css), poi React lo smonta. */
+  const visible = consent === null;
 
-  /* Il banner compare dopo il mount: senza spostare il focus, chi naviga da
-     tastiera non saprebbe che è apparso. Lo annunciamo come region e ci
-     portiamo il focus sopra. */
+  /* Il focus si sposta SOLO quando il banner riappare durante la sessione
+     (pulsante "rivedi le preferenze"): rubare il focus al primo caricamento
+     interromperebbe chi sta già leggendo. */
+  const wasVisible = useRef(visible);
   useEffect(() => {
-    if (visible) acceptRef.current?.focus();
+    if (visible && !wasVisible.current) acceptRef.current?.focus();
+    wasVisible.current = visible;
   }, [visible]);
 
   if (!visible) return null;
@@ -31,9 +36,9 @@ export function CookieBanner({ locale, t }: Props) {
       role="dialog"
       aria-modal="false"
       aria-labelledby="cookie-banner-title"
-      className="fixed inset-x-0 bottom-0 z-[95] border-t border-paper/15 bg-void/95 backdrop-blur-md"
+      className="pp-consent-banner fixed inset-x-0 bottom-0 z-[95] border-t border-paper/15 bg-void/95 backdrop-blur-md"
     >
-      <div className="container-pp flex flex-col gap-5 py-6 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
+      <div className="container-pp flex flex-col gap-4 py-4 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
         <div className="max-w-3xl">
           <p id="cookie-banner-title" className="font-display text-lg font-semibold text-paper">
             {t.consent.title}
@@ -49,11 +54,11 @@ export function CookieBanner({ locale, t }: Props) {
           </p>
         </div>
 
-        <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
+        <div className="flex shrink-0 gap-3">
           <button
             type="button"
             onClick={() => setConsent("necessary")}
-            className="rounded-full border border-paper/25 px-6 py-3 text-sm font-medium text-paper transition-colors hover:border-paper/60"
+            className="flex min-h-11 flex-1 items-center justify-center rounded-full border border-paper/25 px-5 text-sm font-medium text-paper transition-colors hover:border-paper/60 lg:flex-none lg:px-6"
           >
             {t.consent.necessaryOnly}
           </button>
@@ -61,7 +66,7 @@ export function CookieBanner({ locale, t }: Props) {
             ref={acceptRef}
             type="button"
             onClick={() => setConsent("all")}
-            className="rounded-full bg-coral px-6 py-3 text-sm font-medium text-ink transition-colors hover:bg-coral-deep"
+            className="flex min-h-11 flex-1 items-center justify-center rounded-full bg-coral px-5 text-sm font-medium text-ink transition-colors hover:bg-coral-deep lg:flex-none lg:px-6"
           >
             {t.consent.acceptAll}
           </button>

@@ -23,7 +23,7 @@ export const de: Content = {
     instagram: "@paint_planett",
     instagramHref: "https://www.instagram.com/paint_planett/",
     city: "Bozen",
-    region: "Südtirol — Alto Adige",
+    region: "Südtirol / Alto Adige",
   },
 
   a11y: {
@@ -120,7 +120,7 @@ export const de: Content = {
         },
         {
           title: "Schimmelschutz & Sanierung",
-          text: "Gezielte Behandlungen für Bäder, Küchen und feuchte Wände — für ein gesundes, langlebiges Ergebnis.",
+          text: "Gezielte Behandlungen für Bäder, Küchen und feuchte Wände, für ein gesundes, langlebiges Ergebnis.",
         },
       ],
       process: [
@@ -151,7 +151,7 @@ export const de: Content = {
       tone: "coral",
       heroTitle: "Dekorationen & Materialoberflächen",
       heroText:
-        "Stucco Veneziano, Spachteltechniken, Sand-, Metall- und Betoneffekte. Oberflächen, die zur Hauptrolle werden — von Hand mit edlen Materialien gefertigt.",
+        "Stucco Veneziano, Spachteltechniken, Sand-, Metall- und Betoneffekte. Oberflächen, die zur Hauptrolle werden, von Hand mit edlen Materialien gefertigt.",
       features: [
         {
           title: "Stucco Veneziano",
@@ -261,7 +261,7 @@ export const de: Content = {
         },
         {
           title: "Auftrag auf Bestand",
-          text: "Oft auf bestehende Fliesen und Flächen aufbringbar — ohne Abbrucharbeiten.",
+          text: "Oft auf bestehende Fliesen und Flächen aufbringbar, ohne Abbrucharbeiten.",
         },
       ],
       process: [
@@ -298,7 +298,7 @@ export const de: Content = {
     ctaLabel: "Los geht's?",
     ctaTitle: "Erzählen Sie uns von Ihrem Raum",
     ctaText:
-      "Eine kostenlose Besichtigung ist der beste Weg, um zu verstehen, was wirklich nötig ist. Schreiben Sie uns — wir antworten schnell.",
+      "Eine kostenlose Besichtigung ist der beste Weg, um zu verstehen, was wirklich nötig ist. Schreiben Sie uns, wir antworten schnell.",
   },
 
   whyUs: {
@@ -338,12 +338,18 @@ export const de: Content = {
 
   /* Jede Zahl ist überprüfbar: Galerie, Handelsregisterauszug, Arbeitsweise.
      Keine erfundenen "Jahre Erfahrung" oder "verwandelten Räume". */
-  stats: [
-    { value: 0, suffix: "", label: "Arbeiten in unserer Galerie", from: "galleryCount" },
-    { value: 3, suffix: "", label: "Im Register eingetragene Handwerkstätigkeiten" },
-    { value: 2, suffix: "", label: "Sprachen auf der Baustelle: Italienisch und Deutsch" },
-    { value: 0, suffix: "€", label: "Besichtigung und Kostenvoranschlag" },
-  ],
+
+  reviews: {
+    label: "Bewertungen",
+    title: {
+      pre: "Haben Sie mit uns gearbeitet? ",
+      highlight: "Hinterlassen Sie eine Bewertung",
+      post: "",
+    },
+    text: "Es dauert nur dreißig Sekunden und hilft uns sehr. Google-Bewertungen sind für unsere nächsten Kundinnen und Kunden der direkteste Weg zu verstehen, wie wir arbeiten.",
+    cta: "Auf Google bewerten",
+    href: "https://g.page/r/CdYP_3G-EF6VEBM/review",
+  },
 
   contactStrip: {
     label: "Los geht's",
@@ -360,9 +366,9 @@ export const de: Content = {
     heroLabel: "Über uns",
     heroTitle: "Farbe ist unser Handwerk",
     story: [
-      "Paint Planet ist der Betrieb von Malern und Dekorateuren aus Bozen, der die Farbe in den Mittelpunkt jedes Projekts stellt. Er entsteht aus handwerklicher Arbeit und Liebe zum Detail — mit der Idee, dass eine gut gemachte Wand das Wohngefühl verändert.",
+      "Paint Planet ist der Betrieb von Malern und Dekorateuren aus Bozen, der die Farbe in den Mittelpunkt jedes Projekts stellt. Er entsteht aus handwerklicher Arbeit und Liebe zum Detail, mit der Idee, dass eine gut gemachte Wand das Wohngefühl verändert.",
       "Wir arbeiten für Privatpersonen, Kondominien, Büros und Geschäfte in ganz Südtirol. Anstriche, Dekorationen, Fassaden und Harze: ein Team für jede Oberfläche, innen und aussen.",
-      "Wir glauben an klare Angebote, zertifizierte Materialien und Respekt für Ihre Räume und Ihre Zeit. Denn gute Arbeit sieht — und lebt — man jeden Tag.",
+      "Wir glauben an klare Angebote, zertifizierte Materialien und Respekt für Ihre Räume und Ihre Zeit. Denn gute Arbeit sieht, und lebt, man jeden Tag.",
     ],
     whereLabel: "Wo wir tätig sind",
     whereTitle: "Bozen und ganz Südtirol",
@@ -394,7 +400,7 @@ export const de: Content = {
     heroLabel: "Galerie",
     heroTitle: { pre: "Unsere ", highlight: "Arbeiten", post: "" },
     heroText:
-      "Wohnungen, Schlafzimmer, Bäder, Flure und Terrassen: echte Räume, fertiggestellt von uns — mit Dekorputzen, Harzen, Trockenbau und Anstrichen.",
+      "Wohnungen, Schlafzimmer, Bäder, Flure und Terrassen: echte Räume, fertiggestellt von uns, mit Dekorputzen, Harzen, Trockenbau und Anstrichen.",
     countLabel: "realisierte Arbeiten",
     filterAll: "Alle",
     filtersLabel: "Arbeiten nach Gewerk filtern",
@@ -411,7 +417,7 @@ export const de: Content = {
       {
         id: 1,
         title: "Bad in Mikrozement",
-        caption: "Mikrozement in Taupe auf Wänden, Wanne und Boden — fugenlos",
+        caption: "Mikrozement in Taupe auf Wänden, Wanne und Boden, fugenlos",
         src: "/gallery/bagno-microcemento.jpg",
         width: 1200,
         height: 1600,
@@ -421,7 +427,7 @@ export const de: Content = {
         id: 2,
         title: "Marmorwand mit Kamin",
         caption: "Marmorierte Finish-Optik auf Wand und Kaminverkleidung",
-        src: "/gallery/parete-marmorizzata-camino.png",
+        src: "/gallery/parete-marmorizzata-camino.jpg",
         width: 915,
         height: 512,
         category: "decorazioni",
@@ -439,7 +445,7 @@ export const de: Content = {
         id: 4,
         title: "TV-Wand in Spachteltechnik",
         caption: "Perlgraue Spachteltechnik im Wohnbereich mit Hängemöbel",
-        src: "/gallery/soggiorno-parete-tv.png",
+        src: "/gallery/soggiorno-parete-tv.jpg",
         width: 805,
         height: 413,
         category: "decorazioni",
@@ -636,7 +642,7 @@ export const de: Content = {
       {
         id: 26,
         title: "Boden in blauem Harz",
-        caption: "Fugenloses Harz direkt über dem alten Belag — ohne Abbrucharbeiten",
+        caption: "Fugenloses Harz direkt über dem alten Belag, ohne Abbrucharbeiten",
         src: "/gallery/resina-pavimento-blu.jpg",
         width: 1200,
         height: 1600,
@@ -644,7 +650,7 @@ export const de: Content = {
       },
       {
         id: 27,
-        title: "Blaues Harz — Auftrag mit der Rolle",
+        title: "Blaues Harz, Auftrag mit der Rolle",
         caption: "Zweiter Auftrag für eine gleichmässige, rutschfeste Oberfläche",
         src: "/gallery/resina-pavimento-blu-dettaglio.jpg",
         width: 1200,
@@ -729,7 +735,7 @@ export const de: Content = {
     ctaTitle: "Wir bringen Farbe",
     ctaTitleMuted: "in Ihren nächsten Raum",
     blurb:
-      "Paint Planet — Maler und Dekorateur in Bozen. Anstriche, Dekorationen, Fassaden und Harze mit handwerklicher Sorgfalt.",
+      "Paint Planet, Maler und Dekorateur in Bozen. Anstriche, Dekorationen, Fassaden und Harze mit handwerklicher Sorgfalt.",
     exploreLabel: "Navigation",
     contactsLabel: "Kontakt",
     legalLabel: "Rechtliches",
@@ -753,14 +759,14 @@ export const de: Content = {
 
   openingHours: {
     label: "Öffnungszeiten",
-    days: "Montag — Samstag",
-    hours: "8:00 – 12:00 · 13:00 – 19:00",
+    days: "Montag - Samstag",
+    hours: "8:00 - 12:00 · 13:00 - 19:00",
     closed: "Sonntag geschlossen",
   },
 
   consent: {
     title: "Cookies und externe Dienste",
-    text: "Wir verwenden ausschließlich technisch notwendige Cookies (etwa zum Speichern der gewählten Sprache). Auf der Kontaktseite ist eine Google-Karte eingebunden: Wenn Sie sie laden, kann Google eigene Cookies setzen und Ihre IP-Adresse erhalten. Sie entscheiden.",
+    text: "Wir verwenden ausschließlich technisch notwendige Cookies. Die Google-Karte auf der Kontaktseite lädt nur mit Ihrer Zustimmung.",
     acceptAll: "Alle akzeptieren",
     necessaryOnly: "Nur notwendige",
     policyLink: "Cookie-Richtlinie",
@@ -801,18 +807,18 @@ export const de: Content = {
         {
           title: "Zwecke und Rechtsgrundlagen",
           body: [
-            "- Betrieb und Sicherheit der Website — berechtigtes Interesse des Verantwortlichen (Art. 6 Abs. 1 lit. f DSGVO).",
-            "- Speicherung von Sprache und Cookie-Entscheidung — berechtigtes Interesse; es handelt sich um technische Cookies, die keiner Einwilligung bedürfen.",
-            "- Beantwortung Ihrer Angebots- oder Informationsanfragen — vorvertragliche Maßnahmen auf Ihre Anfrage (Art. 6 Abs. 1 lit. b DSGVO).",
-            "- Laden der Google-Karte — Ihre Einwilligung, die Sie frei erteilen oder verweigern und jederzeit widerrufen können (Art. 6 Abs. 1 lit. a DSGVO).",
+            "- Betrieb und Sicherheit der Website: berechtigtes Interesse des Verantwortlichen (Art. 6 Abs. 1 lit. f DSGVO).",
+            "- Speicherung von Sprache und Cookie-Entscheidung: berechtigtes Interesse; es handelt sich um technische Cookies, die keiner Einwilligung bedürfen.",
+            "- Beantwortung Ihrer Angebots- oder Informationsanfragen: vorvertragliche Maßnahmen auf Ihre Anfrage (Art. 6 Abs. 1 lit. b DSGVO).",
+            "- Laden der Google-Karte: Ihre Einwilligung, die Sie frei erteilen oder verweigern und jederzeit widerrufen können (Art. 6 Abs. 1 lit. a DSGVO).",
           ],
         },
         {
           title: "Empfänger der Daten",
           body: [
             "Wir verkaufen und übermitteln Ihre Daten nicht. Zugriff haben, als Auftragsverarbeiter oder eigenständig Verantwortliche, ausschließlich die für den Betrieb notwendigen technischen Dienstleister:",
-            "- Vercel Inc. — Hosting und Auslieferung der Website.",
-            "- Google Ireland Ltd. — nur wenn Sie die Karte auf der Kontaktseite laden.",
+            "- Vercel Inc.: Hosting und Auslieferung der Website.",
+            "- Google Ireland Ltd.: nur wenn Sie die Karte auf der Kontaktseite laden.",
             "- Ihr E-Mail-Anbieter bzw. WhatsApp (Meta Platforms Ireland Ltd.), wenn Sie uns über diese Kanäle kontaktieren.",
             "Einige dieser Anbieter können Daten außerhalb des Europäischen Wirtschaftsraums verarbeiten. In diesem Fall erfolgt die Übermittlung auf Grundlage der von der Europäischen Kommission genehmigten Standardvertragsklauseln oder eines Angemessenheitsbeschlusses.",
           ],
@@ -856,15 +862,15 @@ export const de: Content = {
           title: "Technische Cookies (immer aktiv)",
           body: [
             "Sie sind für den Betrieb der Website erforderlich. Gemäß Art. 122 des italienischen Datenschutzkodex bedürfen sie keiner Einwilligung, wir legen sie dennoch offen.",
-            "- pp-locale — speichert die gewählte Sprache (Italienisch oder Deutsch), damit die automatische Erkennung nicht bei jedem Besuch erneut greift. Dauer: 12 Monate.",
-            "- pp-consent — speichert Ihre Antwort auf das Cookie-Banner. Dauer: 12 Monate.",
+            "- pp-locale: speichert die gewählte Sprache (Italienisch oder Deutsch), damit die automatische Erkennung nicht bei jedem Besuch erneut greift. Dauer: 12 Monate.",
+            "- pp-consent: speichert Ihre Antwort auf das Cookie-Banner. Dauer: 12 Monate.",
           ],
         },
         {
           title: "Cookies Dritter (nur mit Ihrer Einwilligung)",
           body: [
             "Auf der Kontaktseite ist eine Karte von Google eingebunden. Die Karte wird erst geladen, wenn Sie es erlauben: Bis dahin erhält Google keinerlei Daten von dieser Website.",
-            "- Google Maps (Google Ireland Ltd.) — wenn Sie die Karte laden, erhält Google Ihre IP-Adresse und kann eigene Cookies setzen, auch zu Profilingzwecken. Datenschutzerklärung: policies.google.com/privacy",
+            "- Google Maps (Google Ireland Ltd.): wenn Sie die Karte laden, erhält Google Ihre IP-Adresse und kann eigene Cookies setzen, auch zu Profilingzwecken. Datenschutzerklärung: policies.google.com/privacy",
             "Sie können die Karte auch ansehen, ohne sie hier zu laden, indem Sie Google Maps über den Link neben dem Kartenfeld direkt öffnen.",
           ],
         },
@@ -947,11 +953,10 @@ export const de: Content = {
     },
   },
 
-  preloaderTagline: "Wir bringen Farbe in Ihre Räume",
 
   meta: {
     home: {
-      title: "Paint Planet — Maler und Dekorateur in Bozen",
+      title: "Paint Planet | Maler und Dekorateur in Bozen",
       description:
         "Anstriche, Dekorationen, Fassaden und Harze in Bozen. Paint Planet: Handwerker der Farbe für Wohnungen, Büros und Geschäfte. Kostenloses Angebot.",
     },
@@ -982,12 +987,12 @@ export const de: Content = {
         "Fotos echter Arbeiten: Anstriche, Dekorationen, Harze, Trockenbau und Fassaden von Paint Planet in Bozen und Südtirol.",
     },
     chiSiamo: {
-      title: "Über uns — Maler in Bozen",
+      title: "Über uns: Maler in Bozen",
       description:
         "Paint Planet ist das Handwerksunternehmen von Shahi Miklovan in Bozen: Maler, Lackierer und Stukkateur. Liebe zum Detail, saubere Baustellen.",
     },
     contatti: {
-      title: "Kontakt — Kostenloses Angebot in Bozen",
+      title: "Kontakt: kostenloses Angebot in Bozen",
       description:
         "Schreiben Sie uns auf WhatsApp für eine kostenlose Besichtigung und ein Angebot in Bozen: Anstriche, Dekorationen, Fassaden und Harze. Italienisch und Deutsch.",
     },

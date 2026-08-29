@@ -12,7 +12,7 @@ import { getContent, isLocale, defaultLocale, locales } from "@/content";
  */
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-export const alt = "Paint Planet — Imbianchino e decoratore a Bolzano";
+export const alt = "Paint Planet | Imbianchino e decoratore a Bolzano";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));

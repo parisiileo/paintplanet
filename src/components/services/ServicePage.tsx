@@ -27,7 +27,7 @@ export function ServicePage({ locale, t, service }: Props) {
       <section className="section-y">
         <div className="container-pp">
           <div className="mb-12 flex flex-col gap-5">
-            <Reveal as="h2" className="font-display max-w-2xl text-[var(--text-h2)] font-semibold leading-[1.05] text-paper">
+            <Reveal as="h2" className="font-display max-w-2xl text-h2 font-semibold leading-[1.05] text-paper">
               <HighlightTitle title={t.servicePage.includesTitle} color="pop" />
             </Reveal>
           </div>
@@ -49,7 +49,7 @@ export function ServicePage({ locale, t, service }: Props) {
       <section className="surface-light section-y">
         <div className="container-pp">
           <div className="mb-12 flex flex-col gap-5">
-            <Reveal as="h2" className="font-display max-w-2xl text-[var(--text-h2)] font-semibold leading-[1.05] text-ink">
+            <Reveal as="h2" className="font-display max-w-2xl text-h2 font-semibold leading-[1.05] text-ink">
               {t.servicePage.processTitle}
             </Reveal>
           </div>
@@ -71,7 +71,7 @@ export function ServicePage({ locale, t, service }: Props) {
       <section className="section-y">
         <div className="container-pp grid items-start gap-12 lg:grid-cols-2">
           <div className="flex flex-col gap-5">
-            <Reveal as="h2" className="font-display text-[var(--text-h2)] font-semibold leading-[1.05] text-paper">
+            <Reveal as="h2" className="font-display text-h2 font-semibold leading-[1.05] text-paper">
               {t.servicePage.ctaTitle}
             </Reveal>
             <Reveal as="p" delay={0.1} className="max-w-md leading-relaxed text-mist">

@@ -1,5 +1,6 @@
 import { Reveal } from "@/components/ui/Reveal";
 import { ConsentReset } from "@/components/legal/ConsentReset";
+import { slice } from "@/content";
 import type { Content, LegalPage } from "@/content";
 
 type Props = { t: Content; page: LegalPage };
@@ -80,7 +81,7 @@ export function LegalPageView({ t, page }: Props) {
                 {/* Il pulsante di revoca vive nella sezione "gestire le
                     preferenze" della cookie policy: è lì che l'utente lo cerca. */}
                 {page.key === "cookie" && section === page.sections[page.sections.length - 1] && (
-                  <ConsentReset t={t} />
+                  <ConsentReset t={slice(t, "consent")} />
                 )}
               </div>
             );

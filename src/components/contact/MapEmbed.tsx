@@ -12,7 +12,7 @@ import type { Content } from "@/content";
  * non riceve cookie di terza parte. È il requisito del Garante per gli
  * embed di terze parti.
  */
-export function MapEmbed({ t }: { t: Content }) {
+export function MapEmbed({ t }: { t: Pick<Content, "consent" | "contact" | "site"> }) {
   const { consent } = useConsent();
   const [loadedHere, setLoadedHere] = useState(false);
   const allowed = consent === "all" || loadedHere;
@@ -22,7 +22,7 @@ export function MapEmbed({ t }: { t: Content }) {
       <div className="overflow-hidden rounded-(--radius-card) border border-paper/10">
         <iframe
           src={t.contact.mapsEmbed}
-          title={`${t.site.name} — ${t.site.address}`}
+          title={`${t.site.name}, ${t.site.address}`}
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
           allowFullScreen
@@ -51,7 +51,7 @@ export function MapEmbed({ t }: { t: Content }) {
           href={t.contact.mapsLink}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-sm text-mist underline underline-offset-4 transition-colors hover:text-paper"
+          className="inline-flex min-h-11 items-center text-sm text-mist underline underline-offset-4 transition-colors hover:text-paper"
         >
           {t.consent.mapOpenExternal}
         </a>

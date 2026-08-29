@@ -1,6 +1,5 @@
 import { Reveal, StaggerReveal } from "@/components/ui/Reveal";
 import { MagneticButton } from "@/components/ui/MagneticButton";
-import { Stats } from "@/components/home/Stats";
 import { pagePath, type Content, type Locale } from "@/content";
 
 export function AboutPage({ locale, t }: { locale: Locale; t: Content }) {
@@ -19,7 +18,7 @@ export function AboutPage({ locale, t }: { locale: Locale; t: Content }) {
           <div className="mt-12 grid gap-10 lg:grid-cols-[1.3fr_1fr] lg:gap-20">
             <StaggerReveal className="flex max-w-2xl flex-col gap-6" stagger={0.12}>
               {t.about.story.map((p) => (
-                <p key={p.slice(0, 24)} className="text-[var(--text-lead)] leading-relaxed text-mist">
+                <p key={p.slice(0, 24)} className="text-lead leading-relaxed text-mist">
                   {p}
                 </p>
               ))}
@@ -44,7 +43,7 @@ export function AboutPage({ locale, t }: { locale: Locale; t: Content }) {
       <section className="surface-light section-y">
         <div className="container-pp">
           <div className="mb-12 flex flex-col gap-5">
-            <Reveal as="h2" className="font-display max-w-2xl text-[var(--text-h2)] font-semibold leading-[1.05] text-ink">
+            <Reveal as="h2" className="font-display max-w-2xl text-h2 font-semibold leading-[1.05] text-ink">
               {t.about.valuesTitle}
             </Reveal>
           </div>
@@ -60,7 +59,6 @@ export function AboutPage({ locale, t }: { locale: Locale; t: Content }) {
         </div>
       </section>
 
-      <Stats t={t} />
     </>
   );
 }

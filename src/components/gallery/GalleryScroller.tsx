@@ -7,7 +7,7 @@ import { prefersReducedMotion } from "@/lib/animations/gsap-config";
 import type { Content } from "@/content";
 
 type Props = {
-  t: Content;
+  t: Pick<Content, "gallery">;
   /** Destinazione dei tile (pagina galleria) */
   href: string;
   className?: string;
@@ -53,9 +53,19 @@ export function GalleryScroller({ t, href, className = "" }: Props) {
 
   useEffect(() => {
     updateProgress();
-    window.addEventListener("resize", updateProgress);
+    /* Solo i resize di LARGHEZZA cambiano la geometria del rail. Su mobile
+       la barra dell'indirizzo emette un resize a ogni cambio di direzione
+       dello scroll: rispondere leggendo scrollWidth/clientWidth e facendo
+       setState significava un reflow + render per ogni oscillazione. */
+    let lastWidth = window.innerWidth;
+    const onResize = () => {
+      if (window.innerWidth === lastWidth) return;
+      lastWidth = window.innerWidth;
+      updateProgress();
+    };
+    window.addEventListener("resize", onResize, { passive: true });
     return () => {
-      window.removeEventListener("resize", updateProgress);
+      window.removeEventListener("resize", onResize);
       stopMomentum();
     };
   }, [updateProgress]);
@@ -157,7 +167,7 @@ export function GalleryScroller({ t, href, className = "" }: Props) {
         onClickCapture={onClickCapture}
         className="no-scrollbar drag-rail flex snap-x snap-proximity gap-4 overflow-x-auto px-[var(--gutter)] pb-2 scroll-px-[var(--gutter)] sm:gap-5"
       >
-        {t.gallery.items.map((item, i) => (
+        {t.gallery.items.map((item) => (
           <Link
             key={item.id}
             href={href}
@@ -171,8 +181,11 @@ export function GalleryScroller({ t, href, className = "" }: Props) {
               fill
               draggable={false}
               sizes="(max-width: 640px) 80vw, 40vw"
-              // Solo le prime due card sono visibili senza scorrere il rail.
-              loading={i < 2 ? "eager" : "lazy"}
+              /* Tutte lazy: il rail sta nella quarta sezione, sotto la piega.
+                 Con `eager` sulle prime due Next emetteva due
+                 <link rel="preload" as="image"> che partivano insieme ai font
+                 e all'HTML, rubando banda all'elemento LCP (che e' testo). */
+              loading="lazy"
               className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
             />
             <span

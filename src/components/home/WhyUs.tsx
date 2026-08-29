@@ -9,7 +9,7 @@ export function WhyUs({ t }: Props) {
     <section className="surface-light section-y">
       <div className="container-pp grid gap-14 lg:grid-cols-[0.9fr_1.1fr]">
         <div>
-          <Reveal as="h2" className="font-display text-[var(--text-h2)] font-semibold leading-[1.05] text-ink">
+          <Reveal as="h2" className="font-display text-h2 font-semibold leading-[1.05] text-ink">
             <HighlightTitle title={t.whyUs.title} color="coral" />
           </Reveal>
           <Reveal className="mt-6 max-w-md text-ink/70" delay={0.05}>

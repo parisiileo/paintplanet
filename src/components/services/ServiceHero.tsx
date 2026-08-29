@@ -45,7 +45,7 @@ export function ServiceHero({
             <span className="sh-line inline-block will-change-transform">{service.heroTitle}</span>
           </span>
         </h1>
-        <p className="sh-fade sh-fade-2 mt-7 max-w-2xl text-[var(--text-lead)] leading-relaxed text-mist">
+        <p className="sh-fade sh-fade-2 mt-7 max-w-2xl text-lead leading-relaxed text-mist">
           {service.heroText}
         </p>
       </div>
