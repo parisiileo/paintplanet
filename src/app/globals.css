@@ -241,7 +241,9 @@ html.js [data-reveal-line] > * {
 
 /* Su mobile/touch i reveal non partono (vedi skipReveal in hooks.ts): senza
    questa regola il contenuto resterebbe a opacity 0 per sempre. Deve stare
-   DOPO le due regole qui sopra. */
+   DOPO le due regole qui sopra.
+   Stessa condizione, in negativo, governa l'ingresso dell'hero piu' sotto
+   ("Ingresso hero"): un solo interruttore per tutte le entrate. */
 @media (max-width: 860px), (pointer: coarse) {
   html.js [data-reveal],
   html.js [data-reveal-line] > * {
@@ -294,18 +296,40 @@ html.js [data-reveal-line] > * {
   .sh-fade-2 {
     animation-delay: 0.68s;
   }
+}
 
-  /* L'hero entra da solo al primo paint. Prima queste animazioni restavano
-     in pausa finché il preloader non aggiungeva `.hero-go`: rimosso il
-     preloader, il gate non serve più (e lasciandolo il titolo non sarebbe
-     mai comparso). */
-  html.js .hero-line-anim {
+/* ---- Ingresso hero: STESSO interruttore dei reveal ----
+   La condizione qui sotto e' la negazione esatta di skipReveal() in
+   lib/animations/hooks.ts (reduced-motion OR max-width 860 OR pointer
+   coarse). Prima l'ingresso dell'hero era un sistema a se': per questo il
+   fix che aveva spento i reveal su mobile non copriva il titolo.
+
+   Due differenze rispetto a prima, entrambe volute:
+
+   1. Niente gate `html.js`. Quella classe la aggiunge un useEffect (vedi
+      lib/lenis.tsx), quindi arriva solo DOPO l'idratazione: con
+      fill-mode `both` l'animazione applicava a posteriori il proprio
+      stato iniziale, translateY(115%). Il titolo, gia' dipinto dal
+      server e perfettamente leggibile, spariva dentro l'overflow-hidden
+      del wrapper e rientrava riga per riga 1,44 s dopo (0,34 s di delay
+      + 1,1 s di durata). Su iPhone era "l'hero si svuota".
+
+   2. Scope `.story-scroll`. L'ingresso appartiene al ramo scroll-driven,
+      che monta solo su desktop e solo dopo l'idratazione. Il ramo statico
+      (mobile sempre, desktop nel frattempo) resta fermo e leggibile al
+      primo paint. Cosi' il caso peggiore, se la condizione non matcha,
+      e' "nessuna animazione" e mai "contenuto invisibile".
+
+   Il gate `html.js` resta dov'e' ancora corretto: [data-reveal] (stato
+   anti-FOUC dei reveal) e .story-static (riserva di altezza anti-CLS). */
+@media (prefers-reduced-motion: no-preference) and (min-width: 861px) and (pointer: fine) {
+  .story-scroll .hero-line-anim {
     animation: pp-line-in 1.1s var(--ease-out-expo) both;
   }
-  html.js .hero-fade-anim {
+  .story-scroll .hero-fade-anim {
     animation: pp-fade-in 0.9s ease-out both;
   }
-  html.js .hero-fadeop-anim {
+  .story-scroll .hero-fadeop-anim {
     animation: pp-fade-op 0.9s ease-out both;
   }
 }
