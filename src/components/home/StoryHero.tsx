@@ -131,7 +131,13 @@ export function StoryHero({ locale, t }: Props) {
     return (
       <section className="story-static relative overflow-hidden">
         <div aria-hidden className="cosmic-bg" />
-        <div aria-hidden className="absolute inset-0"><PaintSweep progress={progress} apiRef={sweepApi} base={SWEEP_BASE} /></div>
+        {/* Niente PaintSweep in questo ramo: l'SVG, steso su tutta l'altezza
+            della sezione, e' una superficie con feGaussianBlur da ~4,6 Mpx a
+            DPR 3 che iOS ri-rasterizza a ogni invalidazione — ed e' anche
+            l'origine della banda rossa sul paragrafo (vedi .paint-static in
+            globals.css). Qui basta un gradiente. Il ramo scroll-driven piu'
+            sotto continua a usare PaintSweep esattamente come prima. */}
+        <div aria-hidden className="paint-static" />
         <div className="container-pp relative z-10 pb-20 pt-40">
           {Title}
           <p className="mt-8 max-w-xl text-lead text-mist">{t.hero.lead}</p>
