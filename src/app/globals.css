@@ -198,16 +198,30 @@ body {
   color: transparent;
 }
 
-/* ---- Velo dell'header ----
+/* ---- Velo dell'header: DUE nodi, non uno ----
    Il gradiente originale finiva a `transparent` sul BORDO INFERIORE della
    barra: anche a piena opacità la metà bassa dell'header lasciava passare il
    contenuto, ed è il "fondo trasparente" segnalato. Qui il pieno copre tutta
    l'altezza della barra e la sfumatura è spostata nei ~2rem SOTTO, così
    resta l'assenza di bordo netto che il gradiente cercava, ma il testo sopra
    è sempre leggibile.
-   Il blur è additivo: se il browser non applica backdrop-filter (o un
-   antenato crea uno stacking context che lo rompe) la leggibilità regge
-   comunque, perché sotto c'è colore pieno e non solo sfocatura. */
+
+   Colore e sfocatura stanno su nodi SEPARATI, e non e' una preferenza di
+   stile. Su iOS un elemento che ha backdrop-filter E un'opacity animata non
+   compone il proprio backdrop: al posto della sfocatura esce un rettangolo
+   nero sporco. Finche' i due erano lo stesso nodo, l'unico modo di mostrare
+   il velo era animarne l'opacity — cioe' innescare quel bug a ogni scroll.
+
+   Ora:
+   - .header-veil porta SOLO il colore. Nessun filtro sopra, quindi la sua
+     opacity si puo' animare liberamente.
+   - .header-veil-blur porta SOLO la sfocatura, con opacity fissa a 1: ad
+     accendersi e' il filtro, mai la trasparenza. Il default e' `none` e non
+     `blur(0)` perche' un backdrop-filter diverso da none crea comunque un
+     layer da comporre, e di layer filtrati permanenti su questa pagina ne
+     abbiamo appena tolti abbastanza.
+   Il blur sta SOTTO il colore nell'ordine di pittura: sfoca il contenuto
+   della pagina, non il velo che gli sta sopra. */
 .header-veil {
   background: linear-gradient(
     to bottom,
@@ -216,6 +230,13 @@ body {
     rgb(var(--void-rgb) / 0.85) 86%,
     rgb(var(--void-rgb) / 0) 100%
   );
+}
+
+.header-veil-blur {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+.header-veil-blur.is-on {
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
 }

@@ -37,6 +37,9 @@ export function CookieBanner({ locale, t }: Props) {
       aria-modal="false"
       aria-labelledby="cookie-banner-title"
       className="pp-consent-banner fixed inset-x-0 bottom-0 z-[95] border-t border-paper/15 bg-void/95 backdrop-blur-md"
+      /* Con viewportFit "cover" il bordo inferiore e' quello fisico: senza
+         questo, i due bottoni finiscono sotto l'home indicator. */
+      style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
     >
       <div className="container-pp flex flex-col gap-4 py-4 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
         <div className="max-w-3xl">

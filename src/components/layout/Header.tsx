@@ -111,11 +111,26 @@ export function Header({ locale, t }: Props) {
   }, [open]);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-[70]">
-      {/* Velo di sfondo (vedi .header-veil in globals.css). Overlay separato
-          per poter animare l'opacità senza toccare il contenuto. Transizione
-          a 200 ms: a 300 ms, durante uno scroll rapido, la barra restava
-          visibilmente trasparente per un terzo di secondo. */}
+    <header
+      className="fixed inset-x-0 top-0 z-[70]"
+      /* Il contenuto della barra scende sotto il notch quando il viewport e'
+         a tutto schermo (viewportFit: "cover" in layout.tsx). Dove l'inset e'
+         zero — desktop, e Safari iPhone in verticale — non cambia nulla. */
+      style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}
+    >
+      {/* Velo di sfondo su DUE nodi (vedi .header-veil in globals.css): il
+          colore anima l'opacita', la sfocatura no. Tenerli insieme era il
+          bug iOS — backdrop-filter + opacity animata sullo stesso elemento
+          non compone il backdrop e disegna un rettangolo nero sporco.
+          Il nodo sfocato va per primo: sta sotto, e sfoca la pagina.
+          Transizione a 200 ms: a 300 ms, durante uno scroll rapido, la barra
+          restava visibilmente trasparente per un terzo di secondo. */}
+      <div
+        aria-hidden
+        className={`header-veil-blur pointer-events-none absolute inset-x-0 top-0 h-[calc(100%+2rem)] ${
+          scrolled && !open ? "is-on" : ""
+        }`}
+      />
       <div
         aria-hidden
         className={`header-veil pointer-events-none absolute inset-x-0 top-0 h-[calc(100%+2rem)] transition-opacity duration-200 ${
@@ -183,9 +198,16 @@ export function Header({ locale, t }: Props) {
            dall'albero di accessibilità: senza, i link invisibili restavano
            raggiungibili da tastiera e annunciati dagli screen reader. */
         inert={!open}
-        className={`fixed inset-0 z-[72] flex flex-col justify-between overflow-y-auto bg-void px-6 pb-10 pt-28 transition-opacity duration-300 lg:hidden ${
+        className={`fixed inset-0 z-[72] flex flex-col justify-between overflow-y-auto bg-void px-6 transition-opacity duration-300 lg:hidden ${
           open ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
+        /* Erano pt-28/pb-10 fissi: con viewportFit "cover" il pannello arriva
+           sotto la status bar e sopra l'home indicator, e la prima e l'ultima
+           voce ci finivano dentro. Stessi valori piu' l'inset. */
+        style={{
+          paddingTop: "calc(7rem + env(safe-area-inset-top, 0px))",
+          paddingBottom: "calc(2.5rem + env(safe-area-inset-bottom, 0px))",
+        }}
       >
         <nav aria-label={t.a11y.mobileNav} className="flex flex-col gap-2">
           {t.nav.map((item) => {
