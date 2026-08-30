@@ -21,6 +21,11 @@ export const useIsoLayoutEffect =
  * significavano che un contenitore da 8 elementi finiva di comparire dopo 1,7 s,
  * mentre il dito è già due sezioni più giù. Su desktop l'effetto resta.
  */
+/* INTERRUTTORE UNICO delle animazioni d'ingresso. La stessa condizione,
+   negata, vive in app/globals.css sotto "Ingresso hero" e governa
+   hero-line-anim / hero-fade-anim / hero-fadeop-anim. Le due copie DEVONO
+   restare allineate: finche' l'hero ha viaggiato su un meccanismo separato,
+   spegnere i reveal su mobile non bastava a coprire il titolo. */
 function skipReveal(): boolean {
   return (
     prefersReducedMotion() ||
