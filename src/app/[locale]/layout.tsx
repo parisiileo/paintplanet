@@ -9,6 +9,7 @@ import { Footer } from "@/components/layout/Footer";
 import { CookieBanner } from "@/components/layout/CookieBanner";
 import { WhatsappFab } from "@/components/contact/WhatsappFab";
 import { ConsentProvider } from "@/lib/consent";
+import { Analytics } from "@/lib/analytics";
 import { getContent, isLocale, locales, slice } from "@/content";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { BASE, businessJsonLd, websiteJsonLd, jsonLdGraph } from "@/lib/seo";
@@ -141,6 +142,9 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
           </LenisProvider>
           <WhatsappFab t={slice(t, "site", "cta", "contact")} />
           <CookieBanner locale={locale} t={slice(t, "consent")} />
+          {/* Dentro ConsentProvider: legge il consenso e resta inerte senza.
+              Senza NEXT_PUBLIC_GA_ID non rende nulla. */}
+          <Analytics />
         </ConsentProvider>
       </body>
     </html>

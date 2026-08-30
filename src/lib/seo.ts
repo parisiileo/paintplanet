@@ -126,6 +126,15 @@ const OPENING_HOURS = [
   { "@type": "OpeningHoursSpecification", dayOfWeek: "Sunday", opens: "00:00", closes: "00:00" },
 ];
 
+/**
+ * Scheda Google dell'attivita'. Il CID e' ricavato risolvendo il link breve
+ * g.page/r/CdYP_3G-EF6VEBM (lo stesso profilo del CTA recensioni in home) e
+ * non cambia piu'. In `sameAs` va l'URL del PROFILO, non quello di scrittura
+ * recensione: serve a dire a Google che questa entita' e' quella scheda, ed
+ * e' il collegamento fra il sito e l'unica cosa che conta in ricerca locale.
+ */
+const GOOGLE_BUSINESS_URL = "https://www.google.com/maps?cid=10763058569604435926";
+
 /** Foto reali di cantiere: Google le preferisce alle sole immagini OG. */
 const SHOWCASE_IMAGES = [
   "/gallery/soggiorno-spatolato-grigio.jpg",
@@ -171,7 +180,7 @@ export function businessJsonLd(locale: Locale, t: Content) {
     ],
     knowsAbout: ["Pittore e verniciatore", "Intonacatore", "Stuccatore"],
     knowsLanguage: ["it", "de"],
-    sameAs: [t.site.instagramHref],
+    sameAs: [GOOGLE_BUSINESS_URL, t.site.instagramHref],
     contactPoint: {
       "@type": "ContactPoint",
       contactType: "customer service",

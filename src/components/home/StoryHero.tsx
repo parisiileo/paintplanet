@@ -96,7 +96,12 @@ export function StoryHero({ locale, t }: Props) {
     return () => ctx.revert();
   }, [isStatic]);
 
-  /* Titolo a forte gerarchia (grande parola "colore" al centro) */
+  /* Titolo a forte gerarchia (grande parola "colore" al centro).
+     I `{" "}` fra i tre <span> non sono decorativi: senza, il contenuto
+     testuale dell'h1 e' "Diamocoloreai tuoi spazi" — le parole si
+     concatenano, ed e' quello che indicizza Google e che legge uno screen
+     reader. Gli span sono `block`, e uno spazio fra due box di blocco non
+     genera box anonimi e non viene disegnato: la resa non cambia. */
   const Title = (
     <h1 className="font-display font-semibold tracking-tight text-paper antialiased [text-shadow:0_0_44px_rgba(7,9,18,0.35)]">
       <span className="block overflow-hidden py-[0.05em]">
@@ -106,7 +111,7 @@ export function StoryHero({ locale, t }: Props) {
         >
           {t.hero.titleLead}
         </span>
-      </span>
+      </span>{" "}
       <span className="block overflow-hidden py-[0.06em]">
         <span
           className="hero-line-anim inline-block text-[clamp(4rem,15vw,13rem)] leading-[0.85]"
@@ -114,7 +119,7 @@ export function StoryHero({ locale, t }: Props) {
         >
           {t.hero.titleAccent}
         </span>
-      </span>
+      </span>{" "}
       <span className="block overflow-hidden py-[0.05em]">
         <span
           className="hero-line-anim mt-1 inline-block text-[clamp(1.5rem,4.2vw,3rem)] font-light text-paper/85"
