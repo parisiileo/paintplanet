@@ -98,6 +98,11 @@ export async function generateMetadata({
 export const viewport: Viewport = {
   themeColor: "#070912",
   colorScheme: "dark",
+  /* Il viewport arriva fino ai bordi fisici: senza, env(safe-area-inset-*)
+     resta a zero e header, banner e FAB non hanno modo di scansare notch e
+     home indicator. Chi lo usa: Header (top), CookieBanner e WhatsappFab
+     (bottom), pannello del menu mobile (entrambi). */
+  viewportFit: "cover",
 };
 
 export default async function LocaleLayout({ children, params }: LayoutProps) {
