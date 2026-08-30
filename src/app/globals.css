@@ -425,6 +425,39 @@ html.js [data-reveal-line] > * {
   }
 }
 
+/* ---- Fondo dell'hero statico (ramo mobile + primo paint desktop) ----
+   Sostituisce PaintSweep sotto gli 861px. Stessa palette — cobalto,
+   corallo, sole — resa con UN solo linear-gradient: niente SVG, niente
+   feGaussianBlur, nessun layer da rasterizzare.
+
+   Era quel filtro il carico: l'SVG e' `absolute inset-0` su una sezione
+   che su mobile e' alta quanto tutto il contenuto impilato (~1300 px), e
+   con preserveAspectRatio="xMidYMid slice" in un contenitore verticale la
+   scala diventa H/820 ~ 1,6. Risultato: una superficie filtrata di
+   ~390x1300 CSS px, ~1170x3900 a DPR 3 (~4,6 Mpx), ri-rasterizzata a ogni
+   invalidazione durante lo scroll.
+
+   Quella stessa scala produceva anche la banda rossa sul paragrafo: le
+   pennellate da strokeWidth 250/290 diventavano fasce alte ~400/460 px, e
+   la finestra visibile (17% della larghezza, centrata su x 597-843)
+   cadeva esattamente sul corallo del gradiente.
+
+   Alpha basse di proposito: il testo dell'hero ci sta sopra. Nel punto
+   piu' chiaro (corallo 0.20 su --space) --mist regge 5,9:1, --paper 13:1.
+   Prima, sulla banda corallo piena, --mist stava sotto 2:1. */
+.paint-static {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    155deg,
+    rgb(59 91 255 / 0.26) 0%,
+    rgb(59 91 255 / 0.16) 26%,
+    rgb(255 90 77 / 0.2) 58%,
+    rgb(255 194 61 / 0.14) 100%
+  );
+}
+
 /* Campo stellare fine (punti statici, leggerissimo) */
 .starfield {
   pointer-events: none;
