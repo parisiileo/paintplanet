@@ -241,6 +241,35 @@ body {
   backdrop-filter: blur(12px);
 }
 
+/* ---- Su mobile il velo cambia FORMA ----
+   Separare colore e sfocatura ha risolto l'artefatto iOS, non la sagoma. Il
+   velo resta alto `100% + 2rem` = 104 px su una barra di 72, con il pieno
+   fino al 72% (75 px) e 29 px di dissolvenza sotto. Misurato sullo
+   screenshot a 21:06: fascia piena fino a ~83 px, trasparenza piena a
+   ~106 px. Sta facendo esattamente quello per cui e' scritto.
+
+   Il punto e' che quella forma e' nata per il desktop, dove 104 px su un
+   viewport alto si leggono come morbidezza. Su un telefono sono un
+   rettangolo nero alto un ottavo dello schermo con una sbavatura sotto, e
+   il contenuto che ci passa dietro — il bottone corallo — si vede tagliato
+   a meta' e sfocato: sembra un errore di rendering, ed e' il "nero sfumato"
+   segnalato.
+
+   Qui il velo finisce dove finisce la barra, e a staccarlo dal contenuto e'
+   una hairline invece di 29 px di sfumatura. Alpha 0.92 e non pieno: sotto
+   c'e' la sfocatura e deve potersi vedere. Sopra i 861 px non cambia nulla:
+   il gradiente lungo resta quello approvato. */
+@media (max-width: 860px) {
+  .header-veil {
+    background: rgb(var(--void-rgb) / 0.92);
+    border-bottom: 1px solid rgb(246 244 238 / 0.08);
+  }
+  .header-veil,
+  .header-veil-blur {
+    height: 100%;
+  }
+}
+
 /* ---- Consenso cookie: stato pre-idratazione ----
    Vedi lo script inline in layout.tsx. Banner e FAB sono entrambi nell'HTML
    iniziale; queste due regole decidono chi si vede finché React non prende
